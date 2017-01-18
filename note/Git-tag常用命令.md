@@ -1,6 +1,9 @@
 ## 列出标签
-git tag  列出当前的所有tag
+git tag  列出当前的所有tag  
 git tag -l 'v0.1.\*' 列出所有 v0.1.开头的标签
+
+## 查看tag信息
+git show 查看标签的版本信息
 
 ## 创建标签
 ### 创建附注标签
@@ -20,7 +23,7 @@ git tag -a v0.1.1 9fbc3d0
 
 ## 切换到标签
 git checkout [tagname]  
-git show 查看标签的版本信息
+
 
 ## 删除标签
 git tag -d v0.1.2  
