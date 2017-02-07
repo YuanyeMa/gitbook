@@ -13,7 +13,7 @@ source   让 script 在当前 shell 内执行、 而不是产生一个 sub-shell
 exec 也是在原有进程中执行，但是，原有进程被终止。exec是用子进程替换父进程进行运行，所有父进程中exec后边的程序得不到运行。
 
 ## 注意
-source和exec区别在于，原有进程时候被终止
+source和exec区别在于，原有进程是否被终止
 
 ## 实例分析
 `vim 1.sh` 写入以下内容
