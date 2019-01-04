@@ -1,0 +1,51 @@
+name:               "马原野"
+description:        "试试用jekyll搭建博客"
+
+url:                ""
+author:             "Ma_yuanye"
+email:              "ma_yuanye@foxmail.com"
+gravatar_hash:      ""
+twitter:            ""
+email:              "ma_yuanye@foxmail.com"
+github:             "kevin-y-ma"
+pinterest:          ""
+linkedin:           ""
+facebook:           ""
+
+disqus_shortname:   "ma_yuanye"
+
+background:         "https://upload.wikimedia.org/wikipedia/commons/9/96/%E6%98%9F%E7%A9%BA.jpg"
+
+paginate:           5
+paginate_path:      "/page:num/"
+
+baseurl:            ""
+permalink:          /:year/:month/:day/:title/
+
+markdown:           kramdown
+
+nav:
+  - name:           "About"
+    href:           "/about"
+  - name:           "Download"
+    href:           "/releases"
+
+sass:
+  style:            :compressed
+
+defaults:
+  -
+    scope:
+      path:         ""
+      type:         "pages"
+    values:
+      layout:       "page"
+  -
+    scope:
+      path:         ""
+      type:         "posts"
+    values:
+      layout:       "post"
+
+gems:
+  - jekyll-paginate
