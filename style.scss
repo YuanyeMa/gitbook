@@ -308,13 +308,13 @@ tbody tr:nth-child(odd) th {
     padding: 2%;
     background-repeat:no-repeat;
     background-size: cover; 
-    background-position:center;
+    background-position:60%;
     .img-circle {
         height: auto;
         width: 20%;
         border-radius: 50%;
         display: block;
-        margin: 1rem 1rem 1rem;
+        margin: rem 1rem 1rem;
         display: inline;
     }
     h3 {
@@ -333,6 +333,7 @@ tbody tr:nth-child(odd) th {
     }
     .social {
         margin-left: 25vw;
+        margin-bottom: 30%;
         height: auto;
         width: 100%;
     }
@@ -365,8 +366,8 @@ tbody tr:nth-child(odd) th {
         }
         .social {
             position: absolute;
-            bottom: 0;
-            margin-left: 2vw;
+            bottom: 30%;
+            margin-left: 35%;
             a {
                 padding: 0;
                 margin-left: 0;

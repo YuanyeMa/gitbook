@@ -14,7 +14,8 @@ facebook:           ""
 
 disqus_shortname:   "ma_yuanye"
 
-background:         "https://upload.wikimedia.org/wikipedia/commons/9/96/%E6%98%9F%E7%A9%BA.jpg"
+background:         "/background.jpg"
+  
 
 paginate:           5
 paginate_path:      "/page:num/"
