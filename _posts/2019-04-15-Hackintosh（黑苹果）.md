@@ -1,6 +1,10 @@
-# 黑苹果安装 
+# 黑苹果安装步骤简记
 
-最近突然对安装黑苹果系统很感兴趣，就上网找了一些资料来看看，下边简单记录一下我的收获。以下操作都在虚拟机中进行。[工具软件在这里](/resources/2019415)
+最近突然对安装黑苹果系统很感兴趣，就上网找了一些资料来看看，下边简单记录一下我的收获。以下操作都在虚拟机中进行。[工具软件在这里](/resources/2019415)(显示不出来了，可以直接到tonymac.com下载)
+
+今天无意间发现[大神们](https://www.sqlsec.com/2018/07/hackintosh.html#toc-heading-1)整理的[资源](https://dev.tencent.com/u/sqlsec/p/Coding_clover/git/tree/1d6efb70475a2a1bf2477a1fa479fbf5baf98281)，然后刚好和我的一台台式机型号匹配，打算有时间的时候操刀试试。
+
+
 
 
 
@@ -10,13 +14,13 @@
 
 ## 1. 下载镜像
 
-我在win里边装了一个macos的虚拟机，在app sotre中下载的mojave镜像。不过下载的时候有一个小插曲，我虚拟机装的是10.11.6的，在app store中只能下载22.8MB的一个在线升级工具，最后通过[这个工具](http://dosdude1.com/mojave/)下载到了完整的6G+的镜像。
+我在win里边装了一个macos的虚拟机，在app sotre中下载的mojave镜像。不过下载的时候有一个小插曲，我虚拟机装的是10.11.6的，在app store中只能下载22.8MB的一个在线升级工具，最后通过[这个工具](http://dosdude1.com/mojave/)下载到了完整的6G+的镜像。此外其他版本的完整镜像也可以通过[这个工具](http://dosdude1.com/software.html)下载。
 
 ## 2. 制作启动U盘
 
 制作启动U盘有很多中方式，前题是U盘必须转换为GUID格式。
 
-- windows 下可以使用transmac软件制作
+- windows 下可以使用[transmac](https://www.acutesystems.com/scrtm.htm)软件制作
 - 使用镜像中的工具制作
 - 使用tonymacx86论坛提供的UniBeats工具制作
 
@@ -38,8 +42,8 @@
 
 ![](/images/2019415/initialize-04.png)
 
-### 使用镜像中的工具制作
-
+### 方式一：使用镜像中的工具制作
+命令如下 :  
 `sudo /Applications/Install\ macOS\ Mojave.app/Contents/Resources/createinstallmedia --volume /Volumes/Mojave /Applications/Install\ macOS\ Mojave.app --nointeraction`
 
 其中 第一项：`/Applications/Install\ macOS\Mojave.app/Contents/Resources/createinstallmedia` 指的是下载好的镜像中的工具的路径；
@@ -66,9 +70,15 @@
 
 此种方法刻录的U盘好像不用再用`Clover`写入引导，我在虚拟机中测试可以引导，具体情况还得到实体机上测试。
 
-### windows下使用transmac软件制作 --TODO
+### 方案二：windows下使用transmac软件制作 --TODO
 
-### 使用UniBeats工具制作 
+[下载](http://www.acutesystems.com/tmac/tmsetup.zip)安装后会在桌面生成快捷方式。右键**以管理员身份**打开。
+
+[教程](http://www.xitongcheng.com/jiaocheng/xtazjc_article_41339.html)
+
+
+
+### 方案三：使用UniBeats工具制作
 
 > 注：使用的工具都在`tonymacx86.com`下载，下载需要登录，注册需要使用国外的邮箱，我使用了gmail。
 
