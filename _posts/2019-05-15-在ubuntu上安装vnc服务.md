@@ -102,6 +102,6 @@ sudo systemctl set-default graphical.target
 
 ### 最终效果
 
-![/images/20190515/final.png]
+![](/images/20190515/final.png)
 
 启动训练代码，然后关闭窗口，随时重新连接查看运行结果。美滋滋。。。。
