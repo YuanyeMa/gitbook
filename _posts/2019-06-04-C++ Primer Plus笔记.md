@@ -132,3 +132,72 @@ Stock stocks[STKS] = {
 ### 运算符重载
 
 语法格式：`operatorp(argument-list)`其中最后一个`p`表示要重载的运算符，比如`operator+(Time)`
+
+> 函数重载：函数重载的关键是函数的参数列表—也称为函数特征标(function signature)。如果两个函数的参数数目和类型相同，同时参数的排列顺序也相同，则他们的特征标相同，而变量名是无关紧要的。函数名相同而特征标不同的函数是重载函数。
+>
+> double func(int a, double b) 和 double func(double a, int b)也是重载函数，后边有实验证明。
+
+运算符重载的时候**左侧**的操作数应该是调用对象，比如`A = B*2.75`等价于`A = B.operator*(2.75)`。而`A = 2.75*B`会出错。  
+
+要实现`A = 2.75*B`可以通过**友元函数**来实现。  
+
+```c++
+class Time
+{
+  private:
+  	...
+  public:
+  	...
+    friend Time operator*(double m, const Time & t); 
+};
+```
+
+这样再调用`A = 2.75*B；` 就等价于` A = operator*(2.75, B)； ` 
+
+关于函数重载和左值是调用对象做了一个实验。  
+
+```c++
+#include <iostream>
+
+double func(int a, double b)
+{
+	std::cout<<"fir i"<<std::endl;
+	return a+b;
+}
+
+double func(double b, int a)
+{
+	std::cout<<"fir dou"<<std::endl;
+	return a+b;
+}
+
+int main()
+{
+	std::cout<<func(1, 2.3)<<std::endl; 
+	std::cout<<func(2.3, 1)<<std::endl; 
+	return 0;
+}
+```
+
+上边程序的输出如下，符合预期。  
+
+```
+$ ./a.out
+fir i
+3.3
+fir dou
+3.3
+```
+
+但是把第二个func函数的定义注释掉之后，使用clang编译的时候会出现`./test.cpp:19:18: warning: implicit conversion from 'double' to 'int' changes value from 2.3 to 2 [-Wliteral-conversion]
+        std::cout<<func(2.3, 1)<<std::endl;`的警告。运行的时候会输出
+
+``` c++
+$ ./a.out
+fir i
+3.3
+fir i
+3 //把2.3转换成了int型的2,所以出错了。
+```
+
+由此证明前边说的，参数列表中参数的顺序不同代表的是不同的函数。
