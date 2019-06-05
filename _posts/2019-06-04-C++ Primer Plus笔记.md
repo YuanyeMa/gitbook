@@ -112,3 +112,23 @@ void Stock::show() const
 }
 ```
 
+### 对象数组
+
+``` c++
+const int STKS = 10;
+Stock stocks[STKS] = {
+  Stock("aefaf", 12,5, 20),
+  Stock(),
+  Stock("dsfafefa", 130, 3.25)
+};
+```
+
+初始化对象数组的方案是，首先使用默认构造函数创建数组元素，然后花括号中的构造函数将创建临时对象，然后将临时对象的内容复制到相应的元素中。因此，要创建对象数组，则**这个类必须有默认构造函数**。
+
+## 第十一章：使用类
+
+
+
+### 运算符重载
+
+语法格式：`operatorp(argument-list)`其中最后一个`p`表示要重载的运算符，比如`operator+(Time)`
