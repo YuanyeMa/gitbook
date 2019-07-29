@@ -220,3 +220,124 @@ fir i
 使用`static`关键字将类成员函数声明为静态的。  
 
 声明为静态的类成员函数不能通过对象调用，也不能使用this指针。因为静态成员函数不与特定的对象相关联，因此只能使用静态数据成员。可以直接使用`类名::函数名()`调用，静态类数据成员的使用：`类名::变量名`。
+
+
+
+---
+
+# C++ Primer
+
+## 第九章：顺序容器(sequential-container)
+
+顺序容器是按照他们在容器中的位置来顺序保存和访问的  
+
+顺序容器 
+
+- vector : 可变大小数组，支持快速随机访问，在尾部之外的位置插入或者删除元素可能会很慢。
+- deque：双端队列
+- list ： 双向链表，只支持双向顺序访问
+- forward_list：单向链表，只支持单向顺序访问
+- array：固定大小数组，支持快速随机访问，不能添加或者删除元素
+- string：与vector相似的容器，但专门用于保存字符，随机访问快。
+
+> array和forward是C++新标准增加的类型
+
+额外三个顺序容器适配器
+
+- stack
+- queue
+- Priority_queue
+
+> 适配器（adaptor）是标准库中的一个通用概念。容器、迭代器和函数都有适配器。本质上，一个适配器是一种机制，能使某种事物的行为看起来像另外一种事物一样。一个容器能接受一种已有的容器类型，使其行为看起来像另外一种不同的类型。例如stack适配器使用一种顺序容器，使其操作起来像一个stack一样。每个适配器都在其底层顺序容器类型之上定义了一个新的接口。
+
+## 第十一章：关联容器(associative-container)
+
+关联容器中的元素是按照关键字来保存和访问的  
+
+主要有两个 
+
+​		map: 元素是key-value对
+
+​		set：每个元素只包含一个关键字，支持高效的关键字查询操作：检查一个给定的关键字是否在set中
+
+共有八中形式  
+
+- map : 关联数组：保存关键字-值对
+- set ： 关键字即值，即只保存关键字的容器
+
+- multimap ： 关键字可以出现多次的 关键字-值 对
+
+- multiset ： 关键字可以重复出现多次的set
+
+以下四个是无序的集合
+
+- unordered_map : 用哈希函数组织的map
+
+- unordered_set :  用哈希函数组织的set
+
+- unordered_multimap : 哈希函数组织的map，且关键字可以重复出现多次
+
+- unordered_multiset ： 哈希函数组织的set, 且关键字可以重复出现多次
+
+> map和multimap定义在头文件map中  
+>
+> set和multiset定义在头文件set中  
+>
+> 无序容器定义在unordered_map和unordered_set中。
+
+使用关联容器的一个例子
+
+```c++
+#include <map>
+#include <set>
+#include <string>
+using namespace std;
+
+map<string, size_t> word_count;
+set<string> exclude = {"The", "But", "And", "Or", "An", "A", "the"};
+
+string word;
+while (cin>>word)
+  	if (exclude.find(word) == exclude.end()) //find调用返回一个迭代器，如果给定关键字在set中，迭代器指向该关键字，否则find返回尾后迭代器。
+      ++word_count[word];
+```
+
+
+
+
+
+---
+
+# 侯婕-STL标准库和泛型编程
+
+STL的六大部件:
+
+- 容器（Containers）
+- 分配器 (Allocators) 
+- 算法 (Algorithms)
+- 迭代器 (Adapters)
+- 仿函式 (Functors)
+
+![image-20190727221102649](/Users/kevin/Library/Application Support/typora-user-images/image-20190727221102649.png)
+
+下边一个程序用了六大组件。
+
+``` c++
+# include <vector>
+# include <algorithm>
+# include <functional>
+# include <iostream>
+using namespace std;
+int main()
+{
+  int ia[6] = {27, 210, 12, 47, 109, 83};
+  vector<int, allocator<int> > vi(ia, ia+6); 
+  // vector是容器， allocator是分配器，负责底层内存的分配。
+  count<<count_if(vi.begin(), vi.end(), not1(bind2nd(less<int>(), 40)));
+  // vi.begin()和vi.end()是迭代器， count_if是算法：满足后边条件的元素数目
+  // not1(否1，数字1)和bind2nd(绑定第二个参数：40)都是函数适配器，less是一个仿函数
+  // 即输出大于等于40的数字个数
+  return 0;
+}
+```
+
