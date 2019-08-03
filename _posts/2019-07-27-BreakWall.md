@@ -1,6 +1,8 @@
-# 搭建shadowsocks服务以及启用Google BBR加速
+## 服务端
 
-
+- 安装docker
+- 使用shadowsocks的docker镜像启动服务
+- 更新内核启用Google BBR进行加速
 
 ```shell
 # 安装docker
@@ -55,3 +57,58 @@ lsmod  | grep bbr
 
 https://github.com/google/bbr/blob/master/Documentation/bbr-quick-start.md
 
+## 客户端
+
+- Linux 安装shadowsocks客户端
+- Proxychains 配置
+
+```shell
+# 使用python版的shadowsocks
+$ sudo apt install python3-pip
+$ pip install shadowsocks
+# 使用
+$ sudo vim /etc/shadowsocks/config.json # 创建配置文件，并写入以下内容
+{
+  "server": "自己shadowsocks服务端ip",
+  "server_port": "服务端口",
+  "local_port": 1080,
+  "password": "密码",
+  "timeout": 300,
+  "method": "aes-256-cfb" # 加密方式根据自己需要修改
+}
+$ sslocal -c /etc/shadowsocks/config.json # 启动breakwall
+```
+
+此外还有很多种[图形界面版]([https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7](https://github.com/Alvin9999/new-pac/wiki/ss免费账号))的。
+
+### Proxychains
+
+`Proxychains`是一个可以让终端命令走代理的软件。
+
+``` shell
+# 安装proxychains
+$ sudo apt install proxychains
+# 修改配置文件
+$ sudo vim /etc/proxychains.conf
+# 注释掉最后一行的 #socks4 127.0.0.1 9050 
+# 添加一行 socks5 127.0.0.1 1080
+```
+
+`proxychains`的使用
+
+```shell
+$ proxychains wget #后边加一个下载地址
+```
+
+关于非`sudo`执行`proxychains`时会有一个错误：
+```shell
+ERROR: ld.so: object 'libproxychains.so.3' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+```
+
+解决方法为
+
+- 修改`/usr/bin/proxychains` 中的`export LD_PRELOAD=libproxychains.so.3`为`export /usr/lib/x86_64-linux-gnu/libproxychains.so.3`
+
+- 修改`/usr/lib/proxychains3/proxyresolv` 中的`export LD_PRELOAD=libproxychains.so.3`为`/usr/lib/x86_64-linux-gnu/libproxychains.so.3`
+
+  > 其中`/usr/lib/x86_64-linux-gnu/libproxychains.so.3`可以通过命令`sudo find /usr/ -name "libproxychains.so.3"`找到。
