@@ -1,0 +1,436 @@
+# C++继承和多态
+
+
+## 继承
+### 语法
+
+``` c++
+class 子类名/派生类名 ： 继承方式 父类名/基类名
+{
+
+};
+```
+
+### 继承方式
+
+`public` : 公共权限，类内/外都可以直接访问；
+
+`protected` : 保护权限，类内部以及子类内部可以直接访问，类外不能访问；
+
+`private` ： 私有权限，只能在类内部访问；
+
+```c++
+class Base {
+public:
+  int m_A;
+protected:
+  int m_B;
+private:
+  int m_C;
+};
+
+//公共继承
+class Son : public Base {
+  // 父类中public修饰的属性，在子类中仍然是public的
+  // 父类中protected修饰的属性，在子类中仍然是protected的
+ 	// 父类中private修饰的属性，在子类中不可见
+};
+
+//保护继承
+class Son : protected Base {
+  // 父类中public修饰的属性，在子类中变为protected的
+  // 父类中protected修饰的属性，在子类中仍然是protected的
+ 	// 父类中private修饰的属性，在子类中不可见
+};
+
+//私有继承
+class Son : private Base {
+  // 父类中public修饰的属性，在子类中变为private的
+  // 父类中protected修饰的属性，在子类中变为private的
+ 	// 父类中private修饰的属性，在子类中不可见
+};
+
+```
+
+### 继承中的构造和析构
+
+```
+class Base
+{
+public:
+  Base(int a)
+  {
+    m_A = a;
+  }
+  int m_A;
+}
+
+class Son: public Base
+{
+public:
+  Son(int a):Base(a) //在初始化列表中调用父类的构造函数
+  {
+  }
+}
+```
+
+先构造父类对象，然后创建子类对象。析构顺序和构造相反。
+
+但是子类不会继承父类的构造函数和析构函数。
+
+### 多继承
+
+```c++
+class Base1
+{
+  Base1()
+  {
+    m_A = 10;
+  }
+  int m_A;
+};
+
+class Base2
+{
+  Base2()
+  {
+    m_B = 100; // 假如此变量也是m_A 在 Son s; s.m_A=10时会出现二义性。
+  }
+  int m_B;
+};
+
+class Son: public Base1, public Base2
+{
+	int m_C;
+	int m_D;
+}
+
+cout<<sizeof(Son)<<endl; // 32位机器 输出 16
+```
+
+### 菱形继承
+
+```c++
+class Animal
+{
+public:
+  int m_Age;
+}
+
+class Sheep: public Animal
+{
+
+}
+class Tuo: public Animal
+{
+
+}
+class SheepTuo: public Sheep, public Tuo
+{
+
+}
+
+SheepTuo st;
+st.Sheep::m_Age = 10
+st.Tuo::m_Age = 20
+// 相互不影响，但是会造成冗余甚至二义性
+cout<<st.m_Age
+```
+
+菱形继承的解决方案，利用虚继承
+
+```c++
+class Animal
+{
+public:
+  int m_Age;
+}
+
+// 虚基类
+class Sheep:   public Animal
+{
+
+}
+// 虚基类
+class Tuo: virtual public Animal
+{
+
+}
+class SheepTuo: public Sheep, public Tuo
+{
+
+}
+
+SheepTuo st;
+st.Sheep::m_Age = 10 
+st.Tuo::m_Age = 20
+cout<<st.m_Age<<endl; //输出20，上边两句修改的是同一块内存
+
+//SheepTuo内部有一个vbptr : virtual base pointer(虚基类指针)
+ +---
+ |+---（base class Sheep）
+0|| (vbptr)
+ |+---
+ |+---（base class Tuo）
+4|| (vbptr)
+ |+---
+ +---
+ +---（virtual base Animal）
+8| m_Age
+ +---
+ 
+SheepTuo::$vbtable@Sheep@:
+0	| 0
+1	| 8 (SheepTuod(Sheep+0)Animal)
+SheepTuo::$vbtable@Tuo@:
+0	| 0
+1	| 4 (SheepTuod(Tuo+0)Animal)
+```
+
+
+
+### 继承中的对象模型
+
+
+
+```c++
+class Base{
+public:
+  int m_A;
+protected:
+  int m_B;
+private:
+  int m_C;
+};
+
+class Son:public Base {
+public:
+  int m_D;
+};
+
+void test01()
+{
+  cout<<"sizeof(int)"<<sizeof(int)<<endl; // 在32位机的情况下输出是4
+  cout<<"sizeof(Son)"<<sizeof(Son)<<endl; // 输出16
+  // 父类中private的内容，在子类中是访问不到的，但是也被继承下来了，被编译器给隐藏掉了
+  
+}
+```
+
+> Vs2013 开发人员命令提示工具 可以查看对象模型
+>
+> 先cd到cpp文件所造的目录
+>
+> cl /d1 reportSingleClassLayout类名 cpp文件名
+
+
+
+### 继承中的同名成员处理
+
+```c++
+class Base
+{
+public:
+  Base()
+  {
+    m_A = 100;
+  }
+  void func()
+  {
+    cout<<"Base 中调用了func"<<endl;
+  }
+  int m_A;
+};
+
+class Son : public Base
+{
+public:
+	Son()
+	{
+		m_A = 200;
+	}
+	int m_A;
+};
+
+Son s;
+cout<<s.m_A<<endl; // 输出 200
+// 从父类中获取m_A
+cout<<s.Base::m_A<<endl; // 输出 100
+
+s.func(); // 输出 Base 中调用了func
+// 如果在子类中重新定义了和父类中某一函数，那么将会隐藏掉父类中所有的同名成员函数（包括重载函数）
+```
+
+
+
+防止继承的方式
+
+```c++
+class NoDrived final{...} // 类名后加final说明此类不能被继承
+```
+
+
+## 多态
+静态联编：程序在编译的时候确定，函数重载就是静态联编形式
+
+动态联编：程序在执行时确定
+
+```c++
+class Animal
+{
+  speak()
+  {
+    cout<<"动物在说话"<<endl;
+  }
+};
+
+class Cat:public Animal
+{
+	speak()
+	{
+		cout<<"喵喵喵"<<endl;
+	}
+};
+
+//调用doSpeak，speak函数的地址在编译的时候就已经绑定好了，绑定为Animal::speak()
+void doSpeak(Animal & animal)
+{
+  animal.speak();
+}
+
+int main()
+{
+		Cat cat;
+  	doSpeak(cat); // 输出： ”动物在说话“
+}
+// 如果想输出 "喵喵喵"，就不能静态联编，需要在运行时确定函数地址
+// 动态联编， 将Animal的Speak改写成虚函数
+class Animal
+{
+  virtual speak()  // 父类的引用或者指针指向子类的成员函数
+  {
+    cout<<"动物在说话"<<endl;
+  }
+};
+```
+
+虚函数表
+
+```c++
+class Animal
+{
+  speak()
+  {
+    cout<<"动物在说话"<<endl;
+  }
+};
+sizeof(Animal) = 1
+
+ class Animal
+{
+  virtual speak()
+  {
+    cout<<"动物在说话"<<endl;
+  }
+};
+sizeof(Animal) = 4
+  
+vfptr: virtual function pointer 虚函数表指针
+
+
+Animal * animal = new Cat;
+animal->speak(); //输出 ”喵喵喵“
+```
+
+多态原理解析
+
+当父类中有了虚函数后，内部结构发生了改变
+
+内部多了一个vfptr,指向虚函数表。
+
+父类中结构vfptr &Animal::speak
+
+构造函数中，会将虚函数表指针，指向自己的虚函数表
+
+如果发生了重写，会替换掉虚函数表中原有的speak 改为&Cat::speak
+
+
+
+### 虚函数
+
+non-virtual函数：你不希望derived class重新定义（overrude， 覆写，虚函数被重新定义）它
+
+virtual函数 : 你希望derived class重新定义（overrude）它，它已经有了一个默认的定义，可以不override。
+
+pure-virtual函数 ： 你希望derived class重新定义（overrude）它，必须要override， 没有默认定义。
+
+任何构造函数外的非静态函数都可以是虚函数。
+
+```c++
+class Shape {
+public:
+  virtual void draw() const = 0; // 纯虚函数
+  virtual void error(); //虚函数
+  int objectlD() const; //非虚函数
+};
+class Rectabgle: public Shape{...};
+class Ellipse: public Shape{...};
+```
+
+### 
+
+
+
+## 一道题
+
+
+
+``` c++
+64位电脑运行以下c++代码结果输出什么？
+class A{
+	char a[2];
+public:
+	virtual void aa(){}
+};
+
+class B:public virtual A{
+  char b[2];
+  char a[2];
+public:
+  virtual void bb(){};
+  virtual void aa(){};
+};
+
+class C:public virtual B{
+  char a[2];
+  char b[2];
+  char c[2];
+public:
+  virtual void cc(){};
+  virtual void aa(){};
+  virtual void bb(){};
+};
+
+int main()
+{
+  cout<<sizeof(A)<<endl;
+  cout<<sizeof(B)<<endl;
+  cout<<sizeof(C)<<endl;
+}
+此题目应该输出：
+16
+32
+48
+```
+
+![](./jicheng.png)
+
+> 64位机器所以指针占8个字节的内存。
+>
+> 对于类A：a占两个字节的内存，八字节内存对齐，后边的虚函数表是个指针因此也占8个字节的内存，因此sizeof(A) = 16B;
+>
+> 由于B继承自A，因此B内又完全包含一个A，a+b=4个字节仍然不满8个字节，仍然需要填充4个字节来保持内存对齐，因此sizeof(B) = 16+16 = 32B。
+>
+> 同理sizeof(C) = 48B。
+>
+> 
