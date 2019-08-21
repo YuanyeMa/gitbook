@@ -1,4 +1,4 @@
-#pytorch+tensorboardX 
+# pytorch+tensorboardX 
 
 简单总结一下tensorboardX的用法。
 
@@ -17,15 +17,15 @@ write.close()
 
 在终端中运行上边代码:`python ./tensorboard_scales.py`，查看代码目录下多了一个`runs`的目录，里边保存的就是代码运行时的数据。  
 
-![01](./01.png)
+![01](/images/tensorboardX/01.png)
 
 再使用`tensorboard --logdir runs`,在浏览器地址栏输入`ip_address:6006`就能看到图像。
 
-![04](./04.png)
+![04](/images/tensorboardX/04.png)
 
 此时再次运行代码，再查看目录结构，会发现又多了一些目录，这是因为tensorboard会保存几个历史版本。这个功能很好用，可以通过点击左下角的复选框勾选要对比的曲线，进而对比模型的性能。
 
-![02](./02.png)
+![02](/images/tensorboardX/02.png)
 
 试试`graph`
 
@@ -68,7 +68,7 @@ with SummaryWriter(comment='Net1') as w:
 
 在运行的时候报错了。
 
-![error](./error.png)
+![error](/images/tensorboardX/error.png)
 
 上网搜索了一番说是`pytorch`版本的问题，为了跑写好的强化学习的代码，我用的是比较老的`0.4.0`版本的，回头有机会测一下`pytorch 1.0+`的看可不可以用。
 
