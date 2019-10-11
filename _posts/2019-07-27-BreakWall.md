@@ -1,3 +1,5 @@
+# ubuntu
+
 ## 服务端
 
 - 安装docker
@@ -59,8 +61,9 @@ https://github.com/google/bbr/blob/master/Documentation/bbr-quick-start.md
 
 ## 客户端
 
-- Linux 安装shadowsocks客户端
-- Proxychains 配置
+### sslocal
+
+Linux 安装shadowsocks客户端
 
 ```shell
 # 使用python版的shadowsocks
@@ -112,3 +115,85 @@ ERROR: ld.so: object 'libproxychains.so.3' from LD_PRELOAD cannot be preloaded (
 - 修改`/usr/lib/proxychains3/proxyresolv` 中的`export LD_PRELOAD=libproxychains.so.3`为`/usr/lib/x86_64-linux-gnu/libproxychains.so.3`
 
   > 其中`/usr/lib/x86_64-linux-gnu/libproxychains.so.3`可以通过命令`sudo find /usr/ -name "libproxychains.so.3"`找到。
+
+
+
+
+
+# Centos 7
+
+## 配置container
+
+安装docker
+```
+yum update 
+yum install docker 
+service docker start 
+```
+设置docker自动启动
+```
+chkconfig docker on
+```
+
+使用ncat测试网络是否联通
+```
+yum install nmap-ncat -y
+ncat -l port 
+```
+在本地使用nc命令连接服务器指定port
+```
+nc ip port
+```
+然后可以随便输入一下内容，看另外一端是否能正常收发数据。
+
+拉取镜像并创建container
+```
+docker pull oddrationale/docker-shadowsocks
+docker run -d -p port:port --name name oddrationale/docker-shadowsocks -s 0.0.0.0 -p port -k passwd -m aes-256-cfb
+```
+查看是否正常监听端口
+```
+netstat -nalp | grep port
+```
+设置container随docker自动启动
+```
+docker update --restart=always <CONTAINER ID>
+```
+## BBR加速
+
+升级内核
+
+```
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+yum --enablerepo=elrepo-kernel install kernel-ml -y
+```
+设置grub2默认使用新内核启动
+```
+egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \'
+sudo grub2-set-default 0
+reboot
+```
+查看是否使用新内核启动
+```
+uname -r
+```
+开启BBR
+```
+echo 'net.core.default_qdisc=fq' | sudo tee -a /etc/sysctl.conf
+echo 'net.ipv4.tcp_congestion_control=bbr' | sudo tee -a /etc/sysctl.conf
+sysctl -p
+```
+查看BBR是否开启
+
+```
+sysctl net.ipv4.tcp_available_congestion_control
+# 输出应为 net.ipv4.tcp_available_congestion_control = bbr cubic reno
+sysctl -n net.ipv4.tcp_congestion_control
+# 输出应为 bbr
+lsmod | grep bbr
+# 输出应类似 tcp_bbr  16384  28
+```
+
+
+
