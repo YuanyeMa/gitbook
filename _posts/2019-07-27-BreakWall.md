@@ -305,3 +305,54 @@ WantedBy=multi-user.target
 启动服务： `sudo systemctl start shadowsocks-libev`
 
 开机自启动： `sudo systemctl enable shadowsocks-libev`
+
+
+
+# VirtualBox部署LEDE旁路由
+
+1. 安装VirtualBox
+
+2. 下载[`koolshare-lede`固件](https://firmware.koolshare.cn/)，安装LEDE虚拟机，设置网络桥接到物理网卡。
+
+3. 下载[科学上网插件](https://github.com/hq450/fancyss_history_package)
+
+4. 登录LEDE后台，添加节点信息
+
+5. 将上网机器的网关和DNS都设置为LEDE的ip地址，LEDE的网关设置为主路由的IP。
+
+6. 设置开机自动启动LEDE虚拟机(以下方法无效，新版本应该利用`autostart-enabled`参数，具体设置方法应该参照[这个](https://www.helplib.com/VIRTUALIZATION/article_182361)或[这个](https://kifarunix.com/autostart-virtualbox-vms-on-system-boot-on-linux/))
+
+   ``` shell
+   # 查看虚拟机列表
+   VBoxManage list vms
+   # 启动LEDE
+   VBoxManage startvm LEDE -type headless # headless是无图形界面的模式，gui为有图形界面的模式
+   # 关闭LEDE虚拟机
+   VBoxManage controlvm LEDE poweroff
+   
+   # --------- 修改ubuntu的启动项目
+   sudo vim /etc/rc.local
+   # 写入 
+     #!/bin/bash
+     VBoxVRDP startvm LEDE -type headless
+     
+   # 修改 rc.lodal的权限
+   chmod 755 /etc/rc.local
+   
+   # 创建启动项
+   sudo ln -fs /lib/systemd/system/rc-local.service /etc/systemd/system/rc-local.service # Ubuntu 18.04默认没有启动rc.local的服务，需要手动开启，参考https://blog.csdn.net/github_38336924/article/details/98183253
+   sudo vim /etc/systemd/system/rc-local.service
+   # 写入
+     [Install]  
+     WantedBy=multi-user.target  
+     Alias=rc-local.service
+   ```
+   
+7. 最后，服务器启动的时候会在network那里卡5min之久
+
+   ```shell
+   sudo vim /etc/systemd/system/network-online.target.wants/networking.service
+   # 将里面的TimeoutStartSec=5min 修改为TimeoutStartSec=30sec
+   ```
+
+   
