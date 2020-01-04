@@ -136,4 +136,7 @@ service autofs start
 1. 在NIS master上创建用户 `useradd  -d /home/nishome/<nisusername> <nisusername> /bin/bash`
 2. 在NIS master上为新创建的用户创建密码 `passwd <nisusername>` 
 3. 在NIS master上更新数据库 `/usr/lib/yp/ypinit -m`
-4. 在FreeNAS上创建用户家目录， `mkdir /mnt/home/home/<nisusername>`,并设置好权限
+4. 在FreeNAS上创建用户家目录
+   1. 目录服务(Directory Serices)->网卡(NIS)->重建目录服务缓存(REBUILD DIRECTORY SERVICE CACHE)
+   2. 存储(Storage)->池(Pools)->ADD Dataset， 添加一个数据集 -> Edit Permissions-> User和Group都设置为前边创建的用户，并选中 Apply permissions recursively-> SAVE
+   3. 共享(Sharing)->Unix (NFS) Shares -> ADD, 选中前边创建的数据集路径，高级模式，Maproot User和Maproot Group都设置为前边创建的用户-> SAVE
