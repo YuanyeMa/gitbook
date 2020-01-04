@@ -78,6 +78,7 @@ vim /etc/nsswitch.conf
 passwd:	compat	systemd nis # 此处的nis都是自己加的
 shadow: compat	nis
 group:	compat	systemd	nis
+gshadow:	files nis
 
 # 4. 修改配置文件
 vim /etc/yp.conf
