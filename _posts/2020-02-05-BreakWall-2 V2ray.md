@@ -27,7 +27,7 @@ chmod u+x ./go.sh
 
 服务端配置
 
-```shell
+```json
 {
   "inbounds": [{
     "port": ports, 					// 根据需要修改此处port
@@ -64,7 +64,7 @@ chmod u+x ./go.sh
 
 客户端配置
 
-```shell
+```json
 {
   "inbounds": [{
     "port": 1080,  													// SOCKS 代理端口，在浏览器中需配置代理并指向这个端口
@@ -106,4 +106,55 @@ chmod u+x ./go.sh
 停止 ： service  v2ray stop 或者 systemctl stop v2ray
 重启 ： service  v2ray restart 或者 systemctl restart v2ray
 ```
+## 5. 设置国内中转
 
+由于运营商国际互连出口拥堵造成访问代理服务器速度巨慢，所以想通过一台国内的VPS走不同的线路访问国外代理服务器的方式实现正常的BreakWall。
+以下配置文件是国内的VPS的配置项目。
+```json
+{
+  "inbounds": [
+  {
+    "port": //监听的端口号,
+    "protocol": "保持和客户端一致的协议",
+    "settings": {
+      "clients": [ 
+        { //要和客户端的配置文件中的user保持一致
+          "id": "uuid 要和客户端保持一致",
+          "level": 1,
+          "alterId": 64
+        }
+      ]
+    }
+  }],
+  "outbounds": [{
+    "protocol": "vmess",
+    "settings": {
+        "vnext": [
+            {
+                "address" : "国外代理服务器的ip",
+                "port" : 国外代理服务的监听端口,
+                "users" : [ //保持和国外代理服务器inbounds的user内容一样
+                    {
+                        "id":"国外代理服务器的uuid",
+                        "alterId" : 64 //额外ID也要保持一致
+                    }
+                ]
+            }
+        ]
+    }
+  },{
+    "protocol": "blackhole",
+    "settings": {},
+    "tag": "blocked"
+  }],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "ip": ["geoip:private"],
+        "outboundTag": "blocked"
+      }
+    ]
+  }
+}
+```
