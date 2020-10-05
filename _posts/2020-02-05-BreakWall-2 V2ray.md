@@ -28,7 +28,7 @@ sudo ./install-release.sh
 
 ## 3. 配置
 
-配置文件路径：`/etc/v2ray/config.json`
+配置文件默认路径： ~~```/etc/v2ray/config.json```~~   `/usr/local/etc/v2ray/config.json`
 
 服务端配置
 
