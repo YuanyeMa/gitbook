@@ -7,7 +7,8 @@ title: BreakWall 2 - V2ray
 ## 1. 下载安装脚本
 
 ``` shell
-wget https://install.direct/go.sh
+wget https://install.direct/go.sh # 2020-10-5 : 此方法已经废止
+wget https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
 ```
 
 ## 2. 安装
@@ -15,6 +16,10 @@ wget https://install.direct/go.sh
 ```shell
 chmod u+x ./go.sh
 ./go.sh #如果无法从GitHub下载软件，可以执行 ./go.sh -l ./v2ray-xxx-xx.zip从本地安装
+
+# 2020-10-5 新方法
+chmod u+x install-release.sh
+sudo ./install-release.sh
 ```
 
 > Linux服务端和客户端都通过此脚本进行安装，服务端和客户端的区别在于配置文件不同。
@@ -105,7 +110,17 @@ chmod u+x ./go.sh
 启动 ： service  v2ray start 或者 systemctl start v2ray
 停止 ： service  v2ray stop 或者 systemctl stop v2ray
 重启 ： service  v2ray restart 或者 systemctl restart v2ray
+设置开机启动： systemctl enable v2ray
 ```
+### ubuntu关闭ufw
+
+```shell
+#查看防火墙规则
+$ sudo ufw status verbose
+#关闭防火墙，禁用开机自启
+$ sudo ufw disable
+```
+
 ## 5. 设置国内中转
 
 由于运营商国际互连出口拥堵造成访问代理服务器速度巨慢，所以想通过一台国内的VPS走不同的线路访问国外代理服务器的方式实现正常的BreakWall。
