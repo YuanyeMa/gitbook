@@ -17,6 +17,12 @@
 	* [x86汇编从实模式到保护模式实验](_posts/OS/2020-01-15-x86汇编从实模式到保护模式实验.md)
 	* [x86汇编](_posts/OS/2019-07-05-X86汇编.md)
 
+--- 
+* [笔试题](_posts/笔试题/README.md) 
+	* [2019年笔试题](_posts/笔试题/2019-08-14-2019笔试题.md) 
+	* [开发岗笔试基础题总结](_posts/笔试题/2019-08-24-开发岗笔试基础题总结.md) 
+	* [背包问题答题模板](_posts/笔试题/2019-08-29-背包问题答题模板.md) 
+
 ---
 
 * [开发环境配置](_posts/devEnv/README.md)
@@ -42,6 +48,11 @@
 	* [Makefile中的一些神奇用法](_posts/others/2019-01-04-Makefile中的一些神奇用法.md)
 	* [Shell编程中$(())与$()还有${}的区别](_posts/others/2019-01-04-Shell编程中变量引用方法.md)
 	* [Shell中的source](_posts/others/2019-01-04-Shell中的source.md)
+	* [tensorboardX的简单用法](_posts/others/2019-07-20-tensorboardX的简单用法.md)
+	* [C++ Primer Plus笔记](_posts/others/2019-06-04-C++ Primer Plus笔记.md)
+	* [stl入门](_posts/others/2019-07-29-stl入门.md)
+	* [C++继承](_posts/others/2019-08-06-C++继承.md)
+
 
 
 ---
