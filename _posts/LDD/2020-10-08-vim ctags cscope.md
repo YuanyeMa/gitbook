@@ -176,7 +176,179 @@ nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 
 
+# 搭建阅读内核环境的一些补充
 
+
+> 本节内容摘自《ARM Linux源码剖析》
+
+1. 下载解压内核
+
+2. 安装`ctages` 和 `cscope`
+
+   ```shell
+   $ sudo apt update 
+   $ sudo apt install ctags cscope
+   ```
+
+3. 生成标签
+
+   `ctags`程序通过程序代码生成标签，用以生成函数、变量、类成员、宏等的索引，以管理数据库。
+
+   使用`ctags`生成标签的命令是`ctags -R`。内核源码树中提供了用于生成各种架构`ctags`标签的脚本`./scripts/tags.sh`, 使用命令 `make tags ARCH=arm`可以生成`arm`架构的内核源码标签。
+
+   ```shell 
+   $ ls ./scripts/tags.sh
+   ./scripts/tags.sh
+   $ make tags ARCH=arm
+     GEN     tags
+   $ ls -lah tags
+   -rw-rw-r-- 1 kevin kevin 89M Nov 14 16:36 ./tags  # 生成的89MB的tags文件
+   ```
+
+
+
+> `tags`文件结构
+>
+> ```shell
+> tart_kernel    include/linux/start_kernel.h    /^extern asmlinkage void __init start_kernel(void);$/;" p
+> start_kernel    init/main.c     /^asmlinkage void __init start_kernel(void)$/;" f
+> 
+> tags_name<TAB>file_name<TAB>ex_cmd;<TAB>extension_fields
+> # tags_name 	符号名		
+> # file_name 	符号所在的文件名	
+> # ex_cmd 	在文件中查找符号时，使用vim的ex模式，在此模式中搜索范式的正则表达式
+> # extension_field 	符号类型 f=普通C函数， c=类， d=已定义的值
+> ```
+
+
+
+生成`cscope`数据库
+
+`ctags`只能进行单方向的搜索，无法搜索调用的函数； 无法输出调用该函数的函数；无法输出该函数调用的函数。`cscope`与`ctags`十分相似，但是补充了`ctags`的不足。
+
+```shell
+$ make cscope ARCH=arm
+  GEN     cscope
+$ ls cscope* -lh
+-rw-rw-r-- 1 kevin kevin 449K Nov 14 16:39 cscope.files
+-rw-rw-r-- 1 kevin kevin 178M Nov 14 16:39 cscope.out
+-rw-rw-r-- 1 kevin kevin  34M Nov 14 16:39 cscope.out.in
+-rw-rw-r-- 1 kevin kevin 258M Nov 14 16:39 cscope.out.po
+# 生成的四个文件
+# cscope.files	含有要分析的代码文件列表的文件
+# cscope.out 	针对函数位置、函数调用、宏、变量、预处理符号的符号交叉引用文件，是实际的数据库
+# cscope.out.in		用-q选项生成数据库时生成的文件，用于提高符号搜索速度的反向索引
+# cscope.out.po	用-q选项生成数据库时生成的文件，作用同cscope.in
+```
+
+
+
+4. vim下插件配置
+
+   `Source Explorer` :  当光标停留在变量名或者函数名时，会显示此变量或者函数所在的文件列表；
+
+   `NERDTree` : 显示源码目录树；
+
+   `Tag List` : 显示文件中的符号列表；
+
+   
+
+​	vim的插件可以到[vim官网](https://www.vim.org/)下载，点击左侧"Scripts" -> "Browse all"在下方出现的搜索窗口中依次搜索需要的插件并下载。
+
+```shell
+$ mkdir -p ~/.vim/plugin
+$ mv srcexpl.vim ~/.vim/plugin/
+$ mv NERD_tree.zip ~/.vim/ && unzip NERD_tree.zip 
+$ mv taglist_45.zip ~/.vim/ && unzip taglist_45.zip
+```
+
+配置vim插件
+
+``` shell
+$ vim ~/.vimrc
+
+
+"------------------------------------------------"
+"ctags database path"
+"------------------------------------------------"
+set tags=xxxxxx/tags "ctags DB位置"
+
+"------------------------------------------------"
+"cscope database path"
+"------------------------------------------------"
+set csprg=/usr/bin/cscope 	"cscope可执行程序的路径"
+set csto=0					"cscope DS search first"
+set cst 					"cscope D tag DB search"
+set nocsverb				"verbose off"
+cs add /home/xxxx/cscope.out /home/code/linux-2.6.30.4
+set csverb
+
+"------------------------------------------------"
+"Tag List"
+"------------------------------------------------"
+filetype on
+nmap <F7> :TlistToggle<CR>
+let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+let Tlist_Inc_Winwidth = 0 				"window  width change off"
+let Tlist_Exit_OnlyWindow = 0			"tag/file完成选择时taglist window close = off"
+let Tlist_Auto_Open = 0
+let Tlist_Use_Right_Window = 1
+
+
+"------------------------------------------------"
+"Source Explore"
+"------------------------------------------------"
+nmap <F8> :SrcExplToggle<CR> 
+nmap <C-H> <C-W>h		"向左侧窗口移动"
+nmap <C-J> <C-W>j		"向下侧窗口移动"
+nmap <C-K> <C-W>k		"向上侧窗口移动"
+nmap <C-L> <C-W>l		"向右侧窗口移动"
+
+let g:SrcExpl_winHeight = 8 			"指定SrcExpl Windows高度"
+let g:SrcExpl_refreshTime = 100 		"100ms"
+let g:SrcExpl_jumpKey = "<Enter>" 		"按Enter跳转到相应的defineition"
+let g:SrcExpl_gobackKey = "<SPACE>" 	"back"
+let g:SrcExpl_isUpdateTags = 0 			"tag file update = off"
+
+
+"------------------------------------------------"
+"NERD Tree"
+"------------------------------------------------"
+let NERDTreeWinPos = "left"
+nmap <F2> :NERDTreeToggle<CR>	
+```
+
+
+
+打开`vim`，按`F2`在左侧出现`NERDTree`源码目录树，选择`./init/main.c`。按`Enter`打开源码文件， 按`F8 F9`打开`TagList`和`Source Explorer`窗口。
+
+将光标移动到右侧的`TagList`窗口后，进入vim的ex模式(按Esc)后，输入`:/start_kernel`， `TagList`窗口会自动跳转到`start_kernel`符号处，再按`Enter`，则代码文件窗口会显示定义`start_kernel`的位置。
+
+在代码窗口移动光标到函数或者变量名上时，在下方的`Source Explorer`窗口会显示定义相应符号的文件目录。将光标移动到下方`Source Explorer`窗口,上下选择要浏览的文件，按`Enter`上方代码浏览窗口会显示相应的文件内容， 按`SPACE`会回退。
+
+
+
+常用ctags命令
+
+| 命令   | 说明                 |
+| ------ | -------------------- |
+| ctrl+] | 移动到定义函数的位置 |
+| ctrl+t | 回退到跳转前的位置   |
+
+cscope命令格式`: cs find <querytype> <name>`
+
+| querytype | 说明                             |
+| --------- | -------------------------------- |
+| 0  or s   | 查找c符号                        |
+| 1 or g    | 查找定义（definition）           |
+| 2 or d    | 查找被该函数调用（called）的函数 |
+| 3 or c    | 查找调用该函数的（calling）函数  |
+| 4 or t    | 查找文本字符串(text string)      |
+| 6 or e    | 查找egrep范式                    |
+| 7 or f    | 查找文件                         |
+| 8 or i    | 查找用#include包含该文件的文件   |
+
+`：hellp cscope`可以查看更详细的指令用法。
 
 ## 参考文献
 [cscope官网](http://cscope.sourceforge.net/)
