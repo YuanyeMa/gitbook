@@ -18,8 +18,8 @@
 * [OS](_posts/OS/README.md)
 	* [x86汇编从实模式到保护模式实验](_posts/OS/2020-01-15-x86汇编从实模式到保护模式实验.md)
 	* [x86汇编](_posts/OS/2019-07-05-X86汇编.md)
-	* [GNU C 嵌入汇编](_post/OS/GNU C 嵌入汇编.md)
-	* [GDT LDT IDT TSS](_post/OS/GDT LDT IDT TSS.md)
+	* [GNU C 嵌入汇编](_posts/OS/GNU C 嵌入汇编.md)
+	* [GDT LDT IDT TSS](_posts/OS/GDT LDT IDT TSS.md)
 
 ---
 * [笔试题](_posts/笔试题/README.md) 
