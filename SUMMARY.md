@@ -20,6 +20,7 @@
 	* [x86汇编](_posts/OS/2019-07-05-X86汇编.md)
 	* [GNU C 嵌入汇编](_posts/OS/GNU C 嵌入汇编.md)
 	* [GDT LDT IDT TSS](_posts/OS/GDT LDT IDT TSS.md)
+	* [x86平台linux系统调用](_posts/OS/x86平台linux系统调用.md)
 
 ---
 * [笔试题](_posts/笔试题/README.md) 
