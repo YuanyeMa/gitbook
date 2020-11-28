@@ -59,6 +59,8 @@ void __init trap_init(void)
 }
 ```
 
+程序中首先设置中断向量表的头19个陷阱门，这些中断向量表都是CPU保留用于异常处理的。
+
 `set_intr_gate()` 等函数都调用了`_set_gate()`函数设置门描述符，本文重点分析系统调用相关的内容，即 `set_system_trap_gate()`函数。
 
 ```c
