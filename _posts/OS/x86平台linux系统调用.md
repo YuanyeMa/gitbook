@@ -6,6 +6,10 @@ kernel version : linux 2.6.30.4
 
 ## x86 系统调用整体流程
 
+![chenweixiang.github.io系统调用章节](http://chenweixiang.github.io/assets/System_Call_Procedure.jpg)
+
+
+
 用户空间调用`libc`库的`syscall`函数，此函数内嵌汇编，汇编代码先将系统调用号写入`eax`寄存器，其他参数写入`ebx ecx edx esi edi`五个寄存器，若参数总个数超过五个，则应该用一个单独的寄存器存放指向所有这些参数在用户空间地址的指针。然后调用`int 0x80`指令陷入内核。
 
 ![system_call_process](/images/20201123/system_call_process.png)
@@ -357,3 +361,22 @@ int main(int argc, char *argv[])
 [参考](https://www.jianshu.com/p/5e96fd50f3b5)
 
 > 注： syscall()函数是glibc中的一个用户空间函数，可以通过`man syscall`命令查看，函数声明在/usr/include/unistd.h中，对应系统调用号在/usr/include/asm-generic/unistd.h中声明。
+
+
+
+## TO DO List
+
+- 系统调用的定义
+- 系统调用号
+- 如何新增系统调用
+  - 通过修改内核代码
+    - 确定新增的系统调用号
+    - 编写新增的系统调用
+    - 使用新增的系统调用
+  - 通过编写插入内核模块
+    - 编写系统调用内核模块
+    - 编写使用新增的系统调用的代码
+    - 编译内核模块并插入内核模块
+- 如何使用系统调用
+  - 直接调用系统调用
+  - 通过库函数间接调用系统调用
