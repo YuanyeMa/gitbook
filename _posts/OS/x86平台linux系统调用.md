@@ -334,7 +334,222 @@ ENTRY(sys_call_table)
 
 ![image-stack_status](/images/20201123/stack_status.png)
 
+## 系统调用的定义
 
+
+
+```c
+/* include/linux/syscalls.h */
+#define SYSCALL_DEFINE0(sname)                                  \
+        static const struct syscall_metadata __used             \
+          __attribute__((__aligned__(4)))                       \
+          __attribute__((section("__syscalls_metadata")))       \
+          __syscall_meta_##sname = {                            \
+                .name           = "sys_"#sname,                 \
+                .nb_args        = 0,                            \
+        };                                                      \
+        asmlinkage long sys_##sname(void)
+
+#else
+#define SYSCALL_DEFINE0(name)      asmlinkage long sys_##name(void)
+#endif
+#define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
+#define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+#define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+#define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+#define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+#define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
+
+/* 其中 SYSCALL_DEFINEx*/
+#ifdef CONFIG_FTRACE_SYSCALLS /*ftrace是内核提供的一种调试工具*/
+#define SYSCALL_DEFINEx(x, sname, ...)                          \
+        static const char *types_##sname[] = {                  \
+                __SC_STR_TDECL##x(__VA_ARGS__)                  \
+        };                                                      \
+        static const char *args_##sname[] = {                   \
+                __SC_STR_ADECL##x(__VA_ARGS__)                  \
+        };                                                      \
+        SYSCALL_METADATA(sname, x);                             \
+        __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+#else
+#define SYSCALL_DEFINEx(x, sname, ...)                          \
+        __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+#endif
+
+#ifdef CONFIG_HAVE_SYSCALL_WRAPPERS
+
+#define SYSCALL_DEFINE(name) static inline long SYSC_##name
+
+#define __SYSCALL_DEFINEx(x, name, ...)                                 \
+        asmlinkage long sys##name(__SC_DECL##x(__VA_ARGS__));           \
+        static inline long SYSC##name(__SC_DECL##x(__VA_ARGS__));       \
+        asmlinkage long SyS##name(__SC_LONG##x(__VA_ARGS__))            \
+        {                                                               \
+                __SC_TEST##x(__VA_ARGS__);                              \
+                return (long) SYSC##name(__SC_CAST##x(__VA_ARGS__));    \
+        }                                                               \
+        SYSCALL_ALIAS(sys##name, SyS##name);                            \
+        static inline long SYSC##name(__SC_DECL##x(__VA_ARGS__))
+
+#else /* CONFIG_HAVE_SYSCALL_WRAPPERS */
+
+#define SYSCALL_DEFINE(name) asmlinkage long sys_##name
+#define __SYSCALL_DEFINEx(x, name, ...)                                 \
+        asmlinkage long sys##name(__SC_DECL##x(__VA_ARGS__))
+
+#endif /* CONFIG_HAVE_SYSCALL_WRAPPERS */
+
+/* 后边是所有系统调用的函数声明 */
+asmlinkage long sys_time(time_t __user *tloc);
+
+```
+
+系统调用的定义分布在内核源代码多个源文件中`find . -type f -name "*.c" | xargs grep SYSCALL_DEFINE | wc -l`
+
+
+
+## 系统调用号
+
+每个系统调用`xxx`都对应着一个系统调用号`__NR_xxx`。当应用程序调用某系统调用时，寄存器eax中保存该系统调用对应的系统调用号。系统调用号定义于如下头文件中：
+
+```
+include/linux/unistd.h				
++-  arch/x86/include/asm/unistd.h
+    +-  arch/x86/include/asm/unistd_32.h
+    |   +-  ...
+    |   +-  #define __NR_process_vm_writev  348
+    |   +-  #define NR_syscalls             349
+    +-  arch/x86/include/asm/unistd_64.h
+        +-  ...
+        +-  #define __NR_process_vm_writev  311
+        +-  __SYSCALL(__NR_process_vm_writev, sys_process_vm_writev)
+```
+
+在应用程序中仅需包含头文件`#include <unistd.h>`即可。
+
+```c
+#ifndef _LINUX_UNISTD_H_
+#define _LINUX_UNISTD_H_
+
+/*
+ * Include machine specific syscall numbers
+ */
+#include <asm/unistd.h>
+
+#endif /* _LINUX_UNISTD_H_ */
+```
+
+对于x86而言，`asm/unistd.h`即为`arch/x86/include/asm/unistd.h`:
+
+```c
+#ifdef __KERNEL__
+#  ifdef CONFIG_X86_32
+#    include "unistd_32.h"
+#  else
+#    include "unistd_64.h"
+#  endif
+#else
+#  ifdef __i386__
+#    include "unistd_32.h"
+#  else
+#    include "unistd_64.h"
+#  endif
+#endif
+
+对于x86 32-bit而言，unistd_32.h即为arch/x86/include/asm/unistd_32.h:
+#define __NR_restart_syscall		0
+#define __NR_exit			1
+#define __NR_fork			2
+#define __NR_read			3
+#define __NR_write			4
+#define __NR_open			5
+#define __NR_close			6
+...
+#define __NR_process_vm_readv		347
+#define __NR_process_vm_writev		348
+
+#ifdef __KERNEL__
+#define NR_syscalls			349
+#endif
+```
+
+## 系统调用的返回值
+
+如果系统调用执行失败，系统调用并不直接返回错误码，而是将错误码保存到全局变量`errno`中，因而可根据`errno`的值来确定错误类型。错误码定义于如下头文件中：
+
+```
+include/linux/errno.h				// 错误码512-530
+-> arch/x86/include/asm/errno.h			// 仅包含asm-generic/errno.h，未新增错误码
+   -> include/asm-generic/errno.h		// 错误码35-133
+      -> include/asm-generic/errno-base.h	// 错误码1-34
+```
+
+也可以执行` man errno`查询到。
+
+## 新增系统调用
+
+
+
+### 通过修改内核代码
+
+- 确定新增的系统调用号
+  1. 修改arch/x86/include/asm/unistd_32.h，为新增的系统调用定义的系统调用号`#define _NR_testsyscall 350`
+  2. 修改arch/x86/kernel/syscall_table_32.S，将新增的系统调用加入到系统调用表，即数组sys_call_table中写入：`long sys_testsyscall  /* 350 */`
+- 编写新增的系统调用
+  编写一个系统调用意味着要给内核增加一个函数，将该函数写入文件kernel/sys.c中，代码如下：
+  ```c
+  SYSCALL_DEFINE0(testsyscall)
+{
+	    console_print("hello world\n");
+	    return 0;
+}
+  ```
+- 使用新增的系统调用
+  因为C库中没有新增的系统调用的程序段，必须自己建立其代码，如下：
+  ```c
+  #inculde <syscalls.h>
+  SYSCALL_DEFINE0(testsyscall)
+  void main()
+  {
+      tsetsyscall();
+  }
+  ```
+
+### 通过编写插入内核模块
+
+- 编写系统调用内核模块
+  ```c
+    #inculde <linux/kernel.h>
+    #inculde <linux/module.h>
+    #inculde <linux/modversions.h>
+    #inculde <linux/sched.h>
+    #inculde <asm/uaccess.h>
+
+    #define _NR_testsyscall 350
+
+    extern void *sys_call_table[];
+
+    asmlinkage long testsyscall()
+    {
+        printf("hello world\n");
+        return 0;
+    }
+
+    int  syscall_test_init()
+    {
+        sys_call_table[_NR_tsetsyscall] = testsyscall;
+        printf("system call testsyscall() loaded success\n");
+        return 0;
+    }
+    module_init(syscall_test_init);
+
+    void syscall_test_exit()
+    {
+    }
+    module_exit(syscall_test_exit)
+  ```
+- 编写使用新增的系统调用的代码
+- 编译内核模块并插入内核模块
 
 ## 从用户空间直接访问系统调用
 
@@ -346,13 +561,11 @@ ENTRY(sys_call_table)
 #include <unistd.h> 
 #include <sys/syscall.h> 
 #include <sys/types.h> 
-  
 #define __NR_gettid      224  
-  
 int main(int argc, char *argv[])  
 {  
     pid_t tid;  
-  
+
     tid = syscall(__NR_gettid);  //括号内参数直接写224也可以
     /*也可以写成tid = syscall(SYS_gettid);*/
 } 
@@ -363,20 +576,3 @@ int main(int argc, char *argv[])
 > 注： syscall()函数是glibc中的一个用户空间函数，可以通过`man syscall`命令查看，函数声明在/usr/include/unistd.h中，对应系统调用号在/usr/include/asm-generic/unistd.h中声明。
 
 
-
-## TO DO List
-
-- 系统调用的定义
-- 系统调用号
-- 如何新增系统调用
-  - 通过修改内核代码
-    - 确定新增的系统调用号
-    - 编写新增的系统调用
-    - 使用新增的系统调用
-  - 通过编写插入内核模块
-    - 编写系统调用内核模块
-    - 编写使用新增的系统调用的代码
-    - 编译内核模块并插入内核模块
-- 如何使用系统调用
-  - 直接调用系统调用
-  - 通过库函数间接调用系统调用
