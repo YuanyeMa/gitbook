@@ -2,7 +2,7 @@
 0xFFtypora-copy-images-to: ./
 ---
 
-# Linux 内核存储管理
+# Linux 内核内存管理
 
 [toc]
 
@@ -356,7 +356,11 @@ static void setup_gdt(void)
 
 ## 几个重要的数据结构
 
-![image-20201209182949066](D:\kevin-y-ma.github.io\draft\image-20201209182949066.png)
+系统中的每个物理页面都有一个`page`结构，系统在初始化时根据系统中物理内存的大小建立起一个`page`结构数组，作为物理页面的“仓库”，里面每个`page`数据结构都代表系统中一个物理页面。  
+
+“仓库”中的物理页面被划分为`ZONE_DMA` 、 `ZONE_NORMAL`和`ZONE_HIGHMEM`区，其中`ZONE_HIGHMEM`用于物理地址超过1G的存储空间，在64位系统中该区为空。一个管理区用一个`zone_struct`结构表示。  
+
+对于NUMA结构，管理区不再是最高层级的存储管理机构，而是在每个存储节点中都至少有两个管理区，而且前述`page`结构数组，也不再是全局性的，而是从属于具体的节点。  `pg_data_t`结构保存节点信息。
 
 ### pgd_t / pmd_t / pte_t
 
@@ -396,9 +400,9 @@ typedef struct pgprot { pgprotval_t pgprot; } pgprot_t; //页面保护的结构
 
 
 
-### struct page 
+### `struct page` 
 
-内核中有一个全局量`mem_map`（定义在mm/memory.c的70行`struct page *mem_map;`）是一个指针，指向一个`page`数据结构的数组，每个`page`代表着一个物理页面，整个数组就代表着系统中的全部物理页面。系统在初始化时根据物理内存的大小建立`mem_map`。
+内核中有一个全局量`mem_map`（定义在mm/memory.c的70行`struct page *mem_map;`）是一个指针，指向一个`page`数据结构的数组，**每个`page`代表着一个物理页面**，整个数组就代表着系统中的全部物理页面。系统在初始化时根据物理内存的大小建立`mem_map`。
 
 ```c
 /* include/linux/mm_types.h +40 */
@@ -446,11 +450,241 @@ struct page {
 
 
 
-### zone_t
+### `struct zone`
 
 
 
-### pg_data_t
+关于`zone`的划分，内核中的注释应该能够帮助理解。
+
+```c
+enum zone_type {
+#ifdef CONFIG_ZONE_DMA
+        /*
+         * ZONE_DMA is used when there are devices that are not able
+         * to do DMA to all of addressable memory (ZONE_NORMAL). Then we
+         * carve out the portion of memory that is needed for these devices.
+         * The range is arch specific.
+         *
+         * Some examples
+         *
+         * Architecture         Limit
+         * ---------------------------
+         * parisc, ia64, sparc  <4G
+         * s390                 <2G
+         * arm                  Various
+         * alpha                Unlimited or 0-16MB.
+         *
+         * i386, x86_64 and multiple other arches
+         *                      <16M.
+         */
+        ZONE_DMA,
+#endif
+#ifdef CONFIG_ZONE_DMA32
+        /*
+         * x86_64 needs two ZONE_DMAs because it supports devices that are
+         * only able to do DMA to the lower 16M but also 32 bit devices that
+         * can only do DMA areas below 4G.
+         */
+        ZONE_DMA32,
+#endif
+        /*
+         * Normal addressable memory is in ZONE_NORMAL. DMA operations can be
+         * performed on pages in ZONE_NORMAL if the DMA devices support
+         * transfers to all addressable memory.
+         */
+        ZONE_NORMAL,
+#ifdef CONFIG_HIGHMEM
+        /*
+         * A memory area that is only addressable by the kernel through
+         * mapping portions into its own address space. This is for example
+         * used by i386 to allow the kernel to address the memory beyond
+         * 900MB. The kernel will set up special mappings (page
+         * table entries on i386) for each page that the kernel needs to
+         * access.
+         */
+        ZONE_HIGHMEM,
+#endif
+        ZONE_MOVABLE,
+        __MAX_NR_ZONES
+};
+
+```
+
+
+
+`zone`结构
+
+```c
+/* "include/linux/mmzone.h" */
+
+
+struct zone {
+        /* Fields commonly accessed by the page allocator */
+        unsigned long           pages_min, pages_low, pages_high;
+        /*
+         * We don't know if the memory that we're going to allocate will be freeable
+         * or/and it will be released eventually, so to avoid totally wasting several
+         * GB of ram we must reserve some of the lower zone memory (otherwise we risk
+         * to run OOM on the lower zones despite there's tons of freeable ram
+         * on the higher zones). This array is recalculated at runtime if the
+         * sysctl_lowmem_reserve_ratio sysctl changes.
+         */
+        unsigned long           lowmem_reserve[MAX_NR_ZONES];
+
+#ifdef CONFIG_NUMA
+        int node;
+        /*
+         * zone reclaim becomes active if more unmapped pages exist.
+         */
+        unsigned long           min_unmapped_pages;
+        unsigned long           min_slab_pages;
+        struct per_cpu_pageset  *pageset[NR_CPUS];
+#else
+        struct per_cpu_pageset  pageset[NR_CPUS];
+        /*
+         * free areas of different sizes
+         */
+        spinlock_t              lock;
+#ifdef CONFIG_MEMORY_HOTPLUG
+        /* see spanned/present_pages for more description */
+        seqlock_t               span_seqlock;
+#endif
+        struct free_area        free_area[MAX_ORDER]; /* "空闲区间"队列 */
+
+		/* 省略一些元素 */
+    
+        /*
+         * Discontig memory support fields.
+         */
+        struct pglist_data      *zone_pgdat; /* 属于哪个NUMA节点 */
+        /* zone_start_pfn == zone_start_paddr >> PAGE_SHIFT */
+        unsigned long           zone_start_pfn; /* 在page结构数组中的起始页面号 */
+
+        /*
+         * zone_start_pfn, spanned_pages and present_pages are all
+         * protected by span_seqlock.  It is a seqlock because it has
+         * to be read outside of zone->lock, and it is done in the main
+         * allocator path.  But, it is written quite infrequently.
+         *
+         * The lock is declared along with zone->lock because it is
+         * frequently read in proximity to zone->lock.  It's good to
+         * give them a chance of being in the same cacheline.
+         */
+        unsigned long           spanned_pages;  /* total size, including holes */
+        unsigned long           present_pages;  /* amount of memory (excluding holes) */
+
+        /*
+         * rarely used fields:
+         */
+        const char              *name;
+} ____cacheline_internodealigned_in_smp;
+
+```
+
+
+
+
+
+
+
+### `pg_data_t` 或者 `struct pglist_data `
+
+此结构表示每个`NUMA`节点的存储信息。
+
+```c
+/* include/linux/mmzone.h */
+
+/*
+ * The pg_data_t structure is used in machines with CONFIG_DISCONTIGMEM
+ * (mostly NUMA machines?) to denote a higher-level memory zone than the
+ * zone denotes.
+ *
+ * On NUMA machines, each NUMA node would have a pg_data_t to describe
+ * it's memory layout.
+ *
+ * Memory statistics and page replacement data structures are maintained on a
+ * per-zone basis.
+ */
+typedef struct pglist_data {
+        struct zone node_zones[MAX_NR_ZONES]; /* 节点内的 zone，数组 */
+        struct zonelist node_zonelists[MAX_ZONELISTS]; /* 分配策略数组 */
+        int nr_zones;
+#ifdef CONFIG_FLAT_NODE_MEM_MAP /* means !SPARSEMEM */
+        struct page *node_mem_map;  /* 指向具体节点内的page数组 */
+#ifdef CONFIG_CGROUP_MEM_RES_CTLR
+        struct page_cgroup *node_page_cgroup;
+#endif
+#endif
+        struct bootmem_data *bdata;
+#ifdef CONFIG_MEMORY_HOTPLUG
+        /*
+         * Must be held any time you expect node_start_pfn, node_present_pages
+         * or node_spanned_pages stay constant.  Holding this will also
+         * guarantee that any pfn_valid() stays that way.
+         *
+         * Nests above zone->lock and zone->size_seqlock.
+         */
+        spinlock_t node_size_lock;
+#endif
+        unsigned long node_start_pfn;
+        unsigned long node_present_pages; /* total number of physical pages */
+        unsigned long node_spanned_pages; /* total size of physical page 
+        									range, including holes */
+
+        int node_id;
+        wait_queue_head_t kswapd_wait;
+        struct task_struct *kswapd;
+        int kswapd_max_order;
+} pg_data_t;
+
+```
+
+
+
+每个`zonelist`规定了一种分配策略，当当前节点中的物理页面不够时，按`zonelist`中的顺序，从公共存储或者其他cpu的存储中分配页面。
+
+```c
+/*
+ * One allocation request operates on a zonelist. A zonelist
+ * is a list of zones, the first one is the 'goal' of the
+ * allocation, the other zones are fallback zones, in decreasing
+ * priority.
+ *
+ * If zlcache_ptr is not NULL, then it is just the address of zlcache,
+ * as explained above.  If zlcache_ptr is NULL, there is no zlcache.
+ * *
+ * To speed the reading of the zonelist, the zonerefs contain the zone index
+ * of the entry being read. Helper functions to access information given
+ * a struct zoneref are
+ *
+ * zonelist_zone()      - Return the struct zone * for an entry in _zonerefs
+ * zonelist_zone_idx()  - Return the index of the zone for an entry
+ * zonelist_node_idx()  - Return the index of the node for an entry
+ */
+struct zonelist {
+        struct zonelist_cache *zlcache_ptr;                  // NULL or &zlcache
+        struct zoneref _zonerefs[MAX_ZONES_PER_ZONELIST + 1];
+#ifdef CONFIG_NUMA
+        struct zonelist_cache zlcache;                       // optional ...
+#endif
+};
+
+
+/* 其中 */
+/*
+ * This struct contains information about a zone in a zonelist. It is stored
+ * here to avoid dereferences into large structures and lookups of tables
+ */
+struct zoneref {
+        struct zone *zone;      /* Pointer to actual zone */
+        int zone_idx;           /* zone_idx(zoneref->zone) */
+};
+
+```
+
+
+
+
 
 
 
@@ -460,7 +694,9 @@ struct page {
 
 虚拟空间的管理是以进程为基础的，每个进程都有各自的虚拟内存空间，所有进程的内核空间是共享的。
 
-### struct vm_area_struct
+![image-20201209182949066](D:\kevin-y-ma.github.io\draft\image-20201209182949066.png)
+
+### `struct vm_area_struct`
 
 一个进程所需要使用的虚拟空间中的各个部位未必连续，通常形成若干离散的虚存**区间**，对虚存区间的抽象就是数据结构`struct vm_area_struct`.
 
@@ -591,11 +827,12 @@ struct vm_operations_struct {
 
 
 
-### struct mm_struct
+### `struct mm_struct`
 
 每个进程只有一个`mm_struct`结构，`mm_struct`是进程整个用户空间的抽象。
 
 ```c
+/* "include/linux/mm_types.h" */
 struct mm_struct {
         struct vm_area_struct * mmap;           /* list of VMAs */
         struct rb_root mm_rb;
@@ -694,3 +931,11 @@ struct mm_struct {
 - `mm_users`和`mm_count` : `atomic_t`（原子）类型，一个进程只能有一个`mm_struct`，但是一个`mm_struct`可能同时为多个进程服务，此两个变量用以计数。
 - `mmap_sem`和`page_table_lock` : 用于此结构的信号量和用于页表的锁，用于进程间的互斥和并发；
 - `start_code, end_code, start_data, end_data` : 进程的代码段、数据段，此外还有堆栈段等的起点和终点。
+
+
+
+
+
+
+
+[关于高端内存](https://www.cnblogs.com/linhaostudy/p/10467992.html)
