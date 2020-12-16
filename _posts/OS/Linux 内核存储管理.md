@@ -6,11 +6,13 @@
 
 [toc]
 
-## 内存管理的基本框架
+越整理发现知识越多，分页机制、伙伴算法、slab等任何一块单独拿出来都有很多东西，因此本文先粗略的统揽全貌，有时间再针对每个部分，逐个深入，单独分析梳理成文章。
+
+## 内存寻址的基本框架
 
 ​	Linux内核的映射机制分三层：页面目录：`PGD`, 中间目录：`PMD`， 页表`PT`。`PT`的表项称为`PTE (Page Table Entry)`.  `PGD`  `PMD`以及`PT`三者都是数组。三者的关系如图所示。
 
-![image-20201209084314672](D:\kevin-y-ma.github.io\draft\image-20201209084314672.png)
+![image-20201209084314672](/images/mm/image-20201209084314672.png)
 
 CPU给出的线性地址在逻辑上可以分为4个位段，各占若干位。分别用作在页面目录表`PGD`中的下标志，页中间目录表`PMD`中的下标，页表`PT`中的下标，以及物理页内的地址偏移。线性地址映射为物理地址的大致过程如下。
 
@@ -114,7 +116,7 @@ config PAGE_OFFSET
 
 
 
-![image-20201209091927275](D:\kevin-y-ma.github.io\draft\image-20201209091927275.png)
+![image-20201209091927275](/images/mm/image-20201209091927275.png)
 
 
 
@@ -265,7 +267,7 @@ EXPORT_PER_CPU_SYMBOL_GPL(gdt_page);
 
 ```
 
-![image-20201209100428575](D:\kevin-y-ma.github.io\draft\image-20201209100428575.png)
+![image-20201209100428575](/images/mm/image-20201209100428575.png)
 
 参照`gdt`表项定义可以得出以下结论
 
@@ -694,7 +696,7 @@ struct zoneref {
 
 虚拟空间的管理是以进程为基础的，每个进程都有各自的虚拟内存空间，所有进程的内核空间是共享的。
 
-![image-20201209182949066](D:\kevin-y-ma.github.io\draft\image-20201209182949066.png)
+![image-20201209182949066](/images/mm/image-20201209182949066.png)
 
 ### `struct vm_area_struct`
 
@@ -932,10 +934,478 @@ struct mm_struct {
 - `mmap_sem`和`page_table_lock` : 用于此结构的信号量和用于页表的锁，用于进程间的互斥和并发；
 - `start_code, end_code, start_data, end_data` : 进程的代码段、数据段，此外还有堆栈段等的起点和终点。
 
+## 内存管理基本框架
 
 
 
+![image-20201216171309001](/images/mm/image-20201216171309001.png)
+
+**管理区分配器**接收动态内存分配与释放的请求，在请求分配的情况下，该部分搜索一个能满足所请求的一组连续的页框的内存管理区。在每个**管理区**内，页框被**伙伴算法系统**处理。每CPU页框高速缓存包含一些预先分配，它们被用于满足本地CPU发出的单一内存请求。
+
+
+
+## 伙伴系统
+
+网上超了一段算法的简单描述如下。
+
+> 为了便于页面的维护，将多个页面组成内存块，每个内存块都有 2 的方幂个页，方幂的指数被称为阶 order。order相同的内存块被组织到一个空闲链表中。伙伴系统基于2的方幂来申请释放内存页。
+> 当申请内存页时，伙伴系统首先检查与申请大小相同的内存块链表中，检看是否有空闲页，如果有就将其分配出去，并将其从链表中删除，否则就检查上一级，即大小为申请大小的2倍的内存块空闲链表，如果该链表有空闲内存，就将其分配出去，同时将剩余的一部分（即未分配出去的一半）加入到下一级空闲链表中；如果这一级仍没有空闲内存；就检查它的上一级，依次类推，直到分配成功或者彻底失败，在成功时还要按照伙伴系统的要求，将未分配的内存块进行划分并加入到相应的空闲内存块链表
+> 在释放内存页时，会检查其伙伴是否也是空闲的，如果是就将它和它的伙伴合并为更大的空闲内存块，该检查会递归进行，直到发现伙伴正在被使用或者已经合并成了最大的内存块。
+
+在linux中可以通过命令`cat /proc/buddyinfo`查看系统中伙伴系统使用情况。
+
+![image-20201216191346937](/images/mm/image-20201216191346937.png)
+
+此处以DMA区域进行分析，第二列值为4，表示当前系统中DMA区域，可用的连续两页的内存大小为4\*2\*PAGE_SIZE；第三列值为21，表示当前系统中DMA区域，可用的连续四页的内存大小为21\*2^2*PAGE_SIZE。
+
+```c
+/* include/mm/mmzone.h */
+/* Free memory management - zoned buddy allocator.  */
+#ifndef CONFIG_FORCE_MAX_ZONEORDER
+#define MAX_ORDER 11
+#else
+#define MAX_ORDER CONFIG_FORCE_MAX_ZONEORDER
+#endif
+#define MAX_ORDER_NR_PAGES (1 << (MAX_ORDER - 1))
+  
+struct zone {
+    /* 略 */
+    struct free_area free_area[MAX_ORDER];
+    /* 略 */
+}；
+#define MIGRATE_UNMOVABLE     0
+#define MIGRATE_RECLAIMABLE   1
+#define MIGRATE_MOVABLE       2
+#define MIGRATE_RESERVE       3
+#define MIGRATE_ISOLATE       4 /* can't allocate from here */
+#define MIGRATE_TYPES         5
+
+struct free_area {
+        struct list_head        free_list[MIGRATE_TYPES];
+        unsigned long           nr_free;
+};
+```
+
+- `nr_free`:其中`nr_free`表示**内存页块**的数目，对于0阶的表示以1页为单位计算，对于1阶的以2页为单位计算，n阶的以2的n次方为单位计算。
+- `free_list`:用于将具有该大小的内存页块连接起来。由于**内存页块**表示的是**连续的物理页**，因而对于加入到链表中的每个内存页块来说，只需要将内存页块中的第一个页加入该链表即可。因此这些链表连接的是每个内存页块中第一个内存页，使用了`struct page`中的`struct list_head lru`成员。free_list数组元素的每一个对应一种属性的类型，可用于不同的目地，但是它们的大小和组织方式相同。
+
+每个`struct zone`都有11(`MAX_ORDER`)个`struct free_area`结构，每一个`free_area`包含5(`MIGRATE_TYPES`)个链表，其中每一个链表中的内存页面按照其自身是否可以释放或者迁移被归为一类，于是凡是请求“不可迁移”页面的分配请求全部在`free_list[MIGRATE_UNMOVABLE]`这条链表上分配。
+
+```c
+/* include/linux/mm_types.h */
+struct page{
+    /* 略 */
+    struct list_head lru;
+    /* 略 */
+};
+```
+
+![Memery_Layout_21](/images/mm/Memery_Layout_21.jpg)
+
+参考
+
+[Linux /proc/buddyinfo理解](https://blog.csdn.net/lickylin/article/details/50726847)
+
+[linux 2.6.36的free_area结构](https://www.phpfans.net/ask/MTIyMDc1MQ.html)
+
+[linux内核对伙伴系统的改进--migrate_type](https://blog.csdn.net/jus3ve/article/details/79736898)
+
+[linux内核内存管理学习之二（物理内存管理--伙伴系统）](https://blog.csdn.net/goodluckwhh/article/details/9989695?utm_medium=distribute.pc_relevant_t0.none-task-blog-searchFromBaidu-1.control&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-searchFromBaidu-1.control)
+
+
+
+## slab系统
+
+伙伴算法系统采用页框作为基本内存区，这适合于对大块内存的请求，但是如何处理小内存的请求，比如说几十或者几百个字节？linux kernel采用`slab`系统进行高效的小内存管理。
+
+`make menuconfig`后输入`/`搜索`slab`后回车，会看到下图的路径。
+
+![image-20201216141235787](/images/mm/image-20201216141235787.png)
+
+此外还有
+
+- SLAB是基础，是最早从Sun OS那引进的；
+- SLUB是在Slab上进行的改进，在大型机上表现出色，据说还被IA-64作为默认；
+- SLOB是针对小型系统设计的，主要是嵌入式。
+
+`slab`分配器把对象分组放进**高速缓存**，每个高速缓存都是同种类型对象的“储备”。例如，当一个文件被打开时，存放相应“打开文件”对象所需的内存区是从一个叫做`filp`的`slab`分配器的高速缓存中得到的。
+
+```shell
+cat /proc/slabinfo  #查看系统中slab使用情况
+```
+
+包含高速缓存的主内存区域被划分为多个`slab`，每个`slab`由一个或多个连续的页框组成，这些页框中既包含已经分配的对象，也包含空闲的对象。
+
+![slab](/images/mm/Slab_Cache.png)
+
+每个高速缓存都是由`struct kmem_cache`类型的数据结构来描述的。
+
+```c
+/* mm/slab.c */
+/*
+ * struct kmem_cache
+ *
+ * manages a cache.
+ */
+
+struct kmem_cache {
+/* 1) per-cpu data, touched during every alloc/free */
+        struct array_cache *array[NR_CPUS];
+/* 2) Cache tunables. Protected by cache_chain_mutex */
+        unsigned int batchcount;
+        unsigned int limit;
+        unsigned int shared;
+
+        unsigned int buffer_size;
+        u32 reciprocal_buffer_size;
+/* 3) touched by every alloc & free from the backend */
+
+        unsigned int flags;             /* constant flags */
+        unsigned int num;               /* # of objs per slab */
+
+/* 4) cache_grow/shrink */
+        /* order of pgs per slab (2^n) */
+        unsigned int gfporder;
+
+        /* force GFP flags, e.g. GFP_DMA */
+        gfp_t gfpflags;					/* 分配页框时传递给伙伴系统函数的一组标志 */
+
+        size_t colour;                  /* cache colouring range */
+        unsigned int colour_off;        /* colour offset */
+        struct kmem_cache *slabp_cache;
+        unsigned int slab_size;			/* 单个slab的大小 */
+        unsigned int dflags;            /* dynamic flags */
+
+        /* constructor func */
+        void (*ctor)(void *obj);
+
+/* 5) cache creation/removal */
+        const char *name;				/* 存放高速缓存的名字 */
+        struct list_head next;			/* 高速缓存描述符双向链表使用的指针 */
+
+/* 6) statistics */
+#if STATS
+        unsigned long num_active;
+        unsigned long num_allocations;
+        unsigned long high_mark;
+        unsigned long grown;
+        unsigned long reaped;
+        unsigned long errors;
+        unsigned long max_freeable;
+        unsigned long node_allocs;
+        unsigned long node_frees;
+        unsigned long node_overflow;
+        atomic_t allochit;
+        atomic_t allocmiss;
+#endif
+#if DEBUG
+        /*
+         * If debugging is enabled, then the allocator can add additional
+         * fields and/or padding to every object. buffer_size contains the total
+         * object size including these internal fields, the following two
+         * variables contain the offset to the user object and its size.
+         */
+        int obj_offset;
+        int obj_size;
+#endif
+        /*
+         * We put nodelists[] at the end of kmem_cache, because we want to size
+         * this array to nr_node_ids slots instead of MAX_NUMNODES
+         * (see kmem_cache_init())
+         * We still use [MAX_NUMNODES] and not [1] or [0] because cache_cache
+         * is statically defined, so we reserve the max number of nodes.
+         */
+        struct kmem_list3 *nodelists[MAX_NUMNODES];
+        /*
+         * Do not add fields after nodelists[]
+         */
+};
+```
+
+其中`kmem_list3`定义如下
+
+```c
+/* mm/slab.c */
+/*
+ * The slab lists for all objects.
+ */
+struct kmem_list3 {
+        struct list_head slabs_partial; /* partial list first, better asm code */
+        struct list_head slabs_full;	/* 不包含空闲对象的slab描述符双向循环链表 */
+        struct list_head slabs_free;	/* 只包含空闲对象的slab描述符双向循环链表 */
+        unsigned long free_objects;		/* 高速缓存中空闲对象的个数 */
+        unsigned int free_limit;
+        unsigned int colour_next;       /* Per-node cache coloring */
+        spinlock_t list_lock;
+        struct array_cache *shared;     /* shared per node */
+        struct array_cache **alien;     /* on other nodes */
+        unsigned long next_reap;        /* updated without locking */
+        int free_touched;               /* updated without locking */
+};
+
+```
+
+`slab`描述符
+
+```c
+/* mm/slab.c */
+/*
+ * struct slab
+ *
+ * Manages the objs in a slab. Placed either at the beginning of mem allocated
+ * for a slab, or allocated from an general cache.
+ * Slabs are chained into three list: fully used, partial, fully free slabs.
+ */
+struct slab {
+        struct list_head list;	/* slab描述符的三个双向循环链表中的一个 */
+        unsigned long colouroff;/* slab中第一个对象的偏移 */
+        void *s_mem;            /* including colour offset slab中第一个对象的地址 */
+        unsigned int inuse;     /* num of objs active in slab 正在使用的非空闲slab的对象个数*/
+        kmem_bufctl_t free;		/* slab中下一个空闲对象的下标 */
+        unsigned short nodeid;
+};
+
+```
+
+![slab对象关系](http://chenweixiang.github.io/assets/Memery_Layout_14.jpg)
+
+![image-20201216150001694](/images/mm/image-20201216150001694.png)
+
+### slab分配器的接口
+
+1. 新建一个高速缓存
+
+```c
+/**
+ * kmem_cache_create - Create a cache.
+ * @name: A string which is used in /proc/slabinfo to identify this cache.
+ * @size: The size of objects to be created in this cache.
+ * @align: The required alignment for the objects.
+ * @flags: SLAB flags
+ * @ctor: A constructor for the objects.
+ *
+ * Returns a ptr to the cache on success, NULL on failure.
+ * Cannot be called within a int, but can be interrupted.
+ * The @ctor is run when new pages are allocated by the cache.
+ *
+ * @name must be valid until the cache is destroyed. This implies that
+ * the module calling this has to destroy the cache before getting unloaded.
+ * Note that kmem_cache_name() is not guaranteed to return the same pointer,
+ * therefore applications must manage it themselves.
+ *
+ * The flags are
+ *
+ * %SLAB_POISON - Poison the slab with a known test pattern (a5a5a5a5)
+ * to catch references to uninitialised memory.
+ *
+ * %SLAB_RED_ZONE - Insert `Red' zones around the allocated memory to check
+ * for buffer overruns.
+ *
+ * %SLAB_HWCACHE_ALIGN - Align the objects in this cache to a hardware
+ * cacheline.  This can be beneficial if you're counting cycles as closely
+ * as davem.
+ */
+struct kmem_cache *
+kmem_cache_create (const char *name, size_t size, size_t align,
+        unsigned long flags, void (*ctor)(void *));
+```
+
+2. 销毁一个高速缓存
+
+```c
+/**
+ * kmem_cache_destroy - delete a cache
+ * @cachep: the cache to destroy
+ *
+ * Remove a &struct kmem_cache object from the slab cache.
+ *
+ * It is expected this function will be called by a module when it is
+ * unloaded.  This will remove the cache completely, and avoid a duplicate
+ * cache being allocated each time a module is loaded and unloaded, if the
+ * module doesn't have persistent in-kernel storage across loads and unloads.
+ *
+ * The cache must be empty before calling this function.
+ *
+ * The caller must guarantee that noone will allocate memory from the cache
+ * during the kmem_cache_destroy().
+ */
+void kmem_cache_destroy(struct kmem_cache *cachep);   
+```
+
+3. 从缓存中分配对象
+```c
+/**
+ * kmem_cache_alloc - Allocate an object
+ * @cachep: The cache to allocate from.
+ * @flags: See kmalloc().
+ *
+ * Allocate an object from this cache.  The flags are only relevant
+ * if the cache has no available objects.
+ */
+void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags);
+```
+4. 释放对象回高速缓存
+```c
+/**
+ * kmem_cache_free - Deallocate an object
+ * @cachep: The cache the allocation was from.
+ * @objp: The previously allocated object.
+ *
+ * Free an object which was previously allocated from this
+ * cache.
+ */
+void kmem_cache_free(struct kmem_cache *cachep, void *objp);
+```
+5. 一个示例
+```C
+/* 1. 定义一个全局变量存放指向task_struct高速缓存的指针 */
+struct kmem_cache *task_struct_cachep;
+
+/* 2. 内核初始化期间，在kernel/fork.c中的fork_init()中会创建高速缓存 */
+/* create a slab on which task_structs can be allocated */
+task_struct_cachep = kmem_cache_create("task_struct", sizeof(struct task_struct), ARCH_MIN_TASKALIGN, SLAB_PANIC, NULL);
+
+/* 3. 从task_struct_cachep中分配对象
+	do_fork() -> 
+		copy_process() -> 
+			dup_task_struct() -> 
+				struct task_struct *tsk;
+				tsk = alloc_task_struct();
+其中alloc_task_struct() 定义为
+*/
+#ifndef __HAVE_ARCH_TASK_STRUCT_ALLOCATOR
+# define alloc_task_struct()    kmem_cache_alloc(task_struct_cachep, GFP_KERNEL)
+# define free_task_struct(tsk)  kmem_cache_free(task_struct_cachep, (tsk))
+static struct kmem_cache *task_struct_cachep;
+#endif
+/* 即 */
+struct task_struct *tsk;
+tsk = kmem_cache_alloc(task_struct_cachep, GFP_KERNEL);
+```
+
+
+
+### slab系统申请页框
+
+当`slab`分配器创建新的`slab`时，它依靠**分区页框分配器**来获得一组连续的空闲页框（一般是从伙伴系统获得）。一般调用`kmem_gerpages()`函数实现。
+
+### 给高速缓存分配slab
+
+只有当 已发出一个分配新对象的请求，且高速缓存不包含任何空闲对象时，才给高速缓存分配slab。
+
+slab分配器通过调用`cache_grow()`函数给高速缓存分配一个新的slab。`cache_grow()`调用`kmem_getpages()`获得一组页框来存放一个单独的slab，然后调用`alloc_slabmgmt()`函数获得一个新的slab描述符。接着调用`cache_init_objs()`函数，它将构造方法应用到新的slab包含的所有对象上，最后调用`list_add_tail()`来讲新得到的slab描述符`*slabp`，添加到高速缓存描述符`*cachep`的全空slab链表的末端，并更新告诉缓存中的空闲对象计数器。
+
+```c
+/* mm/slab.c" */
+/*
+ * Grow (by 1) the number of slabs within a cache.  This is called by
+ * kmem_cache_alloc() when there are no active objs left in a cache.
+ */
+static int cache_grow(struct kmem_cache *cachep,
+                gfp_t flags, int nodeid, void *objp)
+{
+        struct slab *slabp;
+        size_t offset;
+        gfp_t local_flags;
+        struct kmem_list3 *l3;
+
+        /*
+         * Be lazy and only check for valid flags here,  keeping it out of the
+         * critical path in kmem_cache_alloc().
+         */
+        BUG_ON(flags & GFP_SLAB_BUG_MASK);
+        local_flags = flags & (GFP_CONSTRAINT_MASK|GFP_RECLAIM_MASK);
+
+        /* Take the l3 list lock to change the colour_next on this node */
+        check_irq_off();
+        l3 = cachep->nodelists[nodeid];
+        spin_lock(&l3->list_lock);
+
+        /* Get colour for the slab, and cal the next value. */
+        offset = l3->colour_next;
+        l3->colour_next++;
+        if (l3->colour_next >= cachep->colour)
+                l3->colour_next = 0;
+        spin_unlock(&l3->list_lock);
+
+        offset *= cachep->colour_off;
+
+        if (local_flags & __GFP_WAIT)
+                local_irq_enable();
+
+        /*
+         * The test for missing atomic flag is performed here, rather than
+         * the more obvious place, simply to reduce the critical path length
+         * in kmem_cache_alloc(). If a caller is seriously mis-behaving they
+         * will eventually be caught here (where it matters).
+         */
+        kmem_flagcheck(cachep, flags);
+
+        /*
+         * Get mem for the objs.  Attempt to allocate a physical page from
+         * 'nodeid'.
+         */
+        if (!objp)
+                objp = kmem_getpages(cachep, local_flags, nodeid);
+        if (!objp)
+                goto failed;
+
+        /* Get slab management. */
+        slabp = alloc_slabmgmt(cachep, objp, offset,
+                        local_flags & ~GFP_CONSTRAINT_MASK, nodeid);
+        if (!slabp)
+                goto opps1;
+        slab_map_pages(cachep, slabp, objp);
+
+        cache_init_objs(cachep, slabp);
+
+        if (local_flags & __GFP_WAIT)
+                local_irq_disable();
+        check_irq_off();
+        spin_lock(&l3->list_lock);
+
+        /* Make slab active. */
+        list_add_tail(&slabp->list, &(l3->slabs_free));
+        STATS_INC_GROWN(cachep);
+        l3->free_objects += cachep->num;
+        spin_unlock(&l3->list_lock);
+        return 1;
+opps1:
+        kmem_freepages(cachep, objp);
+failed:
+        if (local_flags & __GFP_WAIT)
+                local_irq_disable();
+        return 0;
+}
+
+/* 
+	简单总结cache_grow()的流程
+	static int cache_grow(struct kmem_cache *cachep,
+                gfp_t flags, int nodeid, void *objp)
+    {
+		objp = kmem_getpages(cachep, local_flags, nodeid);  //获得页框
+
+        slabp = alloc_slabmgmt(cachep, objp, offset,
+                        local_flags & ~GFP_CONSTRAINT_MASK, nodeid); //获得一个新的slab描述符
+        cache_init_objs(cachep, slabp);   // 初始化slab   
+        list_add_tail(&slabp->list, &(l3->slabs_free)); //将新分配的slab加入到空闲链表
+        l3->free_objects += cachep->num; //更新空闲slab计数器
+	}
+*/
+```
 
 
 
 [关于高端内存](https://www.cnblogs.com/linhaostudy/p/10467992.html)
+
+
+
+## 全文参考
+
+[大佬的blog](http://chenweixiang.github.io/2019/01/18/linux-kernel-reading.html#6-2-3-struct-zone)
+
+ULK3 
+
+LKD3
+
+Linux内核源代码情景分析

@@ -21,7 +21,8 @@
 	* [GNU C 嵌入汇编](_posts/OS/GNU C 嵌入汇编.md)
 	* [GDT LDT IDT TSS](_posts/OS/GDT LDT IDT TSS.md)
 	* [x86平台linux系统调用](_posts/OS/x86平台linux系统调用.md)
-	* [x86平台通用中断](_posts/OS/x86平台通用中断.md)
+	* [x86平台Linux通用中断](_posts/OS/x86平台通用中断.md)
+	* [x86平台Linux 内核内存管理概览](_posts/OS/Linux 内核存储管理.md)
 
 ---
 * [笔试题](_posts/笔试题/README.md) 
