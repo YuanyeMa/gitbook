@@ -1188,7 +1188,7 @@ struct slab {
 
 ### slab分配器的接口
 
-1. 新建一个高速缓存
+- 新建一个高速缓存
 
 ```c
 /**
@@ -1225,7 +1225,7 @@ kmem_cache_create (const char *name, size_t size, size_t align,
         unsigned long flags, void (*ctor)(void *));
 ```
 
-2. 销毁一个高速缓存
+- 销毁一个高速缓存
 
 ```c
 /**
@@ -1247,7 +1247,8 @@ kmem_cache_create (const char *name, size_t size, size_t align,
 void kmem_cache_destroy(struct kmem_cache *cachep);   
 ```
 
-3. 从缓存中分配对象
+- 从缓存中分配对象
+
 ```c
 /**
  * kmem_cache_alloc - Allocate an object
@@ -1259,7 +1260,9 @@ void kmem_cache_destroy(struct kmem_cache *cachep);
  */
 void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags);
 ```
-4. 释放对象回高速缓存
+
+- 释放对象回高速缓存
+
 ```c
 /**
  * kmem_cache_free - Deallocate an object
@@ -1271,8 +1274,10 @@ void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags);
  */
 void kmem_cache_free(struct kmem_cache *cachep, void *objp);
 ```
-5. 一个示例
-```C
+
+- 一个示例
+
+```c
 /* 1. 定义一个全局变量存放指向task_struct高速缓存的指针 */
 struct kmem_cache *task_struct_cachep;
 
@@ -1394,18 +1399,18 @@ failed:
 }
 
 /* 
-	简单总结cache_grow()的流程
-	static int cache_grow(struct kmem_cache *cachep,
+简单总结cache_grow()的流程
+static int cache_grow(struct kmem_cache *cachep,
                 gfp_t flags, int nodeid, void *objp)
-    {
-		objp = kmem_getpages(cachep, local_flags, nodeid);  //获得页框
+{
+	objp = kmem_getpages(cachep, local_flags, nodeid);  //获得页框
 
         slabp = alloc_slabmgmt(cachep, objp, offset,
                         local_flags & ~GFP_CONSTRAINT_MASK, nodeid); //获得一个新的slab描述符
         cache_init_objs(cachep, slabp);   // 初始化slab   
         list_add_tail(&slabp->list, &(l3->slabs_free)); //将新分配的slab加入到空闲链表
         l3->free_objects += cachep->num; //更新空闲slab计数器
-	}
+}
 */
 ```
 
