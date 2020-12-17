@@ -1034,6 +1034,21 @@ struct page{
 cat /proc/slabinfo  #查看系统中slab使用情况
 ```
 
+![image-20201217165809700](/images/mm/image-20201217165809700.png)
+
+也可以使用`slabtop`命令查看`slab`系统使用情况。
+
+![image-20201217165714560](/images/mm/image-20201217165714560.png)
+
+- OBJS — The total number of objects (memory blocks), including those in use (allocated), and some spares not in use.
+- ACTIVE — The number of objects (memory blocks) that are in use (allocated).
+- USE — Percentage of total objects that are active. ((ACTIVE/OBJS)(100))
+- OBJ SIZE — The size of the objects.
+- SLABS — The total number of slabs.
+- OBJ/SLAB — The number of objects that fit into a slab.
+- CACHE SIZE — The cache size of the slab.
+- NAME — The name of the slab.
+
 包含高速缓存的主内存区域被划分为多个`slab`，每个`slab`由一个或多个连续的页框组成，这些页框中既包含已经分配的对象，也包含空闲的对象。
 
 ![slab](/images/mm/Slab_Cache.png)
