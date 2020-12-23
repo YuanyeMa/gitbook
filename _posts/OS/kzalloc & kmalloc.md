@@ -303,10 +303,7 @@ __cache_alloc(struct kmem_cache *cachep, gfp_t flags, void *caller)
         	return kmalloc(size, flags | __GFP_ZERO);
 		}
 */
-
 ```
-
-
 
 `__find_general_cachep()`函数实现如下
 
@@ -335,6 +332,162 @@ static inline struct kmem_cache *__find_general_cachep(size_t size,
 ```
 
 
+
+## kree
+
+释放由`kmalloc`或者`kzalloc`分配的内存。
+
+```c
+/* mm/slab.c */
+/**
+ * kfree - free previously allocated memory
+ * @objp: pointer returned by kmalloc.
+ *
+ * If @objp is NULL, no operation is performed.
+ *
+ * Don't free memory not originally allocated by kmalloc()
+ * or you will run into trouble.
+ */
+void kfree(const void *objp)
+{
+        struct kmem_cache *c;
+        unsigned long flags;
+
+        trace_kfree(_RET_IP_, objp);
+
+        if (unlikely(ZERO_OR_NULL_PTR(objp)))
+                return;
+        local_irq_save(flags);
+        kfree_debugcheck(objp);
+        c = virt_to_cache(objp);
+        debug_check_no_locks_freed(objp, obj_size(c));
+        debug_check_no_obj_freed(objp, obj_size(c));
+        __cache_free(c, (void *)objp);
+        local_irq_restore(flags);
+}
+EXPORT_SYMBOL(kfree);
+```
+
+此函数首先调用`virt_to_cache(objp)`得到对应的高速缓存，然后调用`__cache_free(c, (void *)objp)`释放相应内存。尝试看看是怎么找到 `objp`所在的高速缓存的。
+
+```c
+/*mm/slab.c*/
+static inline struct kmem_cache *virt_to_cache(const void *obj)
+{
+        struct page *page = virt_to_head_page(obj); /* 得到obj所在的page */
+        return page_get_cache(page); /* 通过page得到高速缓存的指针 */
+}
+
+/* mm/slab.h */
+static inline struct page *virt_to_head_page(const void *x)
+{
+        struct page *page = virt_to_page(x);
+        return compound_head(page);
+}
+```
+
+先看看`virt_to_page`的实现
+
+```c
+/* arch/x86/include/asm/page.h */
+/*
+ * virt_to_page(kaddr) returns a valid pointer if and only if
+ * virt_addr_valid(kaddr) returns true.
+ */
+#define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+
+/*其中*/
+/* PAGE_SHIFT determines the page size */
+#define PAGE_SHIFT      12
+
+#define __pa(x)         __phys_addr((unsigned long)(x))
+#define __phys_addr(x)          __phys_addr_nodebug(x)
+#define __phys_addr_nodebug(x)  ((x) - PAGE_OFFSET)
+/*
+	即 virt_to_page(kaddr)
+	1. 将kaddr经__pa(kaddr)转换为物理地址，此过程直接减去PAGE_OFFSET也即0xC0000000
+	2. 将kaddr的物理地址右移12位，即除以4k，得到页号。
+*/
+```
+
+再看`compound_head`做了什么操作
+
+```c
+static inline struct page *compound_head(struct page *page)
+{
+        if (unlikely(PageTail(page)))
+                return page->first_page;
+        return page;
+}
+/*
+ * PG_reclaim is used in combination with PG_compound to mark the
+ * head and tail of a compound page. This saves one page flag
+ * but makes it impossible to use compound pages for the page cache.
+ * The PG_reclaim bit would have to be used for reclaim or readahead
+ * if compound pages enter the page cache.
+ *
+ * PG_compound & PG_reclaim     => Tail page
+ * PG_compound & ~PG_reclaim    => Head page
+ */
+#define PG_head_tail_mask ((1L << PG_compound) | (1L << PG_reclaim))
+
+static inline int PageTail(struct page *page)
+{
+        return ((page->flags & PG_head_tail_mask) == PG_head_tail_mask);
+}
+/*
+	PG_compound 和 PG_reclaim定义在include/linux/page-flags.h中
+	函数compound_head()用户找到第一个page
+*/
+```
+
+找到要释放的地址所在的页后，就是找到页所在的高速缓存, 主要通过`page_get_cache(page)`函数调用实现。
+
+```c
+static inline struct kmem_cache *page_get_cache(struct page *page)
+{
+        page = compound_head(page);
+        BUG_ON(!PageSlab(page));
+        return (struct kmem_cache *)page->lru.next;
+}
+/*
+lru ：链表头，主要有3个用途：
+    a：page处于伙伴系统中时，用于链接相同阶的伙伴（只使用伙伴中的第一个page的lru即可达到目的）。
+    b：page属于slab时，page->lru.next指向page驻留的的缓存的管理结构，page->lru.prec指向保存该page的slab的管理结构。
+    c：page被用户态使用或被当做页缓存使用时，用于将该page连入zone中相应的lru链表，供内存回收时使用
+*/
+```
+
+lru链表作用参考[Linux中页的一些知识](https://blog.csdn.net/weixin_48101150/article/details/108940623)和[Linux 内存管理窥探（5）：page 数据结构](https://blog.csdn.net/zhoutaopower/article/details/87090982)
+
+
+
+最后`__cache_free(c, (void *)objp)`是实际的释放函数，`kmem_cache_free()`也是调用此函数进行释放操作。
+
+```c
+/**
+ * kmem_cache_free - Deallocate an object
+ * @cachep: The cache the allocation was from.
+ * @objp: The previously allocated object.
+ *
+ * Free an object which was previously allocated from this
+ * cache.
+ */
+void kmem_cache_free(struct kmem_cache *cachep, void *objp)
+{
+        unsigned long flags;
+
+        local_irq_save(flags);
+        debug_check_no_locks_freed(objp, obj_size(cachep));
+        if (!(cachep->flags & SLAB_DEBUG_OBJECTS))
+                debug_check_no_obj_freed(objp, obj_size(cachep));
+        __cache_free(cachep, objp);
+        local_irq_restore(flags);
+
+        trace_kmem_cache_free(_RET_IP_, objp);
+}
+EXPORT_SYMBOL(kmem_cache_free);
+```
 
 
 
