@@ -1195,7 +1195,25 @@ struct kmem_cache {
 };
 ```
 
-其中`kmem_list3`定义如下
+第一个元素是` struct array_cache`，其定义如下
+
+```c
+ struct array_cache {
+        unsigned int avail; /* 可用对象数目 */
+        unsigned int limit; /* 可拥有的最大对象数目，和kmem_cache中一样 */
+        unsigned int batchcount; /* 同kmem_cache，要转移进本地高速缓存或从本地高速缓存中转移出去的对象的个数 */
+        unsigned int touched; /* 是否在收缩后被访问过 */
+        spinlock_t lock;
+        void *entry[];  /*
+                         * Must have this definition in here for the proper
+                         * alignment of array_cache. Also simplifies accessing
+                         * the entries.
+                         */
+    /* entry是一个伪数组，初始没有任何数据项，之后会增加并保存释放的对象指针 */
+};    
+```
+
+其中`kmem_list3`结构主要保存了三个`slab`结构链表，是`slab`系统的核心，其定义如下
 
 ```c
 /* mm/slab.c */
