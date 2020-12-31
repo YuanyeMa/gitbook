@@ -252,7 +252,7 @@ struct slab {
 
 
 
-## 参考资料
+### 参考资料
 [Linux内存管理之slab分配器分析(一)](http://blog.chinaunix.net/uid-31562863-id-5793195.html)
 
 [Linux内存管理之SLAB原理浅析](https://blog.csdn.net/rockrockwu/article/details/79976833)
@@ -1028,9 +1028,441 @@ static inline void init_lock_keys(void)
 
 ## kmem_cache_create
 
+这函数主要创建一个`kmem_cache`，但是并不实际分配内存，创建好`kmem_cache`后调用`kmem_cache_alloc()`请求分配对象的时候才调用`cache_grow()`函数向伙伴系统申请内存页框。
+
+### 函数参数说明
+
+
+
+```c
+/**
+ * kmem_cache_create - Create a cache.
+ * @name: A string which is used in /proc/slabinfo to identify this cache.
+ * @size: The size of objects to be created in this cache.
+ * @align: The required alignment for the objects.
+ * @flags: SLAB flags
+ * @ctor: A constructor for the objects.
+ *
+ * Returns a ptr to the cache on success, NULL on failure.
+ * Cannot be called within a int, but can be interrupted.
+ * The @ctor is run when new pages are allocated by the cache.
+ *
+ * @name must be valid until the cache is destroyed. This implies that
+ * the module calling this has to destroy the cache before getting unloaded.
+ * Note that kmem_cache_name() is not guaranteed to return the same pointer,
+ * therefore applications must manage it themselves.
+ *
+ * The flags are
+ *
+ * %SLAB_POISON - Poison the slab with a known test pattern (a5a5a5a5)
+ * to catch references to uninitialised memory.
+ *
+ * %SLAB_RED_ZONE - Insert `Red' zones around the allocated memory to check
+ * for buffer overruns.
+ *
+ * %SLAB_HWCACHE_ALIGN - Align the objects in this cache to a hardware
+ * cacheline.  This can be beneficial if you're counting cycles as closely
+ * as davem.
+ */
+```
+- name : `kmem_cache`的名字；
+- size: `kmem_cache`中对象的大小；
+- align ：对象所需的对齐方式
+- flags : `SLAB flags`
+  - SLAB_POISON
+  - SLAB_RED_ZONE
+  - SLAB_HWCACHE_ALIGN
+- ctor :  一个构造函数，当向`kmem_cache`中添加新的物理页时被调用。
+
+### 检查参数以及运行环境
+
+```c
+struct kmem_cache *
+kmem_cache_create (const char *name, size_t size, size_t align,
+        unsigned long flags, void (*ctor)(void *))
+{
+        size_t left_over, slab_size, ralign;
+        struct kmem_cache *cachep = NULL, *pc;
+
+        /*
+         * Sanity checks... these are all serious usage bugs.
+         */
+        if (!name || in_interrupt() || (size < BYTES_PER_WORD) ||
+            size > KMALLOC_MAX_SIZE) {
+                printk(KERN_ERR "%s: Early error in slab %s\n", __func__,
+                                name);
+                BUG();
+        }
+```
+这一段代码主要判断传入的参数或者CPU运行的环境是否满足。如果1.调用函数时参数中给的name为空; 2. 此时CPU在执行中断服务程序 （in_interrupt()此函数通过thread_info的一下信息去判断，以后分析进程管理的时候再分析; 3. 要创建的kmem_cache的size比一个字的字节数还少或比kmalloc所允许分配的最大的内存还大， 就报oops错。
+
+`BYTES_PER_WORD`和`KMALLOC_MAX_SIZE`的定义如下：
+
+```c
+#define BYTES_PER_WORD          sizeof(void *)
+/*
+ * The largest kmalloc size supported by the slab allocators is
+ * 32 megabyte (2^25) or the maximum allocatable page order if that is
+ * less than 32 MB.
+ *
+ * WARNING: Its not easy to increase this value since the allocators have
+ * to do various tricks to work around compiler limitations in order to
+ * ensure proper constant folding.
+ */
+#define KMALLOC_SHIFT_HIGH      ((MAX_ORDER + PAGE_SHIFT - 1) <= 25 ? \
+                                (MAX_ORDER + PAGE_SHIFT - 1) : 25)
+
+#define KMALLOC_MAX_SIZE        (1UL << KMALLOC_SHIFT_HIGH)
+
+```
+
+
+
+sfafa
+
+```c
+
+        /*
+         * We use cache_chain_mutex to ensure a consistent view of
+         * cpu_online_mask as well.  Please see cpuup_callback
+         */
+        get_online_cpus();
+        mutex_lock(&cache_chain_mutex);
+
+        list_for_each_entry(pc, &cache_chain, next) {
+                char tmp;
+                int res;
+
+                /*
+                 * This happens when the module gets unloaded and doesn't
+                 * destroy its slab cache and no-one else reuses the vmalloc
+                 * area of the module.  Print a warning.
+                 */
+                res = probe_kernel_address(pc->name, tmp);
+                if (res) {
+                        printk(KERN_ERR
+                               "SLAB: cache with size %d has lost its name\n",
+                               pc->buffer_size);
+                        continue;
+                }
+
+                if (!strcmp(pc->name, name)) {
+                        printk(KERN_ERR
+                               "kmem_cache_create: duplicate cache %s\n", name);
+                        dump_stack();
+                        goto oops;
+                }
+        }
+
+#if DEBUG
+        WARN_ON(strchr(name, ' '));     /* It confuses parsers */
+#if FORCED_DEBUG
+        /*
+         * Enable redzoning and last user accounting, except for caches with
+         * large objects, if the increased size would increase the object size
+         * above the next power of two: caches with object sizes just above a
+         * power of two have a significant amount of internal fragmentation.
+         */
+        if (size < 4096 || fls(size - 1) == fls(size-1 + REDZONE_ALIGN +
+                                                2 * sizeof(unsigned long long)))
+                flags |= SLAB_RED_ZONE | SLAB_STORE_USER;
+        if (!(flags & SLAB_DESTROY_BY_RCU))
+                flags |= SLAB_POISON;
+#endif
+        if (flags & SLAB_DESTROY_BY_RCU)
+                BUG_ON(flags & SLAB_POISON);
+#endif
+        /*
+         * Always checks flags, a caller might be expecting debug support which
+         * isn't available.
+         */
+        BUG_ON(flags & ~CREATE_MASK);
+
+        /*
+         * Check that size is in terms of words.  This is needed to avoid
+         * unaligned accesses for some archs when redzoning is used, and makes
+         * sure any on-slab bufctl's are also correctly aligned.
+         */
+        if (size & (BYTES_PER_WORD - 1)) {
+                size += (BYTES_PER_WORD - 1);
+                size &= ~(BYTES_PER_WORD - 1);
+        }
+```
+### 计算对齐
+```c
+        /* calculate the final buffer alignment: */
+
+        /* 1) arch recommendation: can be overridden for debug */
+        if (flags & SLAB_HWCACHE_ALIGN) {
+                /*
+                 * Default alignment: as specified by the arch code.  Except if
+                 * an object is really small, then squeeze multiple objects into
+                 * one cacheline.
+                 */
+                ralign = cache_line_size();
+                while (size <= ralign / 2)
+                        ralign /= 2;
+        } else {
+                ralign = BYTES_PER_WORD;
+        }
+
+        /*
+         * Redzoning and user store require word alignment or possibly larger.
+         * Note this will be overridden by architecture or caller mandated
+         * alignment if either is greater than BYTES_PER_WORD.
+         */
+        if (flags & SLAB_STORE_USER)
+                ralign = BYTES_PER_WORD;
+
+        if (flags & SLAB_RED_ZONE) {
+                ralign = REDZONE_ALIGN;
+                /* If redzoning, ensure that the second redzone is suitably
+                 * aligned, by adjusting the object size accordingly. */
+                size += REDZONE_ALIGN - 1;
+                size &= ~(REDZONE_ALIGN - 1);
+        }
+
+        /* 2) arch mandated alignment */
+        if (ralign < ARCH_SLAB_MINALIGN) {
+                ralign = ARCH_SLAB_MINALIGN;
+        }
+        /* 3) caller mandated alignment */
+        if (ralign < align) {
+                ralign = align;
+        }
+        /* disable debug if necessary */
+        if (ralign > __alignof__(unsigned long long))
+                flags &= ~(SLAB_RED_ZONE | SLAB_STORE_USER);
+        /*
+         * 4) Store it.
+         */
+        align = ralign;
+```
+### 分配`kmem_cache`描述符
+```c
+        /* Get cache's description obj. */
+        cachep = kmem_cache_zalloc(&cache_cache, GFP_KERNEL);
+        if (!cachep)
+                goto oops;
+
+#if DEBUG
+        cachep->obj_size = size;
+
+        /*
+         * Both debugging options require word-alignment which is calculated
+         * into align above.
+         */
+        if (flags & SLAB_RED_ZONE) {
+                /* add space for red zone words */
+                cachep->obj_offset += sizeof(unsigned long long);
+                size += 2 * sizeof(unsigned long long);
+        }
+        if (flags & SLAB_STORE_USER) {
+                /* user store requires one word storage behind the end of
+                 * the real object. But if the second red zone needs to be
+                 * aligned to 64 bits, we must allow that much space.
+                 */
+                if (flags & SLAB_RED_ZONE)
+                        size += REDZONE_ALIGN;
+                else
+                        size += BYTES_PER_WORD;
+        }
+#if FORCED_DEBUG && defined(CONFIG_DEBUG_PAGEALLOC)
+        if (size >= malloc_sizes[INDEX_L3 + 1].cs_size
+            && cachep->obj_size > cache_line_size() && size < PAGE_SIZE) {
+                cachep->obj_offset += PAGE_SIZE - size;
+                size = PAGE_SIZE;
+        }
+#endif
+#endif
+        /*
+         * Determine if the slab management is 'on' or 'off' slab.
+         * (bootstrapping cannot cope with offslab caches so don't do
+         * it too early on.)
+         */
+        if ((size >= (PAGE_SIZE >> 3)) && !slab_early_init)
+                /*
+                 * Size is large, assume best to place the slab management obj
+                 * off-slab (should allow better packing of objs).
+                 */
+                flags |= CFLGS_OFF_SLAB;
+
+        size = ALIGN(size, align);
+
+        left_over = calculate_slab_order(cachep, size, align, flags);
+
+        if (!cachep->num) {
+                printk(KERN_ERR
+                       "kmem_cache_create: couldn't create cache %s.\n", name);
+                kmem_cache_free(&cache_cache, cachep);
+                cachep = NULL;
+                goto oops;
+        }
+        slab_size = ALIGN(cachep->num * sizeof(kmem_bufctl_t)
+                          + sizeof(struct slab), align);
+        /*
+         * If the slab has been placed off-slab, and we have enough space then
+         * move it on-slab. This is at the expense of any extra colouring.
+         */
+        if (flags & CFLGS_OFF_SLAB && left_over >= slab_size) {
+                flags &= ~CFLGS_OFF_SLAB;
+                left_over -= slab_size;
+        }
+
+        if (flags & CFLGS_OFF_SLAB) {
+                /* really off slab. No need for manual alignment */
+                slab_size =
+                    cachep->num * sizeof(kmem_bufctl_t) + sizeof(struct slab);
+        }
+
+        cachep->colour_off = cache_line_size();
+        /* Offset must be a multiple of the alignment. */
+        if (cachep->colour_off < align)
+                cachep->colour_off = align;
+        cachep->colour = left_over / cachep->colour_off;
+        cachep->slab_size = slab_size;
+        cachep->flags = flags;
+        cachep->gfpflags = 0;
+        if (CONFIG_ZONE_DMA_FLAG && (flags & SLAB_CACHE_DMA))
+                cachep->gfpflags |= GFP_DMA;
+        cachep->buffer_size = size;
+        cachep->reciprocal_buffer_size = reciprocal_value(size);
+
+        if (flags & CFLGS_OFF_SLAB) {
+                cachep->slabp_cache = kmem_find_general_cachep(slab_size, 0u);
+                /*
+                 * This is a possibility for one of the malloc_sizes caches.
+                 * But since we go off slab only for object size greater than
+                 * PAGE_SIZE/8, and malloc_sizes gets created in ascending order,
+                 * this should not happen at all.
+                 * But leave a BUG_ON for some lucky dude.
+                 */
+                BUG_ON(ZERO_OR_NULL_PTR(cachep->slabp_cache));
+        }
+        cachep->ctor = ctor;
+        cachep->name = name;
+
+        if (setup_cpu_cache(cachep)) {
+                __kmem_cache_destroy(cachep);
+                cachep = NULL;
+                goto oops;
+        }
+
+        /* cache setup completed, link it into the list */
+        list_add(&cachep->next, &cache_chain);
+oops:
+        if (!cachep && (flags & SLAB_PANIC))
+                panic("kmem_cache_create(): failed to create slab `%s'\n",
+                      name);
+        mutex_unlock(&cache_chain_mutex);
+        put_online_cpus();
+        return cachep;
+}
+EXPORT_SYMBOL(kmem_cache_create);
+                                                           
+```
+
+
+
+
+
 
 
 ## kmem_cache_alloc
+
+
+
+```c
+
+/**
+ * kmem_cache_alloc - Allocate an object
+ * @cachep: The cache to allocate from.
+ * @flags: See kmalloc().
+ *
+ * Allocate an object from this cache.  The flags are only relevant
+ * if the cache has no available objects.
+ */
+void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+{
+        void *ret = __cache_alloc(cachep, flags, __builtin_return_address(0));
+
+        trace_kmem_cache_alloc(_RET_IP_, ret,
+                               obj_size(cachep), cachep->buffer_size, flags);
+
+        return ret;
+}
+EXPORT_SYMBOL(kmem_cache_alloc);
+
+```
+
+
+
+__cache_alloc()定义如下
+
+```c
+static __always_inline void *
+__cache_alloc(struct kmem_cache *cachep, gfp_t flags, void *caller)
+{
+        unsigned long save_flags;
+        void *objp;
+
+        lockdep_trace_alloc(flags);
+
+        if (slab_should_failslab(cachep, flags))
+                return NULL;
+
+        cache_alloc_debugcheck_before(cachep, flags);
+        local_irq_save(save_flags);
+        objp = __do_cache_alloc(cachep, flags);
+        local_irq_restore(save_flags);
+        objp = cache_alloc_debugcheck_after(cachep, flags, objp, caller);
+        prefetchw(objp);
+
+        if (unlikely((flags & __GFP_ZERO) && objp))
+                memset(objp, 0, obj_size(cachep));
+
+        return objp;
+}
+
+```
+
+UMA平台
+
+```c
+static __always_inline void *
+__do_cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+{
+        return ____cache_alloc(cachep, flags);
+}
+
+
+```
+
+____cache_alloc()函数
+
+```c
+static inline void *____cache_alloc(struct kmem_cache *cachep, gfp_t flags)
+{
+        void *objp;
+        struct array_cache *ac;
+
+        check_irq_off();
+
+        ac = cpu_cache_get(cachep);
+        if (likely(ac->avail)) {
+                STATS_INC_ALLOCHIT(cachep);
+                ac->touched = 1;
+                objp = ac->entry[--ac->avail];
+        } else {
+                STATS_INC_ALLOCMISS(cachep);
+                objp = cache_alloc_refill(cachep, flags);
+        }
+        return objp;
+}
+
+```
+
+
 
 
 
@@ -1038,7 +1470,93 @@ static inline void init_lock_keys(void)
 
 
 
+```c
+
+/**
+ * kmem_cache_free - Deallocate an object
+ * @cachep: The cache the allocation was from.
+ * @objp: The previously allocated object.
+ *
+ * Free an object which was previously allocated from this
+ * cache.
+ */
+void kmem_cache_free(struct kmem_cache *cachep, void *objp)
+{
+        unsigned long flags;
+
+        local_irq_save(flags);
+        debug_check_no_locks_freed(objp, obj_size(cachep));
+        if (!(cachep->flags & SLAB_DEBUG_OBJECTS))
+                debug_check_no_obj_freed(objp, obj_size(cachep));
+        __cache_free(cachep, objp);
+        local_irq_restore(flags);
+
+        trace_kmem_cache_free(_RET_IP_, objp);
+}
+EXPORT_SYMBOL(kmem_cache_free);
+
+```
+
+
+
+
+
 ## kmem_cache_destroy
+
+
+
+```c
+
+/**
+ * kmem_cache_destroy - delete a cache
+ * @cachep: the cache to destroy
+ *
+ * Remove a &struct kmem_cache object from the slab cache.
+ *
+ * It is expected this function will be called by a module when it is
+ * unloaded.  This will remove the cache completely, and avoid a duplicate
+ * cache being allocated each time a module is loaded and unloaded, if the
+ * module doesn't have persistent in-kernel storage across loads and unloads.
+ *
+ * The cache must be empty before calling this function.
+ *
+ * The caller must guarantee that noone will allocate memory from the cache
+ * during the kmem_cache_destroy().
+ */
+
+void kmem_cache_destroy(struct kmem_cache *cachep)
+{
+        BUG_ON(!cachep || in_interrupt());
+
+        /* Find the cache in the chain of caches. */
+        get_online_cpus();
+        mutex_lock(&cache_chain_mutex);
+        /*
+         * the chain is never empty, cache_cache is never destroyed
+         */
+        list_del(&cachep->next);
+        if (__cache_shrink(cachep)) {
+                slab_error(cachep, "Can't free all objects");
+                list_add(&cachep->next, &cache_chain);
+                mutex_unlock(&cache_chain_mutex);
+                put_online_cpus();
+                return;
+        }
+
+        if (unlikely(cachep->flags & SLAB_DESTROY_BY_RCU))
+                rcu_barrier();
+
+        __kmem_cache_destroy(cachep);
+        mutex_unlock(&cache_chain_mutex);
+        put_online_cpus();
+}
+EXPORT_SYMBOL(kmem_cache_destroy);
+
+```
+
+
+
+
 
 
 
