@@ -24,6 +24,8 @@
 	* [x86平台Linux通用中断](_posts/OS/x86平台通用中断.md)
 	* [x86平台Linux 内核内存管理概览](_posts/OS/Linux 内核存储管理.md)
 	* [kzalloc](_posts/OS/kzalloc & kmalloc.md)
+	* [linux kernel slab系统](_posts/OS/linux kernel slab系统.md)
+	* [编译内核文档](_posts/OS/编译内核文档.md)
 
 ---
 * [笔试题](_posts/笔试题/README.md) 
