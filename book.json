@@ -1,0 +1,26 @@
+{
+  "title": "Yuanye Ma`s blog",
+  "author":"Yuanye Ma",
+  "description":"Blog for Yuanye.Ma",
+  "plugins": [
+        "-sharing",
+        "-search",
+        "-lunr",
+        "search-pro",
+        "pageview-count",
+        "page-toc-button",
+        "back-to-top-button",
+        "tbfed-pagefooter"
+  ],
+  "pluginsConfig": {
+      "tbfed-pagefooter": {
+          "copyright":"Copyright &copy Yuanye.Ma 2020-2021",
+          "modify_label": "文件修订时间：",
+          "modify_format": "YYYY-MM-DD HH:mm:ss"
+      },
+      "page-toc-button": {
+            "maxTocDepth": 2,
+            "minTocSize": 2
+           }
+  }
+}
