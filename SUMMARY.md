@@ -26,6 +26,7 @@
 	* [kzalloc](_posts/OS/kzalloc & kmalloc.md)
 	* [linux kernel slab系统](_posts/OS/linux kernel slab系统.md)
 	* [编译内核文档](_posts/OS/编译内核文档.md)
+	* [提交内核补丁](_posts/OS/submit-patch.md)
 
 ---
 * [笔试题](_posts/笔试题/README.md) 
