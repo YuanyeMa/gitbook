@@ -2,11 +2,11 @@
 
 ## platform info
 
-> Ubuntu version : Ubuntu 20.04.1 LTS
-> 正点原子 STM32f767 阿波罗开发板
-> st-link version : v1.6.1-201-g4bfaab0
-> openocd version : 0.10.0
-> Cross Compiler :  gcc-arm-none-eabi (9.2.1 20191025 release)
+> Ubuntu version : Ubuntu 20.04.1 LTS  
+> 正点原子 STM32f767 阿波罗开发板  
+> st-link version : v1.6.1-201-g4bfaab0  
+> openocd version : 0.10.0  
+> Cross Compiler :  gcc-arm-none-eabi (9.2.1 20191025 release)  
 
 ## install stlink driver
 
@@ -239,11 +239,11 @@ $ make
 	```
 3. 按开发板上的 `RESET` 键后代码自动运行
 
-> 以上3个步骤可以简写为一个步骤
-> openocd -f /usr/share/openocd/scripts/interface/stlink-v2.cfg  \
-> 	  -f /usr/share/openocd/scripts/target/stm32f7x.cfg \
-> 	  -c "program build/led.bin 0x8000000 verify" \
-> 	  -c "shutdown"
+> 以上3个步骤可以简写为一个步骤  
+> openocd -f /usr/share/openocd/scripts/interface/stlink-v2.cfg  \  
+> 	  -f /usr/share/openocd/scripts/target/stm32f7x.cfg \  
+> 	  -c "program build/led.bin 0x8000000 verify" \  
+> 	  -c "shutdown"  
 
 ## openocd 烧写程序的命令格式
 
@@ -256,5 +256,144 @@ program <filename> [preverify] [verify] [reset] [exit] [offset]
 
 由于 Ubuntu 20.04 不能通过`apt install` 的方式安装 `gdb-arm-none-eabi` , 具体安装方式可以参照[这个链接](https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa)
 
-`arm-none-eabi-gdb`的使用方式可以参照[这篇文章](https://www.cnblogs.com/zongzi10010/p/10023535.html#gdb)中的GDB小节,
-因此暂时不尝试。
+`arm-none-eabi-gdb`的使用方式可以参照[这篇文章](https://news.eeworld.com.cn)
+
+### 安装
+
+按照[这个链接](https://askubuntu.com/questions/1243252/how-to-install-arm-none-eabi-gdb-on-ubuntu-20-04-lts-focal-fossa)下载安装后。
+
+```shell
+$ arm-none-eabi-gdb  ./build/led.elf 
+arm-none-eabi-gdb: error while loading shared libraries: libncurses.so.5: cannot open shared object file: No such file or directory
+$ sudo apt install  libncurses5
+```
+
+### 启动 openocd
+
+```shell
+$ openocd  -f /usr/share/openocd/scripts/interface/stlink-v2.cfg  \
+	   -f /usr/share/openocd/scripts/target/stm32f7x.cfg  
+```
+
+### 启动 arm-none-eabi-gdb
+
+```shell
+$ arm-none-eabi-gdb  ./build/led.elf 
+GNU gdb (GNU Arm Embedded Toolchain 10-2020-q4-major) 10.1.90.20201028-git
+Copyright (C) 2020 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "--host=x86_64-linux-gnu --target=arm-none-eabi".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./build/led.elf...
+(gdb) target remote localhost:3333  # 链接openocd
+Remote debugging using localhost:3333
+0x00000000 in ?? ()
+(gdb) monitor reset	# reset板子
+(gdb) monitor halt	# 挂起CPU 
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x21000000 pc: 0x080005c6 msp: 0x2007fff8
+(gdb) load		# 加载程序文件
+Loading section .isr_vector, size 0x1f8 lma 0x8000000
+Loading section .text, size 0xed4 lma 0x80001f8
+Loading section .rodata, size 0x10 lma 0x80010cc
+Loading section .ARM, size 0x8 lma 0x80010dc
+Loading section .init_array, size 0x4 lma 0x80010e4
+Loading section .fini_array, size 0x4 lma 0x80010e8
+Loading section .data, size 0xc lma 0x80010ec
+Start address 0x08001008, load size 4344
+Transfer rate: 1 KB/sec, 620 bytes/write.
+(gdb) list 		# 查看代码
+59	
+60	/**
+61	  * @brief  The application entry point.
+62	  * @retval int
+63	  */
+64	int main(void)
+65	{
+66	  /* USER CODE BEGIN 1 */
+67	
+68	  /* USER CODE END 1 */
+(gdb) b main		# 设置断点
+Breakpoint 1 at 0x80005ba: file Core/Src/main.c, line 73.
+Note: automatically using hardware breakpoints for read-only addresses.
+(gdb) info break	# 查看断点
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x080005ba in main at Core/Src/main.c:73
+(gdb) s
+65	  movs  r1, #0
+(gdb) c
+Continuing.
+
+Breakpoint 1, main () at Core/Src/main.c:73
+73	  HAL_Init();
+(gdb) p
+The history is empty.
+(gdb) bt
+#0  main () at Core/Src/main.c:73
+(gdb) s
+HAL_Init () at Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c:151
+151	  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+(gdb) list
+146	#if (PREFETCH_ENABLE != 0U)
+147	  __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
+148	#endif /* PREFETCH_ENABLE */
+149	
+150	  /* Set Interrupt Group Priority */
+151	  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+152	
+153	  /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
+154	  HAL_InitTick(TICK_INT_PRIORITY);
+155	  
+(gdb) f
+#0  HAL_Init () at Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.c:151
+151	  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+(gdb) list
+146	#if (PREFETCH_ENABLE != 0U)
+147	  __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
+148	#endif /* PREFETCH_ENABLE */
+149	
+150	  /* Set Interrupt Group Priority */
+151	  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+152	
+153	  /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
+154	  HAL_InitTick(TICK_INT_PRIORITY);
+155	  
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [Remote target] will be detached.
+
+Quit anyway? (y or n) y
+Detaching from program: /home/myye/stm32f767_led/led/build/led.elf, Remote target
+Ending remote debugging.
+[Inferior 1 (Remote target) detached]
+```
+
+### GDB 常用的命令
+
+|命令| 作用/举例 |  
+|---|---|  
+| list | 列出附近代码 |  
+| break main (b 16) | 在符号main处设置断点（在第16行设置断点） |  
+| break info | 查看断点 |  
+| delet break [n] | 删除编号为n的断点，不加n的话删除所有断点 |  
+| step | 进入子函数单步运行  |  
+| next | 跳过子函数单步运行 |  
+| until | u 16  运行到16行停下  |  
+| continue | 运行代码到断点处停下  |  
+| print | print a 显示变量a的值 |  
+| display | display tmp 跟踪tmp，在每次停下时会自动显示变量的数值 |  
+| bt | 查看栈  |  
+| quit | 退出调试|  
+
+以上命令还需要在实践中进一步熟悉。
