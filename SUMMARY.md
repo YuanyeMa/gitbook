@@ -65,7 +65,7 @@
 	* [C++继承](_posts/others/2019-08-06-C++继承.md)
 	* [基于Ubuntu进行STM32程序开发](_posts/others/基于Ubuntu进行STM32程序开发.md)
 	* [跟我一起写Makefile笔记](_posts/others/跟我一起写Makefile笔记.md)
-	* [u-boot](_posts/others/u-boot.md)
+	* [u-boot](_posts/others/uboot.md)
 
 
 
