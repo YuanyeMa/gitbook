@@ -27,6 +27,7 @@
 	* [linux kernel slab系统](_posts/OS/linux kernel slab系统.md)
 	* [编译内核文档](_posts/OS/编译内核文档.md)
 	* [提交内核补丁](_posts/OS/submit-patch.md)
+	* [Linux 内核临时页表初始化](_posts/OS/Linux 内核临时页表初始化.md)
 
 ---
 * [笔试题](_posts/笔试题/README.md) 
