@@ -325,5 +325,5 @@ page_pde_offset = (__PAGE_OFFSET >> 20);
 
 ## 参考
 
-[][linux内存源码分析 - 页表的初始化][linux内存源码分析 - 页表的初始化](https://www.cnblogs.com/tolimit/p/4585803.html)
+[linux内存源码分析 - 页表的初始化](https://www.cnblogs.com/tolimit/p/4585803.html)
 
