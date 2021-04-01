@@ -6,6 +6,7 @@
 
 * [Linux Driver Development](_posts/LDD/README.md)
 	* [关于设备树](_posts/LDD/关于设备树.md)
+	* [1.5 linux驱动之input子系统编程实例](_posts/LDD/input子系统.md)
 	* [1.4 linux驱动之中断](_posts/LDD/2020-10-27-linux驱动之中断（按键驱动）.md)
 	* [1.3 linux驱动之LED驱动.md](_posts/LDD/2020-10-11-linux驱动之LED驱动.md)
 	* [1.2 设备驱动基础](_posts/LDD/2020-10-10-设备驱动基础.md)
