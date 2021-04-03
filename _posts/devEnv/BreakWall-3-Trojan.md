@@ -71,7 +71,9 @@ sudo bash -c "$(wget -O- https://raw.githubusercontent.com/trojan-gfw/trojan-qui
 
 # 步骤五 :  客户端设置
 
-我Windows端使用的是**V2rayN V3.27**，
+## windows端客户端
+
+使用的是**V2rayN V3.27**，
 
 服务器 -> 添加[Trojan]服务器 -> 
 
@@ -80,5 +82,92 @@ sudo bash -c "$(wget -O- https://raw.githubusercontent.com/trojan-gfw/trojan-qui
 - 密码 ： 步骤四中配置的“trojan的连接密码”
 - 域名(SNI) : 填写证书的域名
 
+## ubuntu 
 
+参考 https://xbsj6147.xyz/pagesv2/download-linux.html
+
+[官网参数介绍](https://trojan-gfw.github.io/trojan/config)
+
+[下载页面](https://github.com/trojan-gfw/trojan/releases/tag/v1.16.0)
+
+```shell
+tar xvf trojan-1.16.0-linux-amd64.tar.xz
+cd trojan
+vim config.json
+```
+
+配置内容如下
+
+```json
+{
+    "run_type": "client",
+    "local_addr": "0.0.0.0",
+    "local_port": 1080,
+    "remote_addr": "服务器地址",
+    "remote_port": 443,
+    "password": [
+        "trojan连接密码"
+    ],
+    "log_level": 1,
+    "ssl": {
+        "verify": false,
+        "verify_hostname" : false,
+        "cert": "",
+        "cipher": "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384",
+        "cipher_tls13": "TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384",
+        "sni":"",
+        "alpn": [
+                "h2",
+            "http/1.1"
+        ],
+        "reuse_session": true,
+        "session_ticket": false,
+        "session_timeout": 600,
+        "curves": ""
+    },
+    "tcp": {
+        "prefer_ipv4": false,
+        "no_delay": true,
+        "keep_alive": true,
+        "reuse_port": false,
+        "fast_open": false,
+        "fast_open_qlen": 20
+    },
+    "mysql": {
+        "enabled": false,
+        "server_addr": "127.0.0.1",
+        "server_port": 3306,
+        "database": "trojan",
+        "username": "trojan",
+        "password": "",
+        "key": "",
+        "cert": "",
+        "ca": ""
+    }
+}
+```
+
+配置`systemctl`管理
+
+```shell
+cat > /etc/systemd/system/trojan.service <<-EOF
+[Unit]
+Description=trojan
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/home/myye/trojan/trojan.pid
+ExecStart=/home/myye/trojan/trojan -c /home/myye/trojan/config.json -l /home/myye/trojan/trojan.log
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=1s
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+```
+
+设置开机自启动`sudo systemctl enable trojan`
 
