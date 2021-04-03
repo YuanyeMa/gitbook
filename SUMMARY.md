@@ -39,8 +39,10 @@
 ---
 
 * [开发环境配置](_posts/devEnv/README.md)
-	* [BreakWall](_posts/devEnv/2019-07-27-BreakWall.md)
+	* [BreakWall-1 SS & BBR](_posts/devEnv/2019-07-27-BreakWall.md)
 	* [BreakWall-2 V2ray](_posts/devEnv/2020-02-05-BreakWall-2 V2ray.md)
+	* [BreakWall-3 Trojan](_posts/devEnv/BreakWall-3-Trojan.md)
+	* [Gitbook 做 blog](_posts/devEnv/gitbook.md)
 	* [omv](_posts/devEnv/2020-03-08-omv.md)
 	* [noVnc](_posts/devEnv/2020-03-29-noVnc.md)
 	* [在ubuntu上安装vnc服务](_posts/devEnv/2019-05-15-在ubuntu上安装vnc服务.md)
