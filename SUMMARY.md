@@ -12,6 +12,7 @@
 	* [1.2 设备驱动基础](_posts/LDD/2020-10-10-设备驱动基础.md)
 	* [Linux I2C子系统代码跟读](_posts/LDD/2020-10-05-Linux I2C子系统代码跟读.md)
 	* [Linux设备驱动模型](_posts/LDD/2020-10-06-Linux设备驱动模型.md)
+	* [Kobject和sysfs.md](_posts/LDD/Kobject和sysfs.md)
 	* [platform总线驱动](_posts/LDD/2020-10-06-platform总线驱动.md)
 	* [loop设备的使用](_posts/LDD/2020-10-09-loop设备的使用.md)
 	* [ctags & cscope](_posts/LDD/2020-10-08-vim ctags cscope.md)
