@@ -1,0 +1,2066 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>x86平台通用中断 · Yuanye Ma`s blog</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Yuanye Ma">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="编译内核文档.html" />
+    
+    
+    <link rel="prev" href="x86平台linux系统调用.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Posts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Dev Env
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" data-path="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                <a href="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                    
+                    2019-05-15-在ubuntu上安装vnc服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" data-path="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                <a href="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                    
+                    2019-07-24-配置jupyter-notebook服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" data-path="../devEnv/2019-07-27-BreakWall.html">
+            
+                <a href="../devEnv/2019-07-27-BreakWall.html">
+            
+                    
+                    2019 07 27 Break Wall
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.4" data-path="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                <a href="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                    
+                    2019-11-05-记一次NVIDIA-Driver-cuda升级
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5" data-path="../devEnv/2020-01-04-ubuntu%20部署NIS服务.md">
+            
+                <span>
+            
+                    
+                    2020-01-04-ubuntu 部署NIS服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.6" data-path="../devEnv/2020-02-05-BreakWall-2%20V2ray.md">
+            
+                <span>
+            
+                    
+                    2020 02 05 Break Wall 2 V 2 Ray
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.7" data-path="../devEnv/2020-03-08-omv.html">
+            
+                <a href="../devEnv/2020-03-08-omv.html">
+            
+                    
+                    2020 03 08 Omv
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.8" data-path="../devEnv/2020-03-29-noVnc.html">
+            
+                <a href="../devEnv/2020-03-29-noVnc.html">
+            
+                    
+                    2020 03 29 No Vnc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.9" data-path="../devEnv/BreakWall-3-Trojan.html">
+            
+                <a href="../devEnv/BreakWall-3-Trojan.html">
+            
+                    
+                    Break Wall 3 Trojan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.10" data-path="../devEnv/gitbook.html">
+            
+                <a href="../devEnv/gitbook.html">
+            
+                    
+                    Gitbook
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Diary
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../diary/2017-01-14-回顾2016年.html">
+            
+                <a href="../diary/2017-01-14-回顾2016年.html">
+            
+                    
+                    2017-01-14-回顾2016年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.2" data-path="../diary/2019-01-04-2017考研年.html">
+            
+                <a href="../diary/2019-01-04-2017考研年.html">
+            
+                    
+                    2019-01-04-2017考研年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.3" data-path="../diary/2019-01-09-我的2018.html">
+            
+                <a href="../diary/2019-01-09-我的2018.html">
+            
+                    
+                    2019-01-09-我的2018
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.4" data-path="../diary/2019-01-25-写在大连回家路上.html">
+            
+                <a href="../diary/2019-01-25-写在大连回家路上.html">
+            
+                    
+                    2019-01-25-写在大连回家路上
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Hackintosh
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                <a href="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                    
+                    2019-04-15-Hackintosh（黑苹果）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                <a href="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                    
+                    2019-05-09-制作dmg格式的苹果镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                <a href="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                    
+                    2019-05-13-在黑苹果上部署开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                <a href="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                    
+                    2019-05-13-尝试吃黑苹果
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    LDD
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="../LDD/2020-10-05-Linux%20I2C子系统代码跟读.md">
+            
+                <span>
+            
+                    
+                    2020-10-05-Linux I2C子系统代码跟读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="../LDD/2020-10-06-Linux设备驱动模型.html">
+            
+                <a href="../LDD/2020-10-06-Linux设备驱动模型.html">
+            
+                    
+                    2020-10-06-Linux设备驱动模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.3" data-path="../LDD/2020-10-06-platform总线驱动.html">
+            
+                <a href="../LDD/2020-10-06-platform总线驱动.html">
+            
+                    
+                    2020-10-06-platform总线驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.4" data-path="../LDD/2020-10-08-vim%20ctags cscope.md">
+            
+                <span>
+            
+                    
+                    2020 10 08 Vim Ctags Cscope
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.5" data-path="../LDD/2020-10-09-loop设备的使用.html">
+            
+                <a href="../LDD/2020-10-09-loop设备的使用.html">
+            
+                    
+                    2020-10-09-loop设备的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.6" data-path="../LDD/2020-10-10-设备驱动基础.html">
+            
+                <a href="../LDD/2020-10-10-设备驱动基础.html">
+            
+                    
+                    2020-10-10-设备驱动基础
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.7" data-path="../LDD/2020-10-11-linux驱动之LED驱动.html">
+            
+                <a href="../LDD/2020-10-11-linux驱动之LED驱动.html">
+            
+                    
+                    2020-10-11-linux驱动之LED驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.8" data-path="../LDD/2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                <a href="../LDD/2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                    
+                    2020-10-27-linux驱动之中断（按键驱动）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.9" data-path="../LDD/input子系统.html">
+            
+                <a href="../LDD/input子系统.html">
+            
+                    
+                    input子系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.10" data-path="../LDD/Kobject和sysfs.html">
+            
+                <a href="../LDD/Kobject和sysfs.html">
+            
+                    
+                    Kobject和sysfs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.11" data-path="../LDD/关于设备树.html">
+            
+                <a href="../LDD/关于设备树.html">
+            
+                    
+                    关于设备树
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" data-path="2019-07-05-X86汇编.html">
+            
+                <a href="2019-07-05-X86汇编.html">
+            
+                    
+                    2019-07-05-X86汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.2" data-path="2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                <a href="2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                    
+                    2020-01-15-x86汇编从实模式到保护模式实验
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.3" data-path="GDT%20LDT IDT TSS.md">
+            
+                <span>
+            
+                    
+                    GDT LDT IDT TSS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.4" data-path="GNU%20C 嵌入汇编.md">
+            
+                <span>
+            
+                    
+                    GNU C 嵌入汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.5" data-path="kzalloc%20& kmalloc.md">
+            
+                <span>
+            
+                    
+                    Kzalloc Kmalloc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.6" data-path="Linux%20Kernel Makefiles.md">
+            
+                <span>
+            
+                    
+                    Linux Kernel Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.7" data-path="linux%20kernel slab系统.md">
+            
+                <span>
+            
+                    
+                    linux kernel slab系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.8" data-path="Linux%20内核临时页表初始化.md">
+            
+                <span>
+            
+                    
+                    Linux 内核临时页表初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.9" data-path="Linux%20内核存储管理.md">
+            
+                <span>
+            
+                    
+                    Linux 内核存储管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.10" data-path="submit-patch.html">
+            
+                <a href="submit-patch.html">
+            
+                    
+                    Submit Patch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.11" data-path="x86平台linux系统调用.html">
+            
+                <a href="x86平台linux系统调用.html">
+            
+                    
+                    x86平台linux系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.5.12" data-path="x86平台通用中断.html">
+            
+                <a href="x86平台通用中断.html">
+            
+                    
+                    x86平台通用中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.13" data-path="编译内核文档.html">
+            
+                <a href="编译内核文档.html">
+            
+                    
+                    编译内核文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Others
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" data-path="../others/2019-01-04-Git-tag常用命令.html">
+            
+                <a href="../others/2019-01-04-Git-tag常用命令.html">
+            
+                    
+                    2019-01-04-Git-tag常用命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" data-path="../others/2019-01-04-Makefile中的一些神奇用法.html">
+            
+                <a href="../others/2019-01-04-Makefile中的一些神奇用法.html">
+            
+                    
+                    2019-01-04-Makefile中的一些神奇用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" data-path="../others/2019-01-04-Shell中的source.html">
+            
+                <a href="../others/2019-01-04-Shell中的source.html">
+            
+                    
+                    2019-01-04-Shell中的source
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="../others/2019-01-04-Shell编程中变量引用方法.html">
+            
+                <a href="../others/2019-01-04-Shell编程中变量引用方法.html">
+            
+                    
+                    2019-01-04-Shell编程中变量引用方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.5" data-path="../others/2019-06-04-C++%20Primer Plus笔记.md">
+            
+                <span>
+            
+                    
+                    2019-06-04-C++ Primer Plus笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.6" data-path="../others/2019-07-20-tensorboardX的简单用法.html">
+            
+                <a href="../others/2019-07-20-tensorboardX的简单用法.html">
+            
+                    
+                    2019-07-20-tensorboardX的简单用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.7" data-path="../others/2019-07-29-stl入门.html">
+            
+                <a href="../others/2019-07-29-stl入门.html">
+            
+                    
+                    2019-07-29-stl入门
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.8" data-path="../others/2019-08-06-C++继承.html">
+            
+                <a href="../others/2019-08-06-C++继承.html">
+            
+                    
+                    2019-08-06-C++继承
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.9" data-path="../others/uboot.html">
+            
+                <a href="../others/uboot.html">
+            
+                    
+                    Uboot
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.10" data-path="../others/基于Ubuntu进行STM32程序开发.html">
+            
+                <a href="../others/基于Ubuntu进行STM32程序开发.html">
+            
+                    
+                    基于Ubuntu进行STM32程序开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.11" data-path="../others/跟我一起写Makefile笔记.html">
+            
+                <a href="../others/跟我一起写Makefile笔记.html">
+            
+                    
+                    跟我一起写Makefile笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    笔试题
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="../笔试题/2019-08-14-2019笔试题.html">
+            
+                <a href="../笔试题/2019-08-14-2019笔试题.html">
+            
+                    
+                    2019-08-14-2019笔试题
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.2" data-path="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                <a href="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                    
+                    2019-08-24-开发岗笔试基础题总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.3" data-path="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                <a href="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                    
+                    2019-08-29-背包问题答题模板
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Draft
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../draft/30天自制操作系统实验记录.html">
+            
+                <a href="../../draft/30天自制操作系统实验记录.html">
+            
+                    
+                    30天自制操作系统实验记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../draft/关于系统调用.html">
+            
+                <a href="../../draft/关于系统调用.html">
+            
+                    
+                    关于系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >x86平台通用中断</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="x86&#x5E73;&#x53F0;linux&#x4E2D;&#x65AD;&#x673A;&#x5236;">x86&#x5E73;&#x53F0;Linux&#x4E2D;&#x65AD;&#x673A;&#x5236;</h1>
+<p>[toc]</p>
+<h2 id="&#x57FA;&#x7840;&#x77E5;&#x8BC6;">&#x57FA;&#x7840;&#x77E5;&#x8BC6;</h2>
+<p>NMI&#x4E0D;&#x80FD;&#x88AB;IF&#x7981;&#x6B62;&#xFF0C;&#x5176;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x53F7;&#x7531;&#x7CFB;&#x7EDF;&#x56FA;&#x5B9A;&#x5206;&#x914D;&#x3002;</p>
+<p>&#x5916;&#x90E8;&#x4E2D;&#x65AD;&#x4E00;&#x822C;&#x53EF;&#x5206;&#x4E3A;&#x975E;&#x5C4F;&#x853D;&#x4E2D;&#x65AD;&#x548C;&#x53EF;&#x5C4F;&#x853D;&#x4E2D;&#x65AD;&#x3002;&#x5BF9;&#x4E8E;&#x975E;&#x5C4F;&#x853D;&#x4E2D;&#x65AD;&#xFF0C;cpu&#x76F4;&#x63A5;&#x5728;&#x5BF9;&#x5E94;&#x7684;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x8868;&#x4E2D;&#x53D6;&#x5F97;&#x4E2D;&#x65AD;&#x5165;&#x53E3;&#x5730;&#x5740;&#xFF0C;&#x6267;&#x884C;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x3002;&#x800C;&#x5BF9;&#x4E8E;&#x53EF;&#x5C4F;&#x853D;&#x4E2D;&#x65AD;&#xFF0C;&#x4E00;&#x822C;&#x662F;&#x7528;8259A&#x7B49;&#x4E2D;&#x65AD;&#x7BA1;&#x7406;&#x5668;&#x6765;&#x7BA1;&#x7406;&#x3002;cpu&#x4ECE;&#x4E2D;&#x65AD;&#x7BA1;&#x7406;&#x5668;&#x4E2D;&#x5F97;&#x5230;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x65F6;&#xFF0C;&#x4F1A;&#x53BB;&#x68C0;&#x67E5;&#x4E00;&#x4E0B;&#x4E2D;&#x65AD;&#x5141;&#x8BB8;&#x6807;&#x5FD7;IF&#xFF0C;&#x82E5;IF&#x4E3A;1&#x5219;&#x53D6;&#x51FA;&#x4E2D;&#x65AD;&#x7C7B;&#x578B;&#x7801;&#xFF0C;&#x4ECE;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x8868;&#x4E2D;&#x53D6;&#x5F97;&#x4E2D;&#x65AD;&#x5165;&#x53E3;&#x5730;&#x5740;&#xFF0C;&#x6267;&#x884C;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x3002;&#x82E5;IF&#x4E3A;0&#xFF0C;cpu&#x5C06;&#x4E0D;&#x54CD;&#x5E94;&#x5916;&#x90E8;&#x63D0;&#x51FA;&#x7684;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x3002;</p>
+<p><strong>IRQ</strong> : <code>Interrupt ReQuest</code></p>
+<p><strong>PIC</strong> : <code>Programmable Interrupt Controller</code> &#x53EF;&#x7F16;&#x7A0B;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;</p>
+<p>&#x5411;&#x91CF;&#xFF1A;&#x6BCF;&#x4E2A;&#x4E2D;&#x65AD;&#x548C;&#x5F02;&#x5E38;&#xFF0C;&#x7531;0-255&#x4E4B;&#x95F4;&#x7684;&#x6570;&#x6765;&#x6807;&#x8BC6;&#xFF0C;Intel&#x628A;&#x8FD9;&#x4E2A;&#x65E0;&#x7B26;&#x53F7;&#x7684;&#x6574;&#x6570;&#x53EB;&#x505A;&#x5411;&#x91CF;&#xFF08;<code>vector</code>&#xFF09;</p>
+<p>PIC&#x7684;&#x4F5C;&#x7528;&#xFF1A;</p>
+<ol>
+<li><p>&#x76D1;&#x89C6;IRQ&#x7EBF;&#xFF0C;&#x68C0;&#x67E5;&#x4EA7;&#x751F;&#x7684;&#x4FE1;&#x53F7;&#x3002;  </p>
+</li>
+<li><p>&#x5982;&#x679C;&#x6709;&#x5F15;&#x53D1;&#x4FE1;&#x53F7;&#x51FA;&#x73B0;&#x5728;IRQ&#x7EBF;&#x4E0A;&#xFF1A;  </p>
+<p> a. &#x628A;&#x63A5;&#x6536;&#x5230;&#x7684;&#x5F15;&#x53D1;&#x4FE1;&#x53F7;&#x8F6C;&#x6362;&#x6210;&#x5BF9;&#x5E94;&#x7684;&#x5411;&#x91CF;&#x3002;<br> b. &#x628A;&#x8FD9;&#x4E2A;&#x5411;&#x91CF;&#x5B58;&#x653E;&#x5728;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;&#x7684;&#x4E00;&#x4E2A;I/O&#x7AEF;&#x53E3;&#xFF0C;&#x4ECE;&#x800C;&#x5141;&#x8BB8;CPU&#x901A;&#x8FC7;&#x6570;&#x636E;&#x603B;&#x7EBF;&#x8BFB;&#x53D6;&#x6B64;&#x5411;&#x91CF;&#x3002;<br> c. &#x628A;&#x5F15;&#x53D1;&#x4FE1;&#x53F7;&#x53D1;&#x9001;&#x5230;&#x5904;&#x7406;&#x5668;&#x7684;<code>INTR</code>&#x5F15;&#x811A;&#xFF0C;&#x5373;&#x4EA7;&#x751F;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x3002;<br> d. &#x7B49;&#x5F85;&#xFF0C;&#x76F4;&#x5230;CPU&#x901A;&#x8FC7;&#x628A;&#x8FD9;&#x4E2A;&#x4E2D;&#x65AD;&#x4FE1;&#x53F7;&#x5199;&#x8FDB;&#x53EF;&#x7F16;&#x7A0B;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;&#x7684;&#x4E00;&#x4E2A;I/O&#x7AEF;&#x53E3;&#x6765;&#x786E;&#x8BA4;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x53D1;&#x751F;&#x65F6;&#xFF0C;&#x6E05;<code>INTR</code>&#x7EBF;&#x3002;  </p>
+</li>
+<li><p>&#x8FD4;&#x56DE;&#x7B2C;1&#x6B65;&#x3002;</p>
+</li>
+</ol>
+<p>IRQ&#x7EBF;&#x4ECE;0&#x5F00;&#x59CB;&#x7F16;&#x53F7;&#xFF0C;&#x56E0;&#x6B64;<code>IRQn</code>&#x5173;&#x8054;&#x7684;Intel&#x7684;&#x7F3A;&#x7701;&#x5411;&#x91CF;&#x662F;<code>n+32</code>(CPU&#x4FDD;&#x7559;&#x4E86;&#x4E00;&#x90E8;&#x5206;&#x5411;&#x91CF;&#x6765;&#x5904;&#x7406;&#x5F02;&#x5E38;)&#x3002;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5411;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;&#x7AEF;&#x53E3;&#x53D1;&#x5E03;&#x5408;&#x9002;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x4FEE;&#x6539;IRQ&#x548C;&#x5411;&#x91CF;&#x4E4B;&#x95F4;&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x4EE5;&#x53CA;&#x6709;&#x9009;&#x62E9;&#x7684;&#x7981;&#x6B62;&#x6216;&#x8005;&#x6FC0;&#x6D3B;&#x76F8;&#x5E94;&#x7684;IRQ&#xFF0C;&#x6B64;&#x7981;&#x6B62;&#x53EA;&#x662F;&#x544A;&#x8BC9;PIC&#x6682;&#x65F6;&#x4E0D;&#x5411;CPU&#x53D1;&#x5E03;&#x6B64;IRQ&#x4E2D;&#x65AD;&#xFF0C;&#x800C;&#x4E00;&#x65E6;&#x6B64;IRQ&#x88AB;&#x518D;&#x6B21;&#x6FC0;&#x6D3B;&#xFF0C;PIC&#x53C8;&#x4F1A;&#x53D1;&#x9001;&#x6B64;IRQ&#x7ED9;CPU &#x3002;&#x53EF;&#x5C4F;&#x853D;&#x4E2D;&#x65AD;&#x7684;&#x5168;&#x5C40;&#x5C4F;&#x853D;&#x6216;&#x8005;&#x975E;&#x5C4F;&#x853D;&#xFF0C;&#x7531;CPU&#x7684;<code>eflags</code>&#x5BC4;&#x5B58;&#x5668;&#x7684;<code>IF</code>&#x6807;&#x5FD7;&#x4F4D;&#x51B3;&#x5B9A;&#xFF0C;<code>cli</code>&#x548C;<code>sti</code>&#x6307;&#x4EE4;&#x5206;&#x522B;&#x6E05;&#x695A;&#x548C;&#x8BBE;&#x7F6E;&#x8BE5;&#x6807;&#x5FD7;&#x3002;  </p>
+<p>&#x4F20;&#x7EDF;&#x7684;PIC&#x7531;&#x4E24;&#x7247;8259A&#x5916;&#x90E8;&#x82AF;&#x7247;&#x7EA7;&#x8054;&#x7EC4;&#x6210;&#xFF0C;&#x53EA;&#x80FD;&#x4F5C;&#x4E3A;&#x5355;&#x5904;&#x7406;&#x5668;&#x7684;PIC&#x3002;&#x5728;SMP&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x4E2D;&#xFF0C;&#x4E2D;&#x65AD;&#x9700;&#x8981;&#x4F20;&#x9012;&#x7ED9;&#x7CFB;&#x7EDF;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;CPU&#xFF0C;&#x4E3A;&#x6B64;Intel&#x4ECE;Pentiun III&#x5F00;&#x59CB;&#x5F15;&#x5165;I/O&#x9AD8;&#x7EA7;&#x53EF;&#x7F16;&#x7A0B;&#x63A7;&#x5236;&#x5668;&#xFF08;<code>I/O Advanded Programmable Interrupt Controller, I/O APIC</code>&#xFF09;&#x7528;&#x4EE5;&#x4EE3;&#x66FF;&#x8001;&#x5F0F;&#x7684;8259A PIC&#x3002;  </p>
+<p>&#x591A;APIC&#x7ED3;&#x6784;&#xFF1A;<strong><code>APIC</code>&#x603B;&#x7EBF;</strong>&#x628A;&#x201C;&#x524D;&#x7AEF;&#x201D;<strong>I/O APIC</strong>&#x8FDE;&#x63A5;&#x5230;<strong>&#x672C;&#x5730;APIC</strong>&#x3002;&#x6765;&#x81EA;&#x8BBE;&#x5907;&#x7684;<code>IRQ</code>&#x7EBF;&#x8FDE;&#x63A5;&#x5230;<code>I/O APIC</code>&#xFF0C;&#x76F8;&#x5BF9;&#x4E8E;&#x672C;&#x5730;APIC&#x6765;&#x8BF4;&#xFF0C;<code>I/O APIC</code>&#x8D77;&#x8DEF;&#x7531;&#x4F5C;&#x7528;&#x3002;  <code>I/O APIC</code>&#x4E2D;&#x7684;&#x4E2D;&#x65AD;&#x91CD;&#x5B9A;&#x5411;&#x8868;&#x5C06;&#x6BCF;&#x4E2A;&#x5916;&#x90E8;IRQ&#x4FE1;&#x53F7;&#x8F6C;&#x6362;&#x4E3A;&#x4E00;&#x6761;&#x6D88;&#x606F;&#xFF0C;&#x7136;&#x540E;&#xFF0C;&#x901A;&#x8FC7;<code>APIC</code>&#x603B;&#x7EBF;&#x53D1;&#x9001;&#x7ED9;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;CPU&#x7684;&#x672C;&#x5730;<code>APIC</code>&#x5355;&#x5143;&#x3002;&#x591A;<code>APIC</code>&#x7CFB;&#x7EDF;&#x8FD8;&#x5141;&#x8BB8;<code>CPU</code>&#x4EA7;&#x751F;&#x5904;&#x7406;&#x5668;&#x95F4;&#x4E2D;&#x65AD;&#xFF08;<code>interprocessor interrupt</code>, &#x7B80;&#x79F0;<code>IPI</code>&#xFF09;&#x3002; </p>
+<p>&#x76EE;&#x524D;&#x5927;&#x90E8;&#x5206;&#x5355;&#x5904;&#x7406;&#x5668;&#x7CFB;&#x7EDF;&#x90FD;&#x5305;&#x542B;&#x4E00;&#x4E2A;I/O APIC&#x82AF;&#x7247;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4EE5;&#x4E0B;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#x8FDB;&#x884C;&#x914D;&#x7F6E;&#xFF1A;</p>
+<ul>
+<li>&#x4F5C;&#x4E3A;&#x4E00;&#x79CD;&#x6807;&#x51C6;&#x7684;8259A&#x65B9;&#x5F0F;&#x7684;&#x5916;&#x90E8;PIC&#x8FDE;&#x63A5;&#x5230;CPU&#x3002;&#x672C;&#x5730;APIC&#x88AB;&#x7981;&#x6B62;&#xFF0C;LINT0&#x548C;LINT1&#x672C;&#x5730;IRQ&#x7EBF;&#x5206;&#x522B;&#x914D;&#x7F6E;&#x4E3A;INTR&#x548C;NMI&#x5F15;&#x811A;&#x3002;</li>
+<li>&#x4F5C;&#x4E3A;&#x4E00;&#x79CD;&#x6807;&#x51C6;&#x7684;I/O APIC&#x3002;&#x672C;&#x5730;APIC&#x88AB;&#x6FC0;&#x6D3B;&#xFF0C;&#x4E14;&#x6240;&#x6709;&#x7684;&#x5916;&#x90E8;&#x4E2D;&#x65AD;&#x90FD;&#x901A;&#x8FC7;I/O APIC&#x63A5;&#x6536;&#x3002;</li>
+</ul>
+<p><img src="../../images/20201214/image-20201214121629804.png" alt="image-20201214121629804"></p>
+<p><strong>&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x961F;&#x5217;</strong></p>
+<p>&#x7531;&#x4E8E;&#x786C;&#x4EF6;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x5F88;&#x591A;&#x5916;&#x90E8;&#x8BBE;&#x5907;&#x4E0D;&#x5F97;&#x4E0D;&#x5171;&#x4EAB;&#x4E2D;&#x65AD;&#x7EBF;&#xFF0C;&#x4F8B;&#x5982;&#xFF0C;&#x4E00;&#x4E9B;PC&#x914D;&#x7F6E;&#x53EF;&#x4EE5;&#x628A;&#x540C;&#x4E00;&#x6761;&#x4E2D;&#x65AD;&#x7EBF;&#x5206;&#x914D;&#x7ED9;&#x7F51;&#x5361;&#x548C;&#x56FE;&#x5F62;&#x5361;&#x3002;&#x7531;&#x6B64;&#x770B;&#x6765;&#xFF0C;&#x8BA9;&#x6BCF;&#x4E2A;&#x4E2D;&#x65AD;&#x6E90;&#x90FD;&#x5FC5;&#x987B;&#x5360;&#x7528;&#x4E00;&#x6761;&#x4E2D;&#x65AD;&#x7EBF;&#x662F;&#x4E0D;&#x73B0;&#x5B9E;&#x7684;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x4EC5;&#x4EC5;&#x4E2D;&#x65AD;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x5E76;&#x4E0D;&#x80FD;&#x63D0;&#x4F9B;&#x4E2D;&#x65AD;&#x4EA7;&#x751F;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;&#xFF0C;&#x5185;&#x6838;&#x5FC5;&#x987B;&#x5BF9;&#x4E2D;&#x65AD;&#x7EBF;&#x7ED9;&#x51FA;&#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x63CF;&#x8FF0;&#x3002;&#x5728;Linux&#x8BBE;&#x8BA1;&#x4E2D;&#xFF0C;&#x4E13;&#x95E8;&#x4E3A;&#x6BCF;&#x4E2A;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;IRQ&#x8BBE;&#x7F6E;&#x4E86;&#x4E00;&#x4E2A;&#x961F;&#x5217;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x6240;&#x8BF4;&#x7684;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x961F;&#x5217;&#x3002;</p>
+<h3 id="&#x5173;&#x4E8E;io-apic&#x7684;&#x4E00;&#x4E9B;&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x8D44;&#x6599;">&#x5173;&#x4E8E;I/O APIC&#x7684;&#x4E00;&#x4E9B;&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x8D44;&#x6599;</h3>
+<p><a href="https://blog.csdn.net/jk198310/article/details/9250355" target="_blank">PIC &#x3001;APIC(IOAPIC LAPIC)</a></p>
+<p><a href="https://blog.csdn.net/GerryLee93/article/details/106474994/" target="_blank">1. IO APIC</a></p>
+<hr>
+<p>Linux kernel version : <strong>linux 2.6.30.4</strong></p>
+<h2 id="&#x57FA;&#x672C;&#x6570;&#x636E;&#x7ED3;&#x6784;">&#x57FA;&#x672C;&#x6570;&#x636E;&#x7ED3;&#x6784;</h2>
+<p>&#x7531;&#x4E8E;&#x901A;&#x7528;&#x4E2D;&#x65AD;&#x95E8;&#x662F;&#x8BA9;&#x591A;&#x4E2A;&#x4E2D;&#x65AD;&#x6E90;&#x5171;&#x4EAB;&#x7684;&#xFF0C;&#x800C;&#x4E14;&#x5141;&#x8BB8;&#x8FD9;&#x79CD;&#x516C;&#x7528;&#x7684;&#x7ED3;&#x6784;&#x5728;&#x7CFB;&#x7EDF;&#x8FD0;&#x884C;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x52A8;&#x6001;&#x5730;&#x53D8;&#x5316;&#xFF0C;&#x6240;&#x4EE5;IDT&#x7684;&#x521D;&#x59CB;&#x5316;&#x9636;&#x6BB5;&#x53EA;&#x662F;&#x4E3A;&#x6BCF;&#x4E2A;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#xFF0C;&#x4E5F;&#x5373;&#x6BCF;&#x4E2A;&#x8868;&#x9879;&#x51C6;&#x5907;&#x4E00;&#x4E2A;&#x201C;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x961F;&#x5217;&#x201D;&#xFF0C; &#x4ECE;&#x800C;&#x5F62;&#x6210;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x961F;&#x5217;&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6570;&#x7EC4;<code>irq_desc[]</code>&#x3002;</p>
+<p>&#x6BCF;&#x4E2A;&#x961F;&#x5217;&#x5934;&#x90E8;&#x4E2D;&#x9664;&#x4E86;<code>action</code>&#x7528;&#x6765;&#x7EF4;&#x6301;&#x4E00;&#x4E2A;&#x7531;<strong>&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x63CF;&#x8FF0;&#x9879;&#x76EE;</strong>&#x6784;&#x6210;&#x7684;<strong>&#x5355;&#x94FE;&#x961F;&#x5217;</strong>&#x5916;&#xFF0C;&#x8FD8;&#x6709;&#x4E2A;&#x6307;&#x9488;<code>handler</code>&#x6307;&#x5411;&#x53E6;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x5373;<code>hw_interrupt_type</code>&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF0C;&#x6B64;&#x7ED3;&#x6784;&#x4E3B;&#x8981;&#x662F;&#x4E00;&#x4E9B;&#x51FD;&#x6570;&#x6307;&#x9488;&#xFF0C;&#x7528;&#x4E8E;&#x8BE5;&#x961F;&#x5217;&#xFF0C;&#x6216;&#x8005;&#x8BE5;&#x5171;&#x7528;&#x201C;&#x4E2D;&#x65AD;&#x901A;&#x9053;&#x201D;&#x7684;&#x63A7;&#x5236;&#xFF0C;&#x5E76;&#x4E0D;&#x5BF9;&#x5177;&#x4F53;&#x7684;&#x4E2D;&#x65AD;&#x6E90;&#x670D;&#x52A1;&#x3002;&#x5177;&#x4F53;&#x7684;&#x51FD;&#x6570;&#x53D6;&#x51B3;&#x4E8E;<strong>&#x6240;&#x7528;&#x7684;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;</strong>(&#x6BD4;&#x5982; i8259A)&#x3002;&#x5176;&#x4E2D;&#xFF0C;&#x51FD;&#x6570;&#x6307;&#x9488;<code>enable</code>&#x548C;<code>disable</code>&#x7528;&#x4E8E;&#x5F00;&#x542F;&#x548C;&#x5173;&#x95ED;&#x5176;&#x6240;&#x5C5E;&#x7684;&#x901A;&#x9053;&#xFF0C;<code>ack</code>&#x7528;&#x4E8E;&#x5BF9;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;&#x7684;&#x76F8;&#x5E94;&#xFF0C;&#x800C;<code>end</code>&#x5219;&#x7528;&#x4E8E;&#x6BCF;&#x6B21;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x8FD4;&#x56DE;&#x7684;&#x524D;&#x5915;&#xFF0C;&#x8FD9;&#x4E9B;&#x51FD;&#x6570;&#x90FD;&#x662F;&#x5728;<code>init_IRQ()</code>&#x51FD;&#x6570;&#x4E2D;&#x8C03;&#x7528;<code>init_ISA_irqs()</code>&#x8BBE;&#x7F6E;&#x597D;&#x7684;&#x3002; [&#x8FD9;&#x4E24;&#x6BB5;&#x6458;&#x81EA;&#x300A;Linux&#x5185;&#x6838;&#x6E90;&#x4EE3;&#x7801;&#x60C5;&#x666F;&#x5206;&#x6790;&#x300B;3.3&#x5C0F;&#x8282;]</p>
+<p><img src="../../images/20201214/image-20201214121841163.png" alt="image-20201214121841163"></p>
+<h3 id="irqdesct">irq_desc_t</h3>
+<p>&#x6BCF;&#x4E2A;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x90FD;&#x6709;&#x81EA;&#x5DF1;&#x7684;<code>irq_desc_t</code>&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x6240;&#x6709;&#x8FD9;&#x4E9B;&#x63CF;&#x8FF0;&#x7B26;&#x7EC4;&#x7EC7;&#x5728;&#x4E00;&#x8D77;&#x5F62;&#x6210;&#x4E86;<code>irq_desc</code>&#x6570;&#x7EC4;&#x3002;</p>
+<p>&#x6839;&#x636E;&#x524D;&#x4E00;&#x6BB5;&#x4E66;&#x4E2D;&#x7684;&#x63CF;&#x8FF0;&#xFF0C;<code>irq_desc</code>&#x6570;&#x7EC4;&#x5E94;&#x8BE5;&#x5C31;&#x662F;&#x4F5C;&#x8005;&#x6240;&#x8BF4;&#x7684;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x961F;&#x5217;&#x6570;&#x7EC4;&#xFF0C;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x9879;&#x5373;&#x6BCF;&#x4E00;&#x4E2A;<code>struct irq_desc</code>&#x7ED3;&#x6784;&#x90FD;&#x63CF;&#x8FF0;&#x4E00;&#x4E2A;&#x201C;&#x4E2D;&#x65AD;&#x8BF7;&#x6C42;&#x961F;&#x5217;&#x201D;&#xFF0C;<code>struct irqaction</code>&#x5373;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x6784;&#x6210;&#x7684;&#x961F;&#x5217;&#xFF0C;&#x961F;&#x5217;&#x4E2D;&#x6BCF;&#x4E00;&#x9879;&#x90FD;&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x3002;<code>hw_interrupt_type</code>&#x5728;&#x8F83;&#x65B0;&#x7248;&#x672C;&#x7684;&#x5185;&#x6838;&#x4E2D;&#x88AB;<code>struct irq_chip</code>&#x53D6;&#x4EE3;&#xFF0C;&#x6307;&#x4EE3;&#x6B64;&#x4E2D;&#x65AD;&#x901A;&#x9053;&#x7684;&#x64CD;&#x4F5C;&#x51FD;&#x6570;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/*include/linux/irq.h*/</span>
+<span class="hljs-comment">/**
+ * struct irq_desc - interrupt descriptor
+ * @irq:                interrupt number for this descriptor
+ * @timer_rand_state:   pointer to timer rand state struct
+ * @kstat_irqs:         irq stats per cpu
+ * @irq_2_iommu:        iommu with this irq
+ * @handle_irq:         highlevel irq-events handler [if NULL, __do_IRQ()]
+ * @chip:               low level interrupt hardware access
+ * @msi_desc:           MSI descriptor
+ * @handler_data:       per-IRQ data for the irq_chip methods
+ * @chip_data:          platform-specific per-chip private data for the chip
+ *                      methods, to allow shared chip implementations
+ * @action:             the irq action chain
+ * @status:             status information
+ * @depth:              disable-depth, for nested irq_disable() calls
+ * @wake_depth:         enable depth, for multiple set_irq_wake() callers
+ * @irq_count:          stats field to detect stalled irqs
+ * @last_unhandled:     aging timer for unhandled count
+ * @irqs_unhandled:     stats field for spurious unhandled interrupts
+ * @lock:               locking for SMP
+ * @affinity:           IRQ affinity on SMP
+ * @cpu:                cpu index useful for balancing
+ * @pending_mask:       pending rebalanced interrupts
+ * @threads_active:     number of irqaction threads currently running
+ * @wait_for_threads:   wait queue for sync_irq to wait for threaded handlers
+ * @dir:                /proc/irq/ procfs entry
+ * @name:               flow handler name for /proc/interrupts output
+ */</span>
+<span class="hljs-keyword">struct</span> irq_desc {
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            irq;
+        <span class="hljs-keyword">struct</span> timer_rand_state *timer_rand_state;
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            *kstat_irqs;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_INTR_REMAP</span>
+        <span class="hljs-keyword">struct</span> irq_2_iommu      *irq_2_iommu;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+        <span class="hljs-keyword">irq_flow_handler_t</span>      handle_irq;
+        <span class="hljs-keyword">struct</span> irq_chip         *chip;            <span class="hljs-comment">/*&#x6307;&#x5411;&#x63CF;&#x8FF0;PIC&#x5BF9;&#x8C61;&#x7684;&#x63CF;&#x8FF0;&#x7B26;*/</span>
+        <span class="hljs-keyword">struct</span> msi_desc         *msi_desc;
+        <span class="hljs-keyword">void</span>                    *handler_data;
+        <span class="hljs-keyword">void</span>                    *chip_data;        <span class="hljs-comment">/* &#x6307;&#x5411;PIC&#x5BF9;&#x8C61;&#x65B9;&#x6CD5;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x7684;&#x6570;&#x636E; */</span>
+        <span class="hljs-keyword">struct</span> irqaction        *action;        <span class="hljs-comment">/* IRQ action list */</span>
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            status;         <span class="hljs-comment">/* IRQ status */</span>
+
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            depth;          <span class="hljs-comment">/* nested irq disables */</span>
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            wake_depth;     <span class="hljs-comment">/* nested wake enables */</span>
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            irq_count;      <span class="hljs-comment">/* For detecting broken IRQs */</span>
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>           last_unhandled; <span class="hljs-comment">/* Aging timer for unhandled count */</span>
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            irqs_unhandled;
+        <span class="hljs-keyword">spinlock_t</span>              lock;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_SMP</span>
+        <span class="hljs-keyword">cpumask_var_t</span>           affinity;
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>            cpu;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_GENERIC_PENDING_IRQ</span>
+        <span class="hljs-keyword">cpumask_var_t</span>           pending_mask;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+        <span class="hljs-keyword">atomic_t</span>                threads_active;
+        <span class="hljs-keyword">wait_queue_head_t</span>       wait_for_threads;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_PROC_FS</span>
+        <span class="hljs-keyword">struct</span> proc_dir_entry   *dir;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>              *name;
+} ____cacheline_internodealigned_in_smp;
+
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">struct</span> irq_desc irq_desc[NR_IRQS];
+
+<span class="hljs-comment">/* include/linux/cache.h */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> !defined(____cacheline_internodealigned_in_smp)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> defined(CONFIG_SMP)</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ____cacheline_internodealigned_in_smp \
+        __attribute__((__aligned__(1 &lt;&lt; (INTERNODE_CACHE_SHIFT))))</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ____cacheline_internodealigned_in_smp</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+
+<span class="hljs-comment">/* struct irq_desc&#x7684;status&#x5B57;&#x6BB5;&#xFF0C;&#x63CF;&#x8FF0;IRQ&#x7EBF;&#x7684;&#x4E00;&#x7EC4;&#x72B6;&#x6001; */</span>
+<span class="hljs-comment">/*  */</span>
+<span class="hljs-keyword">struct</span> irq_desc irq_desc[NR_IRQS] __cacheline_aligned_in_smp = {
+        [<span class="hljs-number">0</span> ... NR_IRQS<span class="hljs-number">-1</span>] = {
+                .status = IRQ_DISABLED,
+                .chip = &amp;no_irq_chip,
+                .handle_irq = handle_bad_irq,
+                .depth = <span class="hljs-number">1</span>,
+                .lock = __SPIN_LOCK_UNLOCKED(irq_desc-&gt;lock),
+        }
+};
+</code></pre>
+<p><code>irq_desc_t</code>&#x63CF;&#x8FF0;&#x7684;<code>depth</code>&#x5B57;&#x6BB5;&#x548C;<code>IRQ_DISABLED</code>&#x6807;&#x5FD7;&#x8868;&#x793A;<code>IRQ</code>&#x7EBF;&#x662F;&#x5426;&#x88AB;&#x7981;&#x7528;&#x3002;&#x6BCF;&#x6B21;&#x8C03;&#x7528;<code>disable_irq()</code>&#x6216;&#x8005;<code>disale_irq_nosync()</code>&#x51FD;&#x6570;&#xFF0C;<code>depth</code>&#x5B57;&#x6BB5;&#x7684;&#x503C;&#x589E;&#x52A0;&#xFF0C;&#x5982;&#x679C;<code>depth</code>&#x7B49;&#x4E8E;0&#xFF0C;&#x51FD;&#x6570;&#x7981;&#x7528;<code>IRQ</code>&#x7EBF;&#x5E76;&#x8BBE;&#x7F6E;&#x5B83;&#x7684;<code>IRQ_DISABLED</code>&#x6807;&#x5FD7;&#x76F8;&#x53CD;&#xFF0C;&#x6BCF;&#x5F53;&#x8C03;&#x7528;<code>enable_irq()</code>&#x51FD;&#x6570;&#xFF0C;<code>depth</code>&#x5B57;&#x6BB5;&#x7684;&#x503C;&#x51CF;&#x5C11;&#xFF0C;&#x5982;&#x679C;<code>depth</code>&#x53D8;&#x4E3A;0&#xFF0C;&#x51FD;&#x6570;&#x6FC0;&#x6D3B;<code>IRQ</code>&#x7EBF;&#x5E76;&#x6E05;&#x9664;<code>IRQ_DISABLED</code>&#x6807;&#x5FD7;&#x3002;</p>
+<h3 id="irqchip">irq_chip</h3>
+<p>Linux&#x652F;&#x6301;&#x591A;&#x79CD;<code>PIC</code>&#xFF0C;&#x4E3A;&#x4E86;&#x4EE5;&#x7EDF;&#x4E00;&#x7684;&#x65B9;&#x5F0F;&#x5904;&#x7406;&#x6240;&#x6709;&#x8FD9;&#x6837;&#x7684;&#x8BBE;&#x5907;&#xFF0C;Linux&#x7528;&#x4E86;&#x4E00;&#x4E2A;<code>PIC&#x5BF9;&#x8C61;</code>&#xFF0C;&#x7531;<code>PIC</code>&#x540D;&#x5B57;&#x548C;&#x4E03;&#x4E2A;<code>PIC</code>&#x6807;&#x51C6;&#x65B9;&#x6CD5;&#x7EC4;&#x6210;&#x3002;&#x5B9A;&#x4E49;<code>PIC&#x5BF9;&#x8C61;</code>&#x7684;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x53EB;&#x505A;<code>hw_interrupt_type</code>&#xFF08;&#x4E5F;&#x53EB;&#x4F5C;<code>hw_irq_controller</code>&#xFF09;&#xFF0C;&#x540E;&#x6765;&#x88AB;<code>irq_chip</code>&#x53D6;&#x4EE3;&#xFF0C;&#x5E76;&#x6DFB;&#x52A0;&#x4E86;&#x5F88;&#x591A;&#x65B0;&#x7684;&#x5E95;&#x5C42;&#x786C;&#x4EF6;&#x64CD;&#x4F5C;&#x51FD;&#x6570;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/*include/linux/irq.h*/</span>
+<span class="hljs-comment">/**
+ * struct irq_chip - hardware interrupt chip descriptor
+ *
+ * @name:               name for /proc/interrupts
+ * @startup:            start up the interrupt (defaults to -&gt;enable if NULL)
+ * @shutdown:           shut down the interrupt (defaults to -&gt;disable if NULL)
+ * @enable:             enable the interrupt (defaults to chip-&gt;unmask if NULL)
+ * @disable:            disable the interrupt (defaults to chip-&gt;mask if NULL)
+ * @ack:                start of a new interrupt
+ * @mask:               mask an interrupt source
+ * @mask_ack:           ack and mask an interrupt source
+ * @unmask:             unmask an interrupt source
+ * @eoi:                end of interrupt - chip level
+ * @end:                end of interrupt - flow level
+ * @set_affinity:       set the CPU affinity on SMP machines
+ * @retrigger:          resend an IRQ to the CPU
+ * @set_type:           set the flow type (IRQ_TYPE_LEVEL/etc.) of an IRQ
+ * @set_wake:           enable/disable power-management wake-on of an IRQ
+ *
+ * @release:            release function solely used by UML
+ * @typename:           obsoleted by name, kept as migration helper
+ */</span>
+<span class="hljs-keyword">struct</span> irq_chip {
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>      *name;
+        <span class="hljs-function"><span class="hljs-keyword">unsigned</span> <span class="hljs-title">int</span>    <span class="hljs-params">(*startup)</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq)</span></span>;
+        <span class="hljs-keyword">void</span>            (*shutdown)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">void</span>            (*enable)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">void</span>            (*disable)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+
+        <span class="hljs-keyword">void</span>            (*ack)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">void</span>            (*mask)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">void</span>            (*mask_ack)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">void</span>            (*unmask)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">void</span>            (*eoi)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+
+        <span class="hljs-keyword">void</span>            (*end)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">void</span>            (*set_affinity)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq,
+                                        <span class="hljs-keyword">const</span> <span class="hljs-keyword">struct</span> cpumask *dest);
+        <span class="hljs-keyword">int</span>             (*retrigger)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq);
+        <span class="hljs-keyword">int</span>             (*set_type)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> flow_type);
+        <span class="hljs-keyword">int</span>             (*set_wake)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> on);
+
+        <span class="hljs-comment">/* Currently used only by UML, might disappear one day.*/</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_IRQ_RELEASE_METHOD</span>
+        <span class="hljs-keyword">void</span>            (*release)(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">void</span> *dev_id);
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+        <span class="hljs-comment">/*
+         * For compatibility, -&gt;typename is copied into -&gt;name.
+         * Will disappear.
+         */</span>
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>      *<span class="hljs-keyword">typename</span>;
+};
+</code></pre>
+<h3 id="irqaction">irqaction</h3>
+<p>&#x591A;&#x4E2A;&#x8BBE;&#x5907;&#x80FD;&#x5171;&#x4EAB;&#x4E00;&#x4E2A;&#x5355;&#x72EC;&#x7684;<code>IRQ</code>&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5185;&#x6838;&#x8981;&#x7EF4;&#x62A4;&#x591A;&#x4E2A;<code>irqaction</code>&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x5176;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;&#x63CF;&#x8FF0;&#x7B26;&#x6D89;&#x53CA;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x786C;&#x4EF6;&#x8BBE;&#x5907;&#x548C;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x4E2D;&#x65AD;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* include/linux/interrupt.h */</span>
+<span class="hljs-comment">/**
+ * struct irqaction - per interrupt action descriptor
+ * @handler:    interrupt handler function
+ * @flags:      flags (see IRQF_* above)
+ * @mask:       no comment as it is useless and about to be removed
+ * @name:       name of the device
+ * @dev_id:     cookie to identify the device
+ * @next:       pointer to the next irqaction for shared interrupts
+ * @irq:        interrupt number
+ * @dir:        pointer to the proc/irq/NN/name entry
+ * @thread_fn:  interupt handler function for threaded interrupts
+ * @thread:     thread pointer for threaded interrupts
+ * @thread_flags:       flags related to @thread
+ */</span>
+<span class="hljs-keyword">struct</span> irqaction {
+        <span class="hljs-keyword">irq_handler_t</span> handler; <span class="hljs-comment">/* &#x6307;&#x5411;&#x4E00;&#x4E2A;I/O&#x8BBE;&#x5907;&#x7684;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x4F8B;&#x7A0B; */</span>
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags;   <span class="hljs-comment">/* &#x63CF;&#x8FF0;IRQ&#x548C;I/O&#x8BBE;&#x5907;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB; */</span>
+        <span class="hljs-keyword">cpumask_t</span> mask;
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name;        <span class="hljs-comment">/* I/O&#x8BBE;&#x5907;&#x540D;&#xFF0C;/proc/interrupts&#x6587;&#x4EF6;&#x4E2D;&#x663E;&#x793A; */</span>
+        <span class="hljs-keyword">void</span> *dev_id;            <span class="hljs-comment">/* I/O&#x8BBE;&#x5907;&#x7684;&#x79C1;&#x6709;&#x5B57;&#x6BB5;&#xFF0C;&#x6807;&#x8BC6;&#x8BBE;&#x5907;&#x672C;&#x8EAB;(&#x8BBE;&#x5907;&#x53F7;)&#x6216;&#x8005;&#x5176;&#x9A71;&#x52A8;&#x7A0B;&#x5E8F; */</span>
+        <span class="hljs-keyword">struct</span> irqaction *next; <span class="hljs-comment">/* &#x6307;&#x5411;irqaction&#x63CF;&#x8FF0;&#x7B26;&#x94FE;&#x8868;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x94FE;&#x8868;&#x4E2D;&#x7684;&#x5143;&#x7D20;&#x6307;&#x5411;&#x5171;&#x4EAB;&#x540C;&#x4E00;&#x4E2A;IRQ&#x7684;&#x786C;&#x4EF6;&#x8BBE;&#x5907; */</span>
+        <span class="hljs-keyword">int</span> irq;                <span class="hljs-comment">/* IRQ&#x7EBF; */</span>
+        <span class="hljs-keyword">struct</span> proc_dir_entry *dir; <span class="hljs-comment">/* &#x6307;&#x5411;IRQn&#x76F8;&#x5173;&#x7684;/proc/irq/n&#x76EE;&#x5F55;&#x7684;&#x63CF;&#x8FF0;&#x7B26; */</span>
+        <span class="hljs-keyword">irq_handler_t</span> thread_fn;
+        <span class="hljs-keyword">struct</span> task_struct *thread;
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> thread_flags;
+};
+<span class="hljs-comment">/* &#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x51FD;&#x6570;&#x7C7B;&#x578B; */</span>
+<span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">irqreturn_t</span> <span class="hljs-params">(*irq_handler_t)</span><span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">void</span> *)</span></span>;
+</code></pre>
+<h2 id="&#x4E2D;&#x65AD;&#x521D;&#x59CB;&#x5316;">&#x4E2D;&#x65AD;&#x521D;&#x59CB;&#x5316;</h2>
+<p>x86&#x5E73;&#x53F0;&#x4E2D;&#x65AD;&#x521D;&#x59CB;&#x5316;&#x5171;&#x5206;&#x4E3A;&#x4EE5;&#x4E0B;&#x51E0;&#x6B65;&#xFF1A;</p>
+<ul>
+<li>&#x4E2D;&#x65AD;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x7684;&#x521D;&#x6B65;&#x521D;&#x59CB;&#x5316;</li>
+<li>&#x4E2D;&#x65AD;&#x63CF;&#x8FF0;&#x7B26;&#x8868;&#x7684;&#x6700;&#x7EC8;&#x521D;&#x59CB;&#x5316;</li>
+<li><code>trap_init()</code></li>
+<li><code>early_irq_init()</code></li>
+<li><code>init_IRQ()</code></li>
+</ul>
+<h3 id="idt&#x521D;&#x6B65;&#x521D;&#x59CB;&#x5316;"><code>IDT</code>&#x521D;&#x6B65;&#x521D;&#x59CB;&#x5316;</h3>
+<ol>
+<li><p>&#x58F0;&#x660E;256&#x4E2A;&#x95E8;&#x63CF;&#x8FF0;&#x7B26;&#x7684;<code>IDT</code>&#x8868;&#x7A7A;&#x95F4;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* arch/x86/kernel/head_32.S */</span>
+idt_descr:
+        .word IDT_ENTRIES*<span class="hljs-number">8</span><span class="hljs-number">-1</span>           <span class="hljs-meta"># idt contains 256 entries</span>
+        .<span class="hljs-keyword">long</span> idt_table
+<span class="hljs-comment">/* 
+    &#x8FD9;&#x91CC;&#x76F8;&#x5F53;&#x4E8E;&#x58F0;&#x660E;&#x4E86;&#x4E00;&#x4E2A;&#x7ED3;&#x6784;&#x4F53;idt_descr&#xFF0C;&#x5305;&#x542B;&#x4E24;&#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x4E00;&#x4E2A;&#x6570;&#x5B57;&#x548C;idt_table&#x7684;&#x5730;&#x5740;
+    arch/x86/include/asm/desc.h:35:extern gate_desc idt_table[];&#x58F0;&#x660E;idt_table&#x662F;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x53D8;&#x91CF;&#xFF0C;&#x5373;head_32.S&#x4E2D;&#x7684;idt_descr&#x4E2D;&#x7684;idt_table.
+    idt_table&#x8868;&#x7684;&#x5185;&#x5BB9;&#x88AB;_set_gate() -&gt; write_idt_entry()&#x586B;&#x5145;&#x3002;    
+*/</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> write_idt_entry(dt, entry, g)           \
+        native_write_idt_entry(dt, entry, g)</span>
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">native_write_idt_entry</span><span class="hljs-params">(gate_desc *idt, <span class="hljs-keyword">int</span> entry,
+                                          <span class="hljs-keyword">const</span> gate_desc *gate)</span>
+</span>{
+        <span class="hljs-built_in">memcpy</span>(&amp;idt[entry], gate, <span class="hljs-keyword">sizeof</span>(*gate));
+}
+<span class="hljs-comment">/*
+    _set_gate()&#x51FD;&#x6570;&#x88AB;set_xxxintr_gate()&#x8C03;&#x7528;&#xFF0C;&#x7528;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E2D;&#x65AD;&#x95E8;&#xFF0C;&#x9677;&#x9631;&#x95E8;&#x7B49;&#x3002;
+    &#x51FD;&#x6570;&#x88AB;set_xxxintr_gate()&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x5728;
+        start_kernel()
+            -&gt;trap_init()
+            -&gt;init_IQR()
+    &#x88AB;&#x8C03;&#x7528;    
+*/</span>
+</code></pre>
+</li>
+<li><p>&#x8BBE;&#x7F6E;<code>IDTR</code></p>
+<pre><code class="lang-assembly">is386:  movl $2,%ecx            # set MP
+2:      movl %cr0,%eax
+        andl $0x80000011,%eax   # Save PG,PE,ET
+        orl %ecx,%eax
+        movl %eax,%cr0
+
+        call check_x87
+        lgdt early_gdt_descr
+        lidt idt_descr
+        ljmp $(__KERNEL_CS),$1f
+1:      movl $(__KERNEL_DS),%eax        # reload all the segment registers
+        movl %eax,%ss                   # after changing gdt.
+</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>&#x521D;&#x59CB;&#x5316;256&#x4E2A;&#x95E8;&#x63CF;&#x8FF0;&#x7B26;</p>
+<pre><code class="lang-assembly">/*
+ *  setup_idt
+ *
+ *  sets up a idt with 256 entries pointing to
+ *  ignore_int, interrupt gates. It doesn&apos;t actually load
+ *  idt - that can be done only after paging has been enabled
+ *  and the kernel moved to PAGE_OFFSET. Interrupts
+ *  are enabled elsewhere, when we can be relatively
+ *  sure everything is ok.
+ *
+ *  Warning: %esi is live across this function.
+ */
+setup_idt:
+        lea ignore_int,%edx
+        movl $(__KERNEL_CS &lt;&lt; 16),%eax
+        movw %dx,%ax            /* selector = 0x0010 = cs */
+        movw $0x8E00,%dx        /* interrupt gate - dpl=0, present */
+
+        lea idt_table,%edi 
+        mov $256,%ecx
+rp_sidt:
+    movl %eax,(%edi)
+        movl %edx,4(%edi)
+        addl $8,%edi
+        dec %ecx
+        jne rp_sidt
+</code></pre>
+<blockquote>
+<p>lea&#x6307;&#x4EE4; &#xFF1A; load effective address &#x529F;&#x80FD;&#x662F;&#x53D6;&#x504F;&#x79FB;&#x5730;&#x5740;&#x3002;</p>
+<p>mov&#x662F;&#x5C06;&#x6570;&#x636E;&#x4ECE;&#x6E90;&#x4F20;&#x5230;&#x76EE;&#x7684;</p>
+<p>lea&#x662F;&#x5C06;&#x6E90;&#x7684;&#x5730;&#x5740;&#x4F20;&#x5230;&#x76EE;&#x7684;</p>
+<p>&#x4F8B;&#x5982;&#xFF1A;</p>
+<p>&#x200B;    movl 18(%eax), %ebx  #&#x662F;&#x5C06;&#x5185;&#x5B58;&#x4E2D;&#xFF08;%eax+18&#xFF09;&#x7684;&#x5185;&#x5BB9;&#x4F20;&#x5165;%ebx&#x4E2D;&#xFF1B;</p>
+<p>&#x200B;    leal 18(%eax), %ebx     #&#x662F;&#x5C06;&#xFF08;18+&#xFF08;%eax&#x4E2D;&#x7684;&#x503C;&#xFF09;&#xFF09;&#x5373;&#x5730;&#x5740;&#xFF0C;&#x4F20;&#x5165;%ebx;</p>
+<p>&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;lea idt_table, %edi #&#x5373;&#x5C06;idt_table&#x8868;&#x7684;&#x5730;&#x5740;&#x4F20;&#x5230;%edi&#x4E2D;&#x3002;</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="idt&#x6700;&#x7EC8;&#x521D;&#x59CB;&#x5316;"><code>IDT</code>&#x6700;&#x7EC8;&#x521D;&#x59CB;&#x5316;</h3>
+<ul>
+<li>&#x5F02;&#x5E38;&#xFF1A;&#x7531;&#x51FD;&#x6570;trap_init()&#x5B9E;&#x73B0;&#xFF0C;&#x88AB;&#x7CFB;&#x7EDF;&#x521D;&#x59CB;&#x5316;&#x5165;&#x53E3;&#x51FD;&#x6570;start_kernel()&#x8C03;&#x7528;&#xFF1B;</li>
+<li>&#x4E2D;&#x65AD;&#xFF1A;&#x7531;&#x51FD;&#x6570;init_IRQ()&#x5B9E;&#x73B0;&#xFF0C;&#x88AB;&#x7CFB;&#x7EDF;&#x521D;&#x59CB;&#x5316;&#x5165;&#x53E3;&#x51FD;&#x6570;start_kernel()&#x8C03;&#x7528;&#xFF1B;</li>
+</ul>
+<h3 id="trapinit"><code>trap_init()</code></h3>
+<p>&#x6B64;&#x51FD;&#x6570;&#x5728;<strong>x86&#x5E73;&#x53F0;linux&#x7CFB;&#x7EDF;&#x8C03;&#x7528;</strong>&#x7AE0;&#x8282;&#x5DF2;&#x7ECF;&#x5206;&#x6790;&#x8FC7;&#x3002;</p>
+<h3 id="earlyirqinit"><code>early_irq_init()</code></h3>
+<p>&#x8BE5;&#x51FD;&#x6570;&#x7528;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x6570;&#x7EC4;irq_desc[]&#xFF1B;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+    init/main.c-&gt;start_kernel()-&gt;early_irq_init()
+    early_irq_init()&#x5B9A;&#x4E49;&#x5728;kernel/irq/handle.c&#x4E2D;&#xFF0C;&#x4E14;&#x9488;&#x5BF9;&#x4E0D;&#x540C;&#x7684;controller&#x6709;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x73B0;&#x3002;    
+*/</span>
+<span class="hljs-comment">/*
+ * Linux has a controller-independent interrupt architecture.
+ * Every controller has a &apos;controller-template&apos;, that is used
+ * by the main code to do the right thing. Each driver-visible
+ * interrupt source is transparently wired to the appropriate
+ * controller. Thus drivers need not be aware of the
+ * interrupt-controller.
+ *
+ * The code is designed to be easily extended with new/different
+ * interrupt controllers, without having to do assembly magic or
+ * having to touch the generic code.
+ *
+ * Controller mappings for all interrupt sources:
+ */</span>
+
+<span class="hljs-keyword">int</span> nr_irqs = NR_IRQS;
+EXPORT_SYMBOL_GPL(nr_irqs);
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_SPARSE_IRQ <span class="hljs-comment">/*CONFIG_SPARSE_IRQ=y&#x652F;&#x6301;&#x7A00;&#x6709;&#x7684;&#x4E2D;&#x65AD;&#x53F7;*/</span></span>
+<span class="hljs-comment">/* &#x6682;&#x65F6;&#x4E0D;&#x770B; */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span>
+<span class="hljs-keyword">struct</span> irq_desc irq_desc[NR_IRQS] __cacheline_aligned_in_smp = {
+        [<span class="hljs-number">0</span> ... NR_IRQS<span class="hljs-number">-1</span>] = {
+                .status = IRQ_DISABLED,
+                .chip = &amp;no_irq_chip,
+                .handle_irq = handle_bad_irq,
+                .depth = <span class="hljs-number">1</span>,
+                .lock = __SPIN_LOCK_UNLOCKED(irq_desc-&gt;lock),
+        }
+};
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> kstat_irqs_all[NR_IRQS][NR_CPUS];
+<span class="hljs-keyword">int</span> __<span class="hljs-function">init <span class="hljs-title">early_irq_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+        <span class="hljs-keyword">struct</span> irq_desc *desc;
+        <span class="hljs-keyword">int</span> count;
+        <span class="hljs-keyword">int</span> i;
+
+        init_irq_default_affinity();
+
+        printk(KERN_INFO <span class="hljs-string">&quot;NR_IRQS:%d\n&quot;</span>, NR_IRQS);
+
+        desc = irq_desc;
+        count = ARRAY_SIZE(irq_desc);
+
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; count; i++) {
+                desc[i].irq = i;
+                init_alloc_desc_masks(&amp;desc[i], <span class="hljs-number">0</span>, <span class="hljs-literal">true</span>);
+                desc[i].kstat_irqs = kstat_irqs_all[i];
+        }
+        <span class="hljs-keyword">return</span> arch_early_irq_init();
+}
+
+<span class="hljs-function"><span class="hljs-keyword">struct</span> irq_desc *<span class="hljs-title">irq_to_desc</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq)</span>
+</span>{
+        <span class="hljs-keyword">return</span> (irq &lt; NR_IRQS) ? irq_desc + irq : <span class="hljs-literal">NULL</span>;
+}
+<span class="hljs-function"><span class="hljs-keyword">struct</span> irq_desc *<span class="hljs-title">irq_to_desc_alloc_cpu</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">int</span> cpu)</span>
+</span>{
+        <span class="hljs-keyword">return</span> irq_to_desc(irq);
+}
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span> <span class="hljs-comment">/* !CONFIG_SPARSE_IRQ */</span></span>
+</code></pre>
+<h3 id="initirq"><code>init_IRQ()</code></h3>
+<p><code>init/main.c-&gt;start_kernel()-&gt;init_IRQ()</code></p>
+<pre><code class="lang-c">/* early_irq_init()&#x51FD;&#x6570;&#x8C03;&#x7528;&#x5B8C;&#x7D27;&#x63A5;&#x7740;&#x5C31;&#x662F;init_IQR()&#x51FD;&#x6570; */
+/*arch/x86/kernel/paravirt.c*/
+void init_IRQ(void)
+{
+        pv_irq_ops.init_IRQ();
+}
+
+/*pv_irq_ops&#x7684;&#x5B9A;&#x4E49;&#x5728;arch/x86/kernel/paravirt.c*/
+struct pv_irq_ops pv_irq_ops = {
+        .init_IRQ = native_init_IRQ,
+        .save_fl = __PV_IS_CALLEE_SAVE(native_save_fl),
+        .restore_fl = __PV_IS_CALLEE_SAVE(native_restore_fl),
+        .irq_disable = __PV_IS_CALLEE_SAVE(native_irq_disable),
+        .irq_enable = __PV_IS_CALLEE_SAVE(native_irq_enable),
+        .safe_halt = native_safe_halt,
+        .halt = native_halt,
+#ifdef CONFIG_X86_64
+        .adjust_exception_frame = paravirt_nop,
+#endif
+};
+
+/* &#x8FD9;&#x91CC;&#x7684;&#x8C03;&#x7528;&#x5173;&#x7CFB;&#x641E;&#x4E0D;&#x6E05;&#x695A;&#x662F;&#x901A;&#x8FC7;paravirt.c&#x4E2D;&#x7684;init_IRQ&#x8FD8;&#x662F;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x7684;irqinit_32.c&#x4E2D;&#x7684;init_IRQ&#x7136;&#x540E;&#x518D;&#x8C03;&#x7528;&#x7684;native_init_IRQ, &#x901A;&#x8FC7;irqinit_32.c&#x4E2D;&#x7684;&#x6CE8;&#x91CA;&#xFF1A;Overridden in paravirt.c &#x63A8;&#x65AD;&#x5E94;&#x8BE5;&#x662F;&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x7684;irqinit_32.c&#x4E2D;&#x7684;&#x4EE3;&#x7801;*/
+
+/*arch/x86/kernel/irqinit_32.c*/
+/* Overridden in paravirt.c */
+void init_IRQ(void) __attribute__((weak, alias(&quot;native_init_IRQ&quot;)));
+
+void __init native_init_IRQ(void)
+{
+        int i;
+
+        /* Execute any quirks before the call gates are initialised: */
+        x86_quirk_pre_intr_init();
+
+        /*
+         * Cover the whole vector space, no vector can escape
+         * us. (some of these will be overridden and become
+         * &apos;special&apos; SMP interrupts)
+         */
+        for (i =  FIRST_EXTERNAL_VECTOR; i &lt; NR_VECTORS; i++) {
+                /* SYSCALL_VECTOR was reserved in trap_init. */
+                if (i != SYSCALL_VECTOR)
+                        set_intr_gate(i, interrupt[i-FIRST_EXTERNAL_VECTOR]);
+        }
+    /*&#x7565;*/
+}
+</code></pre>
+<blockquote>
+<p>_<em>attribute_</em>((weak, alias(&quot;native_init_IRQ&quot;)));</p>
+<p>weak &#x548C; alias &#x5206;&#x522B;&#x662F;GNU&#x6269;&#x5C55;&#x7684;&#x4E24;&#x4E2A;&#x5C5E;&#x6027;&#x3002;</p>
+<p>weak &#x4F7F;&#x5F97;&#x6240;&#x4FEE;&#x9970;&#x7684;&#x7B26;&#x53F7;&#x5728;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x4E2D;&#x4F5C;&#x4E3A; weak symbol &#x800C;&#x4E0D;&#x662F; global symbol&#x3002;&#x7528; nm &#x547D;&#x4EE4;&#x67E5;&#x770B;&#x7F16;&#x8BD1;&#x751F;&#x6210;&#x7684;&#x76EE;&#x6807;&#x6587;&#x4EF6;&#x53EF;&#x7528;&#x770B;&#x5230;&#x6240;&#x4FEE;&#x9970;&#x7684;&#x7B26;&#x53F7;&#x662F;&#x4E00;&#x4E2A; weak symbol&#xFF0C;&#x5B83;&#x524D;&#x9762;&#x7684;&#x6807;&#x8BB0;&#x662F; W&#x3002;&#x7ED9;&#x51FD;&#x6570;&#x52A0;&#x4E0A;weak&#x5C5E;&#x6027;&#x65F6;&#xFF0C;&#x5373;&#x4F7F;&#x51FD;&#x6570;&#x6CA1;&#x5B9A;&#x4E49;&#xFF0C;&#x51FD;&#x6570;&#x88AB;&#x8C03;&#x7528;&#x4E5F;&#x53EF;&#x4EE5;&#x7F16;&#x8BD1;&#x6210;&#x529F;&#x3002; &#x82E5;&#x4E24;&#x4E2A;&#x6216;&#x4E24;&#x4E2A;&#x4EE5;&#x4E0A;&#x5168;&#x5C40;&#x7B26;&#x53F7;&#xFF08;&#x51FD;&#x6570;&#x6216;&#x53D8;&#x91CF;&#x540D;&#xFF09;&#x540D;&#x5B57;&#x4E00;&#x6837;&#xFF0C;&#x800C;&#x5176;&#x4E2D;&#x4E4B;&#x4E00;&#x58F0;&#x660E;&#x4E3A;weak symbol&#xFF08;&#x5F31;&#x7B26;&#x53F7;&#xFF09;&#xFF0C;&#x5219;&#x8FD9;&#x4E9B;&#x5168;&#x5C40;&#x7B26;&#x53F7;&#x4E0D;&#x4F1A;&#x5F15;&#x53D1;&#x91CD;&#x5B9A;&#x4E49;&#x9519;&#x8BEF;&#x3002;&#x94FE;&#x63A5;&#x5668;&#x4F1A;&#x5FFD;&#x7565;&#x5F31;&#x7B26;&#x53F7;&#xFF0C;&#x53BB;&#x4F7F;&#x7528;&#x666E;&#x901A;&#x7684;&#x5168;&#x5C40;&#x7B26;&#x53F7;&#x6765;&#x89E3;&#x6790;&#x6240;&#x6709;&#x5BF9;&#x8FD9;&#x4E9B;&#x7B26;&#x53F7;&#x7684;&#x5F15;&#x7528;&#xFF0C;&#x4F46;&#x5F53;&#x666E;&#x901A;&#x7684;&#x5168;&#x5C40;&#x7B26;&#x53F7;&#x4E0D;&#x53EF;&#x7528;&#x65F6;&#xFF0C;&#x94FE;&#x63A5;&#x5668;&#x4F1A;&#x4F7F;&#x7528;&#x5F31;&#x7B26;&#x53F7;&#x3002;&#x5F53;&#x6709;&#x51FD;&#x6570;&#x6216;&#x53D8;&#x91CF;&#x540D;&#x53EF;&#x80FD;&#x88AB;&#x7528;&#x6237;&#x8986;&#x76D6;&#x65F6;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x6216;&#x53D8;&#x91CF;&#x540D;&#x53EF;&#x4EE5;&#x58F0;&#x660E;&#x4E3A;&#x4E00;&#x4E2A;&#x5F31;&#x7B26;&#x53F7;&#x3002;</p>
+<p>&#x800C; alias &#x4E3A;&#x6240;&#x4FEE;&#x9970;&#x7684;&#x7B26;&#x53F7;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x522B;&#x540D;&#xFF0C;&#x524D;&#x8FB9;&#x4EE3;&#x7801;&#x4E2D;init_IRQ&#x662F;native_init_IRQ&#x7684;&#x4E00;&#x4E2A;&#x522B;&#x540D;&#xFF0C;&#x6240;&#x5B9A;&#x4E49;&#x7684;&#x522B;&#x540D;&#x548C;&#x539F;&#x7B26;&#x53F7;&#x540D;&#x5FC5;&#x987B;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x7F16;&#x8BD1;&#x5355;&#x5143;&#x4E2D;&#x5B9A;&#x4E49;&#xFF0C;&#x5982;native_init_IRQ&#x548C;init_IRQ&#x5728;&#x540C;&#x4E00;&#x4E2A;.c&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x5426;&#x5219;&#x4F1A;&#x7F16;&#x8BD1;&#x51FA;&#x9519;&#x3002;</p>
+<p> <a href="http://www.techbulo.com/2374.html" target="_blank">&#x53C2;&#x8003;</a></p>
+</blockquote>
+<p>&#x5176;&#x4E2D;<code>x86_quirk_pre_intr_init</code>&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5728;<code>arch/x86/kernel/setup.c</code>&#x4E2D;&#xFF0C;&#x4E3B;&#x8981;&#x8C03;&#x7528;&#x4E86;<code>init_ISA_irqs</code>&#x51FD;&#x6570;&#x5B8C;&#x6210;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;8259A&#x7684;&#x521D;&#x59CB;&#x5316;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/**
+ * x86_quirk_pre_intr_init - initialisation prior to setting up interrupt vectors
+ *
+ * Description:
+ *      Perform any necessary interrupt initialisation prior to setting up
+ *      the &quot;ordinary&quot; interrupt call gates.  For legacy reasons, the ISA
+ *      interrupts should be initialised here if the machine emulates a PC
+ *      in any way.
+ **/</span>
+<span class="hljs-keyword">void</span> __<span class="hljs-function">init <span class="hljs-title">x86_quirk_pre_intr_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+        <span class="hljs-keyword">if</span> (x86_quirks-&gt;arch_pre_intr_init) {
+                <span class="hljs-keyword">if</span> (x86_quirks-&gt;arch_pre_intr_init())
+                        <span class="hljs-keyword">return</span>;
+        }
+        init_ISA_irqs();
+}
+<span class="hljs-comment">/* init_ISA_irqs&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5728;arch/x86/kernel/irqinit_32.c&#x4E2D; */</span>
+<span class="hljs-keyword">void</span> __<span class="hljs-function">init <span class="hljs-title">init_ISA_irqs</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+        <span class="hljs-keyword">int</span> i;
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_X86_LOCAL_APIC</span>
+        init_bsp_APIC();
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+        init_8259A(<span class="hljs-number">0</span>); <span class="hljs-comment">// &#x5B8C;&#x6210;8259A&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;&#x7684;&#x521D;&#x59CB;&#x5316;</span>
+
+        <span class="hljs-comment">/*
+         * 16 old-style INTA-cycle interrupts:
+         */</span>
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; NR_IRQS_LEGACY; i++) {
+                <span class="hljs-keyword">struct</span> irq_desc *desc = irq_to_desc(i);
+
+                desc-&gt;status = IRQ_DISABLED;
+                desc-&gt;action = <span class="hljs-literal">NULL</span>;
+                desc-&gt;depth = <span class="hljs-number">1</span>;
+
+                set_irq_chip_and_handler_name(i, &amp;i8259A_chip,
+                                              handle_level_irq, <span class="hljs-string">&quot;XT&quot;</span>);
+        }
+        <span class="hljs-comment">/* for&#x5FAA;&#x73AF;&#x4E2D;&#x521D;&#x59CB;&#x5316;&#x4E86;16&#x4E2A; irq_desc_t&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;*/</span>
+}
+<span class="hljs-comment">/* &#x5176;&#x4E2D; */</span>
+<span class="hljs-keyword">struct</span> irq_chip i8259A_chip = {
+        .name           = <span class="hljs-string">&quot;XT-PIC&quot;</span>,
+        .mask           = disable_8259A_irq,
+        .disable        = disable_8259A_irq,
+        .unmask         = enable_8259A_irq,
+        .mask_ack       = mask_and_ack_8259A,
+};
+handle_level_irq()  &#x5B9A;&#x4E49;&#x5728; /kernel/irq/chip.c
+
+
+<span class="hljs-comment">/* /kernel/irq/chip.c&quot;  */</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">set_irq_chip_and_handler_name</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">struct</span> irq_chip *chip,
+                              irq_flow_handler_t handle, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name)</span>
+</span>{
+        set_irq_chip(irq, chip); <span class="hljs-comment">/* &#x8BBE;&#x7F6E;chip */</span>
+        __set_irq_handler(irq, handle, <span class="hljs-number">0</span>, name); 
+                <span class="hljs-comment">/* &#x8BBE;&#x7F6E;handle 
+                    desc-&gt;handle_irq = handle;
+                    desc-&gt;name = name;
+                */</span> 
+}
+
+<span class="hljs-comment">/* /kernel/irq/chip.c */</span>
+<span class="hljs-comment">/**
+ *      set_irq_chip - set the irq chip for an irq
+ *      @irq:   irq number
+ *      @chip:  pointer to irq chip description structure
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">set_irq_chip</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">struct</span> irq_chip *chip)</span>
+</span>{
+        <span class="hljs-keyword">struct</span> irq_desc *desc = irq_to_desc(irq);
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags;
+
+        <span class="hljs-keyword">if</span> (!desc) {
+                WARN(<span class="hljs-number">1</span>, KERN_ERR <span class="hljs-string">&quot;Trying to install chip for IRQ%d\n&quot;</span>, irq);
+                <span class="hljs-keyword">return</span> -EINVAL;
+        }
+
+        <span class="hljs-keyword">if</span> (!chip)
+                chip = &amp;no_irq_chip;
+
+        spin_lock_irqsave(&amp;desc-&gt;lock, flags);
+        irq_chip_set_defaults(chip);
+        desc-&gt;chip = chip;
+        spin_unlock_irqrestore(&amp;desc-&gt;lock, flags);
+
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>&#x4E4B;&#x540E;&#x5FAA;&#x73AF;&#x8C03;&#x7528;<code>set_intr_gate</code>&#x51FD;&#x6570;&#xFF0C;&#x5B8C;&#x6210;&#x4E2D;&#x65AD;&#x95E8;&#x7684;&#x521D;&#x59CB;&#x5316;&#x3002;&#x5FAA;&#x73AF;&#x4E2D;&#x7684;&#x51E0;&#x4E2A;&#x5B8F;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/*arch/x86/include/asm/irq_vectors.h*/</span>
+<span class="hljs-comment">/*
+ * IDT vectors usable for external interrupt sources start
+ * at 0x20:
+ */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> FIRST_EXTERNAL_VECTOR           0x20</span>
+
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> NR_VECTORS                       256</span>
+
+<span class="hljs-meta"># <span class="hljs-meta-keyword">define</span> SYSCALL_VECTOR                 0x80</span>
+</code></pre>
+<p>&#x5373;&#x521D;&#x59CB;&#x5316;<code>IDT</code>&#x4ECE;<code>0x20</code>&#x5F00;&#x59CB;&#x7684;256&#x4E2A;&#x4E2D;&#x65AD;&#x95E8;&#xFF0C;&#x5E76;&#x8DF3;&#x8FC7;<code>0x80</code>&#x3002;<code>set_intr_gate</code>&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5728;<code>arch/x86/include/asm/desc.h</code>&#x4E2D;&#xFF0C;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * This needs to use &apos;idt_table&apos; rather than &apos;idt&apos;, and
+ * thus use the _nonmapped_ version of the IDT, as the
+ * Pentium F0 0F bugfix can have resulted in the mapped
+ * IDT being write-protected.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set_intr_gate</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> n, <span class="hljs-keyword">void</span> *addr)</span>
+</span>{
+        BUG_ON((<span class="hljs-keyword">unsigned</span>)n &gt; <span class="hljs-number">0xFF</span>);
+        _set_gate(n, GATE_INTERRUPT, addr, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, __KERNEL_CS);
+}
+<span class="hljs-comment">/*
+    &#x5176;&#x4E2D; GATE_INTERRUPT&#x5B9A;&#x4E49;&#x5982;&#x4E0B;
+    arch/x86/include/asm/desc_defs.h&quot;
+    enum {
+        GATE_INTERRUPT = 0xE,
+        GATE_TRAP = 0xF,
+        GATE_CALL = 0xC,
+        GATE_TASK = 0x5,
+    };
+*/</span>
+</code></pre>
+<p>&#x7B80;&#x5355;&#x603B;&#x7ED3;<code>native_init_IRQ</code>&#x51FD;&#x6570;&#x4E3B;&#x8981;&#x5B8C;&#x6210;&#x4E24;&#x4E2A;&#x5DE5;&#x4F5C;&#xFF0C;</p>
+<ul>
+<li>&#x521D;&#x59CB;&#x5316;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x5668;&#xFF1B;<ul>
+<li>&#x521D;&#x59CB;&#x5316;<code>struct desc</code>&#x4E3B;&#x8981;&#x662F;<code>chip</code>&#x6210;&#x5458;&#x548C;<code>handle_irq</code>&#x6210;&#x5458;&#x3002;</li>
+</ul>
+</li>
+<li>&#x5C06;<code>interrupt[]</code>&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x5730;&#x5740;&#x5199;&#x8FDB;&#x4E86;<code>IDT</code>&#x4E2D;&#x3002;</li>
+</ul>
+<h4 id="interrupt&#x7684;&#x5B9A;&#x4E49;">interrupt[]&#x7684;&#x5B9A;&#x4E49;</h4>
+<p><a href="#&#x53C2;&#x8003;">&#x53C2;&#x8003;</a>&#x7684;&#x7B2C;&#x4E8C;&#x9879;&#xFF1A;&#x4E2D;&#x65AD;&#x4E4B;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x8868;IDT&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x6709;&#x5BF9;&#x8FD9;&#x6BB5;&#x4EE3;&#x7801;&#x7684;&#x6CE8;&#x91CA;&#x4EE5;&#x53CA;&#x89E3;&#x91CA;&#x3002;</p>
+<pre><code class="lang-assembly">/*arch/x86/kernel/entry_32.S*/
+/*
+ * Build the entry stubs and pointer table with some assembler magic.
+ * We pack 7 stubs into a single 32-byte chunk, which will fit in a
+ * single cache line on all modern x86 implementations.
+ */
+.section .init.rodata,&quot;a&quot;
+ENTRY(interrupt)
+.text
+        .p2align 5
+        .p2align CONFIG_X86_L1_CACHE_SHIFT
+ENTRY(irq_entries_start)
+        RING0_INT_FRAME
+vector=FIRST_EXTERNAL_VECTOR
+.rept (NR_VECTORS-FIRST_EXTERNAL_VECTOR+6)/7
+        .balign 32
+  .rept 7
+    .if vector &lt; NR_VECTORS
+      .if vector &lt;&gt; FIRST_EXTERNAL_VECTOR
+        CFI_ADJUST_CFA_OFFSET -4
+      .endif
+1:      pushl $(~vector+0x80)   /* Note: always in signed byte range */
+        CFI_ADJUST_CFA_OFFSET 4
+      .if ((vector-FIRST_EXTERNAL_VECTOR)%7) &lt;&gt; 6
+        jmp 2f
+      .endif
+      .previous
+        .long 1b
+      .text
+vector=vector+1
+    .endif
+  .endr
+2:      jmp common_interrupt
+.endr
+END(irq_entries_start)
+
+.previous
+END(interrupt)
+.previous
+</code></pre>
+<p>&#x4E3B;&#x8981;&#x5305;&#x542B;&#x4E24;&#x884C;&#x4EE3;&#x7801;<code>pushl $(~vector+0x80)</code>&#x548C;<code>jmp common_interrupt</code>,&#x5373;&#x628A;&#x4E2D;&#x65AD;&#x53F7;&#x51CF;&#x53BB;256&#x7684;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;&#x6808;&#x4E2D;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;&#x901A;&#x7528;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x3002;&#x4E4B;&#x6240;&#x4EE5;&#x8981;&#x51CF;&#x53BB;256&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x5185;&#x6838;&#x7528;&#x8D1F;&#x6570;&#x8868;&#x793A;&#x6240;&#x6709;&#x7684;&#x4E2D;&#x65AD;&#xFF0C;&#x6B63;&#x6570;&#x8868;&#x793A;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x3002;</p>
+<blockquote>
+<p>.rept&#x8BED;&#x6CD5;</p>
+<p>.rept <em>count</em>
+Repeat the sequence of lines between the .rept directive and the next .endr directive count times.
+For example, assembling
+<strong>.rept 3
+.long 0
+.endr</strong>
+is equivalent to assembling
+<strong>.long 0
+.long 0
+.long 0</strong></p>
+<p><a href="https://blog.csdn.net/waverider2012/article/details/8524175" target="_blank">&#x53C2;&#x8003;</a></p>
+<hr>
+<p>.IF&#x3001;.ELSE&#x3001;.ELSEIF &#x548C; .ENDIF &#x4F2A;&#x6307;&#x4EE4;&#x4F7F;&#x5F97;&#x7A0B;&#x5E8F;&#x5458;&#x6613;&#x4E8E;&#x5BF9;&#x591A;&#x5206;&#x652F;&#x903B;&#x8F91;&#x8FDB;&#x884C;&#x7F16;&#x7801;&#x3002;&#x5B83;&#x4EEC;&#x8BA9;&#x6C47;&#x7F16;&#x5668;&#x5728;&#x540E;&#x53F0;&#x751F;&#x6210; CMP &#x548C;&#x6761;&#x4EF6;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x8FD9;&#x4E9B;&#x6307;&#x4EE4;&#x663E;&#x793A;&#x5728;&#x8F93;&#x51FA;&#x5217;&#x8868;&#x6587;&#x4EF6;&#x4E2D;&#x3002;&#x8BED;&#x6CD5;&#x5982;&#x4E0B;&#x6240;&#x793A;&#xFF1A;    </p>
+<p>.IF conditionl
+ statements
+[.ELSEIF condition2
+ statements ]
+[.ELSE
+ statements ]
+.ENDIF</p>
+<p>&#x65B9;&#x62EC;&#x53F7;&#x8868;&#x793A; .ELSEIF &#x548C; .ELSE &#x662F;&#x53EF;&#x9009;&#x7684;&#xFF0C;&#x800C; .IF &#x548C; .ENDIF &#x5219;&#x662F;&#x5FC5;&#x9700;&#x7684;&#x3002;condition&#xFF08;&#x6761;&#x4EF6;&#xFF09;&#x662F;&#x5E03;&#x5C14;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;</p>
+<p><a href="http://c.biancheng.net/view/3585.html" target="_blank">&#x53C2;&#x8003;</a></p>
+</blockquote>
+<p>&#x6570;&#x7EC4;&#x4E2D;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x521D;&#x59CB;&#x503C;&#x662F;&#x6807;&#x53F7;1&#x7684;&#x5730;&#x5740;&#x3002;&#x56E0;&#x6B64;&#x8BBF;&#x95EE;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x5143;&#x7D20;&#x65F6;&#xFF0C;&#x90FD;&#x4F1A;&#x8DF3;&#x5230;&#x6807;&#x53F7;1&#x5904;&#xFF0C;&#x6267;&#x884C;&#x76F8;&#x5E94;&#x7684;&#x6307;&#x4EE4;&#x3002;&#x4E5F;&#x5C31;&#x662F;&#xFF0C;&#x5728;&#x9664;&#x4E86;0~19&#x53F7;&#x548C;0x80&#x53F7;&#x4E2D;&#x65AD;&#x5916;&#xFF0C;&#x5176;&#x4F59;&#x7684;&#x6240;&#x6709;&#x4E2D;&#x65AD;&#x5728;&#x8FDB;&#x5165;&#x5176;&#x81EA;&#x5DF1;&#x7684;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x4E4B;&#x524D;&#xFF0C;&#x5FC5;&#x987B;&#x662F;&#x5148;&#x6761;&#x8F6C;&#x6267;&#x884C;common_interrupt&#x7684;.</p>
+<h4 id="commoninterrupt&#x7684;&#x5B9A;&#x4E49;">common_interrupt&#x7684;&#x5B9A;&#x4E49;</h4>
+<pre><code class="lang-assembly">
+/*
+ * the CPU automatically disables interrupts when executing an IRQ vector,
+ * so IRQ-flags tracing has to follow that:
+ */
+        .p2align CONFIG_X86_L1_CACHE_SHIFT
+common_interrupt:
+        addl $-0x80,(%esp)      /* Adjust vector into the [-256,-1] range */
+        SAVE_ALL
+        TRACE_IRQS_OFF
+        movl %esp,%eax
+        call do_IRQ
+        jmp ret_from_intr
+ENDPROC(common_interrupt)
+        CFI_ENDPROC
+</code></pre>
+<p>&#x4FDD;&#x5B58;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;&#x4EE5;&#x540E;&#xFF0C;&#x6808;&#x9876;&#x7684;&#x5730;&#x5740;&#x88AB;&#x5B58;&#x653E;&#x5230;<code>eax</code>&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x7136;&#x540E;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x8C03;&#x7528;<code>do_IRQ()</code>&#x51FD;&#x6570;&#xFF0C;&#x6267;&#x884C;<code>do_IRQ()</code>&#x7684;<code>ret</code>&#x6307;&#x4EE4;&#x65F6;&#xFF0C;&#x63A7;&#x5236;&#x8DF3;&#x8F6C;&#x5230;<code>ret_from_intr()</code>&#x3002;</p>
+<h4 id="doirq&#x51FD;&#x6570;">do_IRQ&#x51FD;&#x6570;</h4>
+<pre><code class="lang-c"><span class="hljs-comment">/* arch/x86/kernel/irq.c */</span>
+<span class="hljs-comment">/*
+ * do_IRQ handles all normal device IRQ&apos;s (the special
+ * SMP cross-CPU interrupts have their own specific
+ * handlers).
+ */</span>
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">irq_entry <span class="hljs-title">do_IRQ</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> pt_regs *regs)</span>
+</span>{
+        <span class="hljs-keyword">struct</span> pt_regs *old_regs = set_irq_regs(regs);
+
+        <span class="hljs-comment">/* high bit used in ret_from_ code  */</span>
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-built_in">vector</span> = ~regs-&gt;orig_ax; <span class="hljs-comment">// &#x53D6;&#x5F97;&#x5BF9;&#x5E94;&#x7684;&#x4E2D;&#x65AD;&#x5411;&#x91CF;</span>
+        <span class="hljs-keyword">unsigned</span> irq;
+
+        exit_idle();
+        irq_enter();
+
+        irq = __get_cpu_var(vector_irq)[<span class="hljs-built_in">vector</span>];
+
+        <span class="hljs-keyword">if</span> (!handle_irq(irq, regs)) { <span class="hljs-comment">//&#x8C03;&#x7528;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x53E5;&#x67C4;&#xFF0C;&#x5BF9;8259&#xFF0C;&#x5C31;&#x662F;handle_level_irq</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_X86_64</span>
+                <span class="hljs-keyword">if</span> (!disable_apic)
+                        ack_APIC_irq();
+<span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span>
+                <span class="hljs-keyword">if</span> (printk_ratelimit())
+                        printk(KERN_EMERG <span class="hljs-string">&quot;%s: %d.%d No irq handler for vector (irq %d)\n&quot;</span>,
+                               __func__, smp_processor_id(), <span class="hljs-built_in">vector</span>, irq);
+        }
+        irq_exit();
+
+        set_irq_regs(old_regs);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+</code></pre>
+<h4 id="handleirq">handle_irq</h4>
+<p>&#x641C;&#x7D22;&#x53D1;&#x73B0;&#x6B64;&#x51FD;&#x6570;&#x5728;<code>arch/x86/kernel/irq_32.c&quot;</code>&#x4E2D;&#x5B9A;&#x4E49;</p>
+<pre><code class="lang-c"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">handle_irq</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> irq, <span class="hljs-keyword">struct</span> pt_regs *regs)</span>
+</span>{
+        <span class="hljs-keyword">struct</span> irq_desc *desc;
+        <span class="hljs-keyword">int</span> overflow;
+
+        overflow = check_stack_overflow();
+
+        desc = irq_to_desc(irq);
+        <span class="hljs-keyword">if</span> (unlikely(!desc))
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+
+        <span class="hljs-keyword">if</span> (!execute_on_irq_stack(overflow, desc, irq)) {
+                <span class="hljs-keyword">if</span> (unlikely(overflow))
+                        print_stack_overflow();
+                desc-&gt;handle_irq(irq, desc); 
+                <span class="hljs-comment">/* &#x5728;&#x8FD9;&#x91CC;&#x8C03;&#x7528;&#x4E86;&#x4E4B;&#x524D;&#x6CE8;&#x518C;&#x7684;handler_irq&#x51FD;&#x6570;
+                    init_ISA_irqs()
+                        -&gt; set_irq_chip_and_handler_name(i, &amp;i8259A_chip,
+                                              handle_level_irq, &quot;XT&quot;);
+                            -&gt; __set_irq_handler(irq, handle, 0, name);
+                                -&gt; desc-&gt;handle_irq = handle;
+                    &#x5373;handle_level_irq
+                        -&gt; handle_IRQ_event(irq, action); 
+                            -&gt;  do {
+                                        ret = action-&gt;handler(irq, action-&gt;dev_id);
+                                        action = action-&gt;next;
+                                } while (action);
+                */</span>
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+</code></pre>
+<h2 id="&#x6CE8;&#x518C;&#x4E2D;&#x65AD;">&#x6CE8;&#x518C;&#x4E2D;&#x65AD;</h2>
+<p>&#x5728;Linux&#x5185;&#x6838;&#x7533;&#x8BF7;&#x4E2D;&#x65AD;&#x7684;&#x51FD;&#x6570;&#x662F;<code>request_irq()</code>,&#x51FD;&#x6570;&#x539F;&#x578B;&#x5B9A;&#x4E49;&#x5728;<code>include/linux/interrupt.h</code>&#x4E2D;&#xFF0C;</p>
+<pre><code class="lang-c">request_irq(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">irq_handler_t</span> handler, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags,
+            <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, <span class="hljs-keyword">void</span> *dev);
+<span class="hljs-comment">/*
+    irq : &#x8981;&#x7533;&#x8BF7;&#x7684;&#x786C;&#x4EF6;&#x4E2D;&#x65AD;&#x53F7;&#xFF1B;
+    handler : &#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x51FD;&#x6570;&#x6307;&#x9488;&#xFF1B;
+    flags: &#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7684;&#x5C5E;&#x6027;&#xFF0C;
+        &#x82E5;&#x8BBE;&#x7F6E;&#x4E86;IRQF_DISABLED&#x5219;&#x8868;&#x793A;&#x662F;&#x5FEB;&#x901F;&#x4E2D;&#x65AD;&#xFF0C;&#x5FEB;&#x901F;&#x4E2D;&#x65AD;&#x5728;&#x5904;&#x7406;&#x8FC7;&#x7A0B;&#x4E2D;&#x4F1A;&#x5C4F;&#x853D;&#x5176;&#x4ED6;&#x4E2D;&#x65AD;&#x3002;
+        &#x82E5;&#x8BBE;&#x7F6E;&#x4E86;IRQD_SHARED&#x5219;&#x8868;&#x793A;&#x591A;&#x4E2A;&#x8BBE;&#x5907;&#x5171;&#x4EAB;&#x6B64;&#x4E2D;&#x65AD;&#x3002;
+        &#x82E5;&#x8BBE;&#x7F6E;&#x4E86;IRQF_SAMPLE_RANDOM&#x5219;&#x8868;&#x793A;&#x5BF9;&#x7CFB;&#x7EDF;&#x4EA7;&#x751F;&#x968F;&#x673A;&#x6570;&#x6709;&#x4F5C;&#x7528;&#x3002;
+        IRQF_TRIGGER_* &#x5176;&#x4E2D;*&#x53EF;&#x4EE5;&#x662F;&#x4E2D;&#x65AD;&#x89E6;&#x53D1;&#x65B9;&#x5F0F;&#xFF0C;&#x5B9A;&#x4E49;&#x5728;include/linux/interrupt.h&#x4E2D;&#x3002;
+    name : &#x4E2D;&#x65AD;&#x540D;&#x5B57;&#xFF0C;/proc/interrupts&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x663E;&#x793A;&#xFF1B;
+    dev : &#x4E2D;&#x65AD;&#x5171;&#x4EAB;&#x65F6;&#x53EF;&#x4EE5;&#x7528;&#x5230;&#xFF0C;&#x4E00;&#x822C;&#x8BBE;&#x7F6E;&#x4E3A;&#x8FD9;&#x4E2A;&#x8BBE;&#x5907;&#x7684;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x4F53;&#x6216;&#x8005;NULL
+
+    &#x8FD4;&#x56DE;&#x503C;&#xFF1A; 
+        0  : &#x6210;&#x529F; &#xFF1B; 
+        -INVAL : &#x8868;&#x793A;&#x4E2D;&#x65AD;&#x53F7;&#x65E0;&#x6548;&#x6216;&#x5904;&#x7406;&#x51FD;&#x6570;&#x6307;&#x9488;&#x4E3A;NULL &#xFF1B; 
+        -EBUSY : &#x8868;&#x793A;&#x4E2D;&#x65AD;&#x5DF2;&#x7ECF;&#x88AB;&#x5360;&#x7528;&#x4E14;&#x4E0D;&#x80FD;&#x5171;&#x4EAB;&#x3002;
+*/</span>
+</code></pre>
+<blockquote>
+<p>&#x5173;&#x4E8E;request_irq()&#x7684;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x53C2;&#x6570;dev</p>
+<p>&#x4E2D;&#x65AD;&#x53D1;&#x751F;&#x65F6;&#xFF0C;&#x5185;&#x6838;&#x5E76;&#x4E0D;&#x5224;&#x65AD;&#x662F;&#x5171;&#x4EAB;&#x4E2D;&#x65AD;&#x7EBF;&#x4E0A;&#x7684;&#x54EA;&#x4E2A;&#x8BBE;&#x5907;&#x4EA7;&#x751F;&#x4E86;&#x4E2D;&#x65AD;&#xFF0C;&#x5B83;&#x4F1A;&#x5FAA;&#x73AF;&#x6267;&#x884C;&#x6240;&#x6709;&#x8BE5;&#x4E2D;&#x65AD;&#x7EBF;&#x4E0A;&#x6CE8;&#x518C;&#x7684;&#x6240;&#x6709;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x51FD;&#x6570;&#xFF08;irqaction-&gt;handler&#x51FD;&#x6570;&#xFF09;&#x3002;&#x56E0;&#x6B64;irqaction-&gt;handler&#x51FD;&#x6570;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x5224;&#x65AD;&#x5177;&#x4F53;&#x7684;&#x4E2D;&#x65AD;&#x6E90;&#x3002;&#x5F88;&#x591A;&#x8D44;&#x6599;&#x90FD;&#x5EFA;&#x8BAE;&#x5C06;&#x8BBE;&#x5907;&#x7ED3;&#x6784;&#x6307;&#x9488;&#x4F5C;&#x4E3A;&#x6B64;&#x53C2;&#x6570;&#x7684;&#x503C;&#xFF0C;&#x5F53;&#x4E2D;&#x65AD;&#x53D1;&#x751F;&#x65F6;&#xFF0C;&#x8FC5;&#x901F;&#x6839;&#x636E;&#x786C;&#x4EF6;&#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x4FE1;&#x606F;&#x6BD4;&#x7167;&#x4F20;&#x5165;&#x7684;dev&#x53C2;&#x6570;&#x5224;&#x65AD;&#x662F;&#x5426;&#x662F;&#x672C;&#x8BBE;&#x5907;&#x53D1;&#x51FA;&#x7684;&#x4E2D;&#x65AD;&#x3002;&#x800C;&#x4E14;free_irq()&#x51FD;&#x6570;&#x4E5F;&#x9700;&#x8981;&#x636E;&#x6B64;&#x5224;&#x65AD;&#x4ECE;&#x5171;&#x4EAB;&#x4E2D;&#x65AD;&#x7EBF;&#x4E0A;&#x79FB;&#x9664;&#x54EA;&#x4E00;&#x4E2A;irqaction</p>
+</blockquote>
+<p>&#x4EE3;&#x7801;&#x6D41;&#x7A0B;</p>
+<pre><code class="lang-c">
+<span class="hljs-comment">/*include/linux/interrupt.h*/</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">must_check
+<span class="hljs-title">request_irq</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, irq_handler_t handler, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags,
+            <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, <span class="hljs-keyword">void</span> *dev)</span>
+</span>{
+        <span class="hljs-keyword">return</span> request_threaded_irq(irq, handler, <span class="hljs-literal">NULL</span>, flags, name, dev);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">void</span> <span class="hljs-title">exit_irq_thread</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
+<span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span>
+
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">must_check
+<span class="hljs-title">request_irq</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, irq_handler_t handler, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> flags,
+            <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name, <span class="hljs-keyword">void</span> *dev)</span></span>;
+</code></pre>
+<p>&#x4E3B;&#x8981;&#x8C03;&#x7528;&#x4E86;<code>request_threaded_irq()</code>&#x51FD;&#x6570;&#xFF0C;&#x6B64;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5728;<code>kernel/irq/manage.c</code>&#x4E2D;&#xFF0C;</p>
+<pre><code class="lang-c">
+<span class="hljs-comment">/**
+ *      request_threaded_irq - allocate an interrupt line
+ *      @irq: Interrupt line to allocate
+ *      @handler: Function to be called when the IRQ occurs.
+ *                Primary handler for threaded interrupts
+ *      @thread_fn: Function called from the irq handler thread
+ *                  If NULL, no irq thread is created
+ *      @irqflags: Interrupt type flags
+ *      @devname: An ascii name for the claiming device
+ *      @dev_id: A cookie passed back to the handler function
+ *
+ *      This call allocates interrupt resources and enables the
+ *      interrupt line and IRQ handling. From the point this
+ *      call is made your handler function may be invoked. Since
+ *      your handler function must clear any interrupt the board
+ *      raises, you must take care both to initialise your hardware
+ *      and to set up the interrupt handler in the right order.
+ *
+ *      If you want to set up a threaded irq handler for your device
+ *      then you need to supply @handler and @thread_fn. @handler ist
+ *      still called in hard interrupt context and has to check
+ *      whether the interrupt originates from the device. If yes it
+ *      needs to disable the interrupt on the device and return
+ *      IRQ_THREAD_WAKE which will wake up the handler thread and run
+ *      @thread_fn. This split handler design is necessary to support
+ *      shared interrupts.
+ *
+ *      Dev_id must be globally unique. Normally the address of the
+ *      device data structure is used as the cookie. Since the handler
+ *      receives this value it makes sense to use it.
+ *
+ *      If your interrupt is shared you must pass a non NULL dev_id
+ *      as this is required when freeing the interrupt.
+ *
+ *      Flags:
+ *
+ *      IRQF_SHARED             Interrupt is shared
+ *      IRQF_DISABLED   Disable local interrupts while processing
+ *      IRQF_SAMPLE_RANDOM      The interrupt can be used for entropy
+ *      IRQF_TRIGGER_*          Specify active edge(s) or level
+ *
+ */</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">request_threaded_irq</span><span class="hljs-params">(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> irq, irq_handler_t handler,
+                         irq_handler_t thread_fn, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> irqflags,
+                         <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *devname, <span class="hljs-keyword">void</span> *dev_id)</span>
+</span>{
+        <span class="hljs-keyword">struct</span> irqaction *action;
+        <span class="hljs-keyword">struct</span> irq_desc *desc;
+        <span class="hljs-keyword">int</span> retval;
+
+        <span class="hljs-comment">/*
+         * handle_IRQ_event() always ignores IRQF_DISABLED except for
+         * the _first_ irqaction (sigh).  That can cause oopsing, but
+         * the behavior is classified as &quot;will not fix&quot; so we need to
+         * start nudging drivers away from using that idiom.
+         */</span>
+        <span class="hljs-keyword">if</span> ((irqflags &amp; (IRQF_SHARED|IRQF_DISABLED)) ==
+                                        (IRQF_SHARED|IRQF_DISABLED)) {
+                pr_warning(
+                  <span class="hljs-string">&quot;IRQ %d/%s: IRQF_DISABLED is not guaranteed on shared IRQs\n&quot;</span>,
+                        irq, devname);
+        }
+
+        <span class="hljs-comment">/*&#x7701;&#x7565;&#x4E00;&#x4E9B;&#x72B6;&#x6001;&#x68C0;&#x67E5;&#x7684;&#x4EE3;&#x7801;*/</span>
+
+        desc = irq_to_desc(irq);
+        <span class="hljs-keyword">if</span> (!desc)
+                <span class="hljs-keyword">return</span> -EINVAL;
+        action = kzalloc(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">struct</span> irqaction), GFP_KERNEL);
+        <span class="hljs-keyword">if</span> (!action)
+                <span class="hljs-keyword">return</span> -ENOMEM;
+
+        action-&gt;handler = handler; <span class="hljs-comment">/* &#x6CE8;&#x518C;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x51FD;&#x6570; */</span>
+        action-&gt;thread_fn = thread_fn;
+        action-&gt;flags = irqflags;
+        action-&gt;name = devname;
+        action-&gt;dev_id = dev_id;
+
+        retval = __setup_irq(irq, desc, action);
+        <span class="hljs-keyword">if</span> (retval)
+                kfree(action);
+        <span class="hljs-comment">/* &#x7701;&#x7565;&#x4E00;&#x90E8;&#x5206; */</span>
+        <span class="hljs-keyword">return</span> retval;
+}
+EXPORT_SYMBOL(request_threaded_irq);
+</code></pre>
+<p>&#x9996;&#x5148;&#x4ECE;<code>irq</code>&#x62FF;&#x5230;<code>struct desc</code>&#xFF0C;&#x7136;&#x540E;&#x521D;&#x59CB;&#x5316;&#x4E86;<code>struct desc</code>&#x7ED3;&#x6784;&#x7684;<code>action</code>&#x7ED3;&#x6784;&#xFF0C;&#x6700;&#x540E;&#x8C03;&#x7528;&#x4E86;<code>__setup_irq()</code>&#x51FD;&#x6570;&#x3002;</p>
+<p><code>__setup_irq()</code>&#x51FD;&#x6570;&#x8FD8;&#x8C03;&#x7528;&#x4E86;&#x5185;&#x6838;&#x7EBF;&#x7A0B;&#x7684;&#x521B;&#x5EFA;<code>kthread_create()</code>&#x7B49;&#x7B49;&#xFF0C;&#x6682;&#x65F6;&#x4E0D;&#x505A;&#x5206;&#x6790;&#x3002;</p>
+<h2 id="&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x6D41;&#x7A0B;">&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x6D41;&#x7A0B;</h2>
+<p>&#x6CE8;&#x518C;&#x6D41;&#x7A0B;&#xFF1A; </p>
+<ul>
+<li>&#x7CFB;&#x7EDF;&#x521D;&#x59CB;&#x5316;&#x65F6; : &#x8C03;&#x7528;<code>init_IRQ()</code>&#xFF0C; &#x6B64;&#x51FD;&#x6570;&#x95F4;&#x63A5;&#x8C03;&#x7528;<code>init_ISA_irq()</code>&#x51FD;&#x6570;&#xFF0C;&#x521D;&#x59CB;&#x5316;<code>PIC</code>&#x4EE5;&#x53CA;<code>struct irq_desc</code>&#x6570;&#x7EC4;&#xFF0C;&#x586B;&#x5145;&#x4E86;<code>struct irq_desc</code>&#x5143;&#x7D20;&#x7684;<code>handler_irq</code>&#x548C;<code>chip</code>&#x7ED3;&#x6784;&#x3002;&#x4E4B;&#x540E;&#x8C03;&#x7528;<code>set_intr_gate()</code>&#x5C06;<code>interrupts</code>&#x6570;&#x7EC4;&#x8BBE;&#x7F6E;&#x5230;&#x7CFB;&#x7EDF;&#x7684;<code>IDT</code>&#x4E2D;&#x3002;</li>
+<li>&#x5728;&#x5185;&#x6838;&#x4EE3;&#x7801;&#x4E2D;&#x8C03;&#x7528;<code>request_irq()</code>&#x51FD;&#x6570;&#xFF0C;&#x5C06;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x6CE8;&#x518C;&#x5230;<code>irqaction</code>&#x7ED3;&#x6784;&#x4E2D;&#xFF0C;&#x8C03;&#x7528;<code>__setup_irq()</code>&#x51FD;&#x6570;&#x3002;</li>
+</ul>
+<p>&#x4E2D;&#x65AD;&#x53D1;&#x751F;&#x65F6;&#xFF1A;&#x5148;&#x53BB;IDT&#x8868;&#x4E2D;&#x627E;&#x5230;&#x76F8;&#x5E94;&#x7684;&#x4E2D;&#x65AD;&#x95E8;&#x63CF;&#x8FF0;&#x7B26;&#xFF0C;&#x6839;&#x636E;&#x4E2D;&#x65AD;&#x95E8;&#x63CF;&#x8FF0;&#x7B26;&#x627E;&#x5230;GDTR&#x4E2D;&#x76F8;&#x5E94;&#x7684;&#x4EE3;&#x7801;&#x6BB5;&#xFF0C;&#x518D;&#x6839;&#x636E;&#x4E2D;&#x65AD;&#x95E8;&#x63CF;&#x8FF0;&#x7B26;&#x4E2D;&#x4EE3;&#x7801;&#x504F;&#x79FB;&#xFF0C;&#x5230;&#x76F8;&#x5E94;&#x4EE3;&#x7801;&#x6BB5;&#x4E2D;&#x627E;&#x5230;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x7A0B;&#x5E8F;&#x5165;&#x53E3;&#xFF0C;&#x5373;<code>common_interrupt</code>&#xFF0C;&#x6B64;&#x51FD;&#x6570;&#x5148;&#x4FDD;&#x5B58;&#x73B0;&#x573A;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x4E2D;&#x65AD;&#x53F7;&#x538B;&#x5165;&#x6808;&#xFF0C;&#x8C03;&#x7528;<code>do_IRQ()</code>&#x51FD;&#x6570;&#xFF0C;&#x6B64;&#x51FD;&#x6570;&#x8C03;&#x7528;<code>desc-&gt;handle_irq</code>&#x5373;<code>handle_level_irq</code>&#xFF0C;&#x53C8;&#x8C03;&#x7528;&#x4E86;<code>handle_IRQ_event()</code>&#xFF0C;&#x6B64;&#x51FD;&#x6570;&#x4E2D;&#x5FAA;&#x73AF;&#x8C03;&#x7528;<code>action-&gt;handler()</code>&#xFF0C;&#x95F4;&#x63A5;&#x8C03;&#x7528;&#x5230;<code>request_irq()</code>&#x51FD;&#x6570;&#x6CE8;&#x518C;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x3002;</p>
+<h2 id="&#x5C0F;&#x7ED3;">&#x5C0F;&#x7ED3;</h2>
+<p>&#x672C;&#x6587;&#x4E3B;&#x8981;&#x57FA;&#x4E8E;x86&#x5E73;&#x53F0;&#x5BF9;&#x5E94;<code>linux 2.6.30.4</code>&#x7248;&#x672C;&#x7684;&#x5185;&#x6838;&#x6E90;&#x7801;&#xFF0C;&#x5BF9;<code>linux</code>&#x4E2D;&#x65AD;&#x7684;&#x521D;&#x59CB;&#x5316;&#x8FC7;&#x7A0B;&#x8FDB;&#x884C;&#x7B80;&#x5355;&#x5206;&#x6790;&#x3002;&#x8FD8;&#x6709;&#x4E00;&#x4E9B;&#x4E1C;&#x897F;&#x6CA1;&#x6709;&#x5F04;&#x61C2;&#xFF0C;&#x7559;&#x5F85;&#x4EE5;&#x540E;&#x5206;&#x6790;&#x3002;</p>
+<ul>
+<li><code>__setup_irq()</code>&#x51FD;&#x6570;&#xFF1B;</li>
+<li>&#x4E2D;&#x65AD;&#x53D1;&#x751F;&#x65F6;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x5230;<code>action-&gt;handler()</code>&#x7684;&#x8FC7;&#x7A0B;&#xFF1B;</li>
+<li><code>free_irq()</code>&#x7684;&#x6267;&#x884C;&#x6D41;&#x7A0B;&#xFF1B;</li>
+<li>&#x4ECE;&#x4E2D;&#x65AD;&#x4E2D;&#x8FD4;&#x56DE;&#xFF1B;</li>
+<li>&#x8F6F;&#x4E2D;&#x65AD;&#x53CA;<code>tasklet</code>&#xFF1B;</li>
+<li>&#x4E00;&#x4E9B;&#x5176;&#x4ED6;&#x7EC6;&#x8282;&#xFF1B;</li>
+</ul>
+<h2 id="&#x53C2;&#x8003;"><a id="&#x53C2;&#x8003;">&#x53C2;&#x8003;</a></h2>
+<p><a href="http://home.ustc.edu.cn/~hchunhui/linux_intr.html" target="_blank">x86&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x4E0B;Linux-2.6.26&#x7684;&#x4E2D;&#x65AD;&#x5904;&#x7406;</a></p>
+<p><a href="https://blog.csdn.net/farmwang/article/details/52318573" target="_blank">&#x4E2D;&#x65AD;&#x4E4B;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x8868;IDT&#x7684;&#x521D;&#x59CB;&#x5316;</a> </p>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; Yuanye.Ma 2020-2021 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;
+2023-04-02 10:05:52
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="x86平台linux系统调用.html" class="navigation navigation-prev " aria-label="Previous page: x86平台linux系统调用">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="编译内核文档.html" class="navigation navigation-next " aria-label="Next page: 编译内核文档">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"x86平台通用中断","level":"1.2.5.12","depth":3,"next":{"title":"编译内核文档","level":"1.2.5.13","depth":3,"path":"_posts/OS/编译内核文档.md","ref":"_posts/OS/编译内核文档.md","articles":[]},"previous":{"title":"x86平台linux系统调用","level":"1.2.5.11","depth":3,"path":"_posts/OS/x86平台linux系统调用.md","ref":"_posts/OS/x86平台linux系统调用.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","-search","-lunr","search-pro","pageview-count","page-toc-button","back-to-top-button","tbfed-pagefooter"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy Yuanye.Ma 2020-2021","modify_label":"文件修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"page-toc-button":{"maxTocDepth":2,"minTocSize":2},"search-pro":{},"pageview-count":{},"back-to-top-button":{},"highlight":{},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Yuanye Ma","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Yuanye Ma`s blog","gitbook":"*","description":"Blog for Yuanye.Ma"},"file":{"path":"_posts/OS/x86平台通用中断.md","mtime":"2023-04-02T10:05:52.105Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-04-02T10:06:51.106Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

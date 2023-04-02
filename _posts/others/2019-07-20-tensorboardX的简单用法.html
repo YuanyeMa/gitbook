@@ -1,0 +1,1416 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>2019-07-20-tensorboardX的简单用法 · Yuanye Ma`s blog</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Yuanye Ma">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="2019-07-29-stl入门.html" />
+    
+    
+    <link rel="prev" href="2019-06-04-C++%20Primer Plus笔记.md" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Posts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Dev Env
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" data-path="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                <a href="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                    
+                    2019-05-15-在ubuntu上安装vnc服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" data-path="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                <a href="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                    
+                    2019-07-24-配置jupyter-notebook服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" data-path="../devEnv/2019-07-27-BreakWall.html">
+            
+                <a href="../devEnv/2019-07-27-BreakWall.html">
+            
+                    
+                    2019 07 27 Break Wall
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.4" data-path="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                <a href="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                    
+                    2019-11-05-记一次NVIDIA-Driver-cuda升级
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5" data-path="../devEnv/2020-01-04-ubuntu%20部署NIS服务.md">
+            
+                <span>
+            
+                    
+                    2020-01-04-ubuntu 部署NIS服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.6" data-path="../devEnv/2020-02-05-BreakWall-2%20V2ray.md">
+            
+                <span>
+            
+                    
+                    2020 02 05 Break Wall 2 V 2 Ray
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.7" data-path="../devEnv/2020-03-08-omv.html">
+            
+                <a href="../devEnv/2020-03-08-omv.html">
+            
+                    
+                    2020 03 08 Omv
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.8" data-path="../devEnv/2020-03-29-noVnc.html">
+            
+                <a href="../devEnv/2020-03-29-noVnc.html">
+            
+                    
+                    2020 03 29 No Vnc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.9" data-path="../devEnv/BreakWall-3-Trojan.html">
+            
+                <a href="../devEnv/BreakWall-3-Trojan.html">
+            
+                    
+                    Break Wall 3 Trojan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.10" data-path="../devEnv/gitbook.html">
+            
+                <a href="../devEnv/gitbook.html">
+            
+                    
+                    Gitbook
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Diary
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../diary/2017-01-14-回顾2016年.html">
+            
+                <a href="../diary/2017-01-14-回顾2016年.html">
+            
+                    
+                    2017-01-14-回顾2016年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.2" data-path="../diary/2019-01-04-2017考研年.html">
+            
+                <a href="../diary/2019-01-04-2017考研年.html">
+            
+                    
+                    2019-01-04-2017考研年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.3" data-path="../diary/2019-01-09-我的2018.html">
+            
+                <a href="../diary/2019-01-09-我的2018.html">
+            
+                    
+                    2019-01-09-我的2018
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.4" data-path="../diary/2019-01-25-写在大连回家路上.html">
+            
+                <a href="../diary/2019-01-25-写在大连回家路上.html">
+            
+                    
+                    2019-01-25-写在大连回家路上
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Hackintosh
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                <a href="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                    
+                    2019-04-15-Hackintosh（黑苹果）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                <a href="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                    
+                    2019-05-09-制作dmg格式的苹果镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                <a href="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                    
+                    2019-05-13-在黑苹果上部署开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                <a href="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                    
+                    2019-05-13-尝试吃黑苹果
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    LDD
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="../LDD/2020-10-05-Linux%20I2C子系统代码跟读.md">
+            
+                <span>
+            
+                    
+                    2020-10-05-Linux I2C子系统代码跟读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="../LDD/2020-10-06-Linux设备驱动模型.html">
+            
+                <a href="../LDD/2020-10-06-Linux设备驱动模型.html">
+            
+                    
+                    2020-10-06-Linux设备驱动模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.3" data-path="../LDD/2020-10-06-platform总线驱动.html">
+            
+                <a href="../LDD/2020-10-06-platform总线驱动.html">
+            
+                    
+                    2020-10-06-platform总线驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.4" data-path="../LDD/2020-10-08-vim%20ctags cscope.md">
+            
+                <span>
+            
+                    
+                    2020 10 08 Vim Ctags Cscope
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.5" data-path="../LDD/2020-10-09-loop设备的使用.html">
+            
+                <a href="../LDD/2020-10-09-loop设备的使用.html">
+            
+                    
+                    2020-10-09-loop设备的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.6" data-path="../LDD/2020-10-10-设备驱动基础.html">
+            
+                <a href="../LDD/2020-10-10-设备驱动基础.html">
+            
+                    
+                    2020-10-10-设备驱动基础
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.7" data-path="../LDD/2020-10-11-linux驱动之LED驱动.html">
+            
+                <a href="../LDD/2020-10-11-linux驱动之LED驱动.html">
+            
+                    
+                    2020-10-11-linux驱动之LED驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.8" data-path="../LDD/2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                <a href="../LDD/2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                    
+                    2020-10-27-linux驱动之中断（按键驱动）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.9" data-path="../LDD/input子系统.html">
+            
+                <a href="../LDD/input子系统.html">
+            
+                    
+                    input子系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.10" data-path="../LDD/Kobject和sysfs.html">
+            
+                <a href="../LDD/Kobject和sysfs.html">
+            
+                    
+                    Kobject和sysfs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.11" data-path="../LDD/关于设备树.html">
+            
+                <a href="../LDD/关于设备树.html">
+            
+                    
+                    关于设备树
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" data-path="../OS/2019-07-05-X86汇编.html">
+            
+                <a href="../OS/2019-07-05-X86汇编.html">
+            
+                    
+                    2019-07-05-X86汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.2" data-path="../OS/2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                <a href="../OS/2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                    
+                    2020-01-15-x86汇编从实模式到保护模式实验
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.3" data-path="../OS/GDT%20LDT IDT TSS.md">
+            
+                <span>
+            
+                    
+                    GDT LDT IDT TSS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.4" data-path="../OS/GNU%20C 嵌入汇编.md">
+            
+                <span>
+            
+                    
+                    GNU C 嵌入汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.5" data-path="../OS/kzalloc%20& kmalloc.md">
+            
+                <span>
+            
+                    
+                    Kzalloc Kmalloc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.6" data-path="../OS/Linux%20Kernel Makefiles.md">
+            
+                <span>
+            
+                    
+                    Linux Kernel Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.7" data-path="../OS/linux%20kernel slab系统.md">
+            
+                <span>
+            
+                    
+                    linux kernel slab系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.8" data-path="../OS/Linux%20内核临时页表初始化.md">
+            
+                <span>
+            
+                    
+                    Linux 内核临时页表初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.9" data-path="../OS/Linux%20内核存储管理.md">
+            
+                <span>
+            
+                    
+                    Linux 内核存储管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.10" data-path="../OS/submit-patch.html">
+            
+                <a href="../OS/submit-patch.html">
+            
+                    
+                    Submit Patch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.11" data-path="../OS/x86平台linux系统调用.html">
+            
+                <a href="../OS/x86平台linux系统调用.html">
+            
+                    
+                    x86平台linux系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.12" data-path="../OS/x86平台通用中断.html">
+            
+                <a href="../OS/x86平台通用中断.html">
+            
+                    
+                    x86平台通用中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.13" data-path="../OS/编译内核文档.html">
+            
+                <a href="../OS/编译内核文档.html">
+            
+                    
+                    编译内核文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Others
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" data-path="2019-01-04-Git-tag常用命令.html">
+            
+                <a href="2019-01-04-Git-tag常用命令.html">
+            
+                    
+                    2019-01-04-Git-tag常用命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" data-path="2019-01-04-Makefile中的一些神奇用法.html">
+            
+                <a href="2019-01-04-Makefile中的一些神奇用法.html">
+            
+                    
+                    2019-01-04-Makefile中的一些神奇用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" data-path="2019-01-04-Shell中的source.html">
+            
+                <a href="2019-01-04-Shell中的source.html">
+            
+                    
+                    2019-01-04-Shell中的source
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="2019-01-04-Shell编程中变量引用方法.html">
+            
+                <a href="2019-01-04-Shell编程中变量引用方法.html">
+            
+                    
+                    2019-01-04-Shell编程中变量引用方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.5" data-path="2019-06-04-C++%20Primer Plus笔记.md">
+            
+                <span>
+            
+                    
+                    2019-06-04-C++ Primer Plus笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.6.6" data-path="2019-07-20-tensorboardX的简单用法.html">
+            
+                <a href="2019-07-20-tensorboardX的简单用法.html">
+            
+                    
+                    2019-07-20-tensorboardX的简单用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.7" data-path="2019-07-29-stl入门.html">
+            
+                <a href="2019-07-29-stl入门.html">
+            
+                    
+                    2019-07-29-stl入门
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.8" data-path="2019-08-06-C++继承.html">
+            
+                <a href="2019-08-06-C++继承.html">
+            
+                    
+                    2019-08-06-C++继承
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.9" data-path="uboot.html">
+            
+                <a href="uboot.html">
+            
+                    
+                    Uboot
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.10" data-path="基于Ubuntu进行STM32程序开发.html">
+            
+                <a href="基于Ubuntu进行STM32程序开发.html">
+            
+                    
+                    基于Ubuntu进行STM32程序开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.11" data-path="跟我一起写Makefile笔记.html">
+            
+                <a href="跟我一起写Makefile笔记.html">
+            
+                    
+                    跟我一起写Makefile笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    笔试题
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="../笔试题/2019-08-14-2019笔试题.html">
+            
+                <a href="../笔试题/2019-08-14-2019笔试题.html">
+            
+                    
+                    2019-08-14-2019笔试题
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.2" data-path="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                <a href="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                    
+                    2019-08-24-开发岗笔试基础题总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.3" data-path="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                <a href="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                    
+                    2019-08-29-背包问题答题模板
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Draft
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../draft/30天自制操作系统实验记录.html">
+            
+                <a href="../../draft/30天自制操作系统实验记录.html">
+            
+                    
+                    30天自制操作系统实验记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../draft/关于系统调用.html">
+            
+                <a href="../../draft/关于系统调用.html">
+            
+                    
+                    关于系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >2019-07-20-tensorboardX的简单用法</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="pytorchtensorboardx">pytorch+tensorboardX</h1>
+<p>&#x7B80;&#x5355;&#x603B;&#x7ED3;&#x4E00;&#x4E0B;tensorboardX&#x7684;&#x7528;&#x6CD5;&#x3002;</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np 
+<span class="hljs-keyword">from</span> tensorboardX <span class="hljs-keyword">import</span> SummaryWriter
+
+write = SummaryWriter()
+
+<span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> range(<span class="hljs-number">100</span>):
+    write.add_scalar(<span class="hljs-string">&apos;scale/test&apos;</span>, np.random.rand(), epoch)
+    write.add_scalars(<span class="hljs-string">&apos;scale/scales_test&apos;</span>, {<span class="hljs-string">&apos;xsinx&apos;</span>:epoch*np.sin(epoch), <span class="hljs-string">&apos;xcosx&apos;</span> : epoch*np.cos(epoch)}, epoch)
+
+write.close()
+</code></pre>
+<p>&#x5728;&#x7EC8;&#x7AEF;&#x4E2D;&#x8FD0;&#x884C;&#x4E0A;&#x8FB9;&#x4EE3;&#x7801;:<code>python ./tensorboard_scales.py</code>&#xFF0C;&#x67E5;&#x770B;&#x4EE3;&#x7801;&#x76EE;&#x5F55;&#x4E0B;&#x591A;&#x4E86;&#x4E00;&#x4E2A;<code>runs</code>&#x7684;&#x76EE;&#x5F55;&#xFF0C;&#x91CC;&#x8FB9;&#x4FDD;&#x5B58;&#x7684;&#x5C31;&#x662F;&#x4EE3;&#x7801;&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x6570;&#x636E;&#x3002;  </p>
+<p><img src="../../images/tensorboardX/01.png" alt="01"></p>
+<p>&#x518D;&#x4F7F;&#x7528;<code>tensorboard --logdir runs</code>,&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x5730;&#x5740;&#x680F;&#x8F93;&#x5165;<code>ip_address:6006</code>&#x5C31;&#x80FD;&#x770B;&#x5230;&#x56FE;&#x50CF;&#x3002;</p>
+<p><img src="../../images/tensorboardX/04.png" alt="04"></p>
+<p>&#x6B64;&#x65F6;&#x518D;&#x6B21;&#x8FD0;&#x884C;&#x4EE3;&#x7801;&#xFF0C;&#x518D;&#x67E5;&#x770B;&#x76EE;&#x5F55;&#x7ED3;&#x6784;&#xFF0C;&#x4F1A;&#x53D1;&#x73B0;&#x53C8;&#x591A;&#x4E86;&#x4E00;&#x4E9B;&#x76EE;&#x5F55;&#xFF0C;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;tensorboard&#x4F1A;&#x4FDD;&#x5B58;&#x51E0;&#x4E2A;&#x5386;&#x53F2;&#x7248;&#x672C;&#x3002;&#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x5F88;&#x597D;&#x7528;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x70B9;&#x51FB;&#x5DE6;&#x4E0B;&#x89D2;&#x7684;&#x590D;&#x9009;&#x6846;&#x52FE;&#x9009;&#x8981;&#x5BF9;&#x6BD4;&#x7684;&#x66F2;&#x7EBF;&#xFF0C;&#x8FDB;&#x800C;&#x5BF9;&#x6BD4;&#x6A21;&#x578B;&#x7684;&#x6027;&#x80FD;&#x3002;</p>
+<p><img src="../../images/tensorboardX/02.png" alt="02"></p>
+<p>&#x8BD5;&#x8BD5;<code>graph</code></p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn
+<span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F
+<span class="hljs-keyword">from</span> tensorboardX <span class="hljs-keyword">import</span> SummaryWriter
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Net1</span><span class="hljs-params">(nn.Module)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        super(Net1, self).__init__()
+        self.conv1 = nn.Conv2d(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>, kernel_size=<span class="hljs-number">5</span>)
+        self.conv2 = nn.Conv2d(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, kernel_size=<span class="hljs-number">5</span>)
+        self.conv2_drop = nn.Dropout2d()
+        self.fc1 = nn.Linear(<span class="hljs-number">320</span>, <span class="hljs-number">50</span>)
+        self.fc2 = nn.Linear(<span class="hljs-number">50</span>, <span class="hljs-number">10</span>)
+        self.bn = nn.BatchNorm2d(<span class="hljs-number">20</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x)</span>:</span>
+        x = F.max_pool2d(self.conv1(x), <span class="hljs-number">2</span>)
+        x = F.relu(x) + F.relu(-x)
+        x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), <span class="hljs-number">2</span>))
+        x = self.bn(x)
+        x = x.view(<span class="hljs-number">-1</span>, <span class="hljs-number">320</span>)
+        x = F.relu(self.fc1(x))
+        x = F.dropout(x, training=self.training)
+        x = self.fc2(x)
+        x = F.softmax(x, dim=<span class="hljs-number">1</span>)
+        <span class="hljs-keyword">return</span> x
+
+
+dummy_input = torch.rand(<span class="hljs-number">13</span>, <span class="hljs-number">1</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>)
+
+model = Net1()
+<span class="hljs-keyword">with</span> SummaryWriter(comment=<span class="hljs-string">&apos;Net1&apos;</span>) <span class="hljs-keyword">as</span> w:
+    w.add_graph(model, (dummy_input,))
+</code></pre>
+<p>&#x5728;&#x8FD0;&#x884C;&#x7684;&#x65F6;&#x5019;&#x62A5;&#x9519;&#x4E86;&#x3002;</p>
+<p><img src="../../images/tensorboardX/error.png" alt="error"></p>
+<p>&#x4E0A;&#x7F51;&#x641C;&#x7D22;&#x4E86;&#x4E00;&#x756A;&#x8BF4;&#x662F;<code>pytorch</code>&#x7248;&#x672C;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x4E3A;&#x4E86;&#x8DD1;&#x5199;&#x597D;&#x7684;&#x5F3A;&#x5316;&#x5B66;&#x4E60;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x6211;&#x7528;&#x7684;&#x662F;&#x6BD4;&#x8F83;&#x8001;&#x7684;<code>0.4.0</code>&#x7248;&#x672C;&#x7684;&#xFF0C;&#x56DE;&#x5934;&#x6709;&#x673A;&#x4F1A;&#x6D4B;&#x4E00;&#x4E0B;<code>pytorch 1.0+</code>&#x7684;&#x770B;&#x53EF;&#x4E0D;&#x53EF;&#x4EE5;&#x7528;&#x3002;</p>
+<h2 id="&#x603B;&#x7ED3;&#x4E00;&#x4E0B;tensorboardx&#x7684;&#x7528;&#x6CD5;">&#x603B;&#x7ED3;&#x4E00;&#x4E0B;TensorboardX&#x7684;&#x7528;&#x6CD5;</h2>
+<ul>
+<li>&#x58F0;&#x660E;&#x4E00;&#x4E2A;<code>SummaryWriter()</code>&#x5BF9;&#x8C61;&#xFF0C;<code>log_dir</code>&#x53C2;&#x6570;&#x80FD;&#x6307;&#x5B9A;log&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x7684;&#x8DEF;&#x5F84;&#x3002;</li>
+<li>&#x7136;&#x540E;&#x4F7F;&#x7528;<code>add_xxx()</code>&#x51FD;&#x6570;&#x5411;log&#x4E2D;&#x6DFB;&#x52A0;&#x5185;&#x5BB9;&#xFF0C;<code>xxx</code>&#x53EF;&#x4EE5;&#x662F;<code>scalar</code>, <code>image</code>, <code>figure</code>, <code>histogram</code>, <code>audio</code>, <code>text</code>, <code>graph</code>, <code>onnx_graph</code>, <code>embedding</code>, <code>pr_curve</code>, <code>mesh</code>, <code>hyper-parameters</code> and <code>video</code>&#xFF0C;<a href="https://github.com/lanpa/tensorboardX" target="_blank">&#x8BE6;&#x60C5;&#x53C2;&#x89C1;</a>&#x6216;&#x8005;<a href="https://tensorboardx.readthedocs.io/en/latest/tensorboard.html" target="_blank">tensorboardX</a>&#x3002;</li>
+<li>&#x5173;&#x95ED;<code>SummaryWriter()</code>&#x5BF9;&#x8C61;</li>
+<li>&#x4F7F;&#x7528;<code>tensorboard --logdir</code>&#x547D;&#x4EE4;&#x542F;&#x52A8;<code>tensorboard</code></li>
+<li>&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x91CC;&#x67E5;&#x770B;&#x8F93;&#x51FA;&#x3002;</li>
+</ul>
+<h1 id="tensorflowtensorboard">TensorFlow+TensorBoard</h1>
+<p><a href="https://blog.csdn.net/sinat_33761963/article/details/62433234" target="_blank">&#x53C2;&#x8003;&#x8FD9;&#x7BC7;blog</a></p>
+<h2 id="&#x603B;&#x7ED3;&#x4E00;&#x4E0B;&#x4F7F;&#x7528;&#x7684;&#x6B65;&#x9AA4;">&#x603B;&#x7ED3;&#x4E00;&#x4E0B;&#x4F7F;&#x7528;&#x7684;&#x6B65;&#x9AA4;</h2>
+<ol>
+<li>&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x8BA1;&#x7B97;&#x56FE;&#xFF08;Graph&#xFF09;</li>
+<li><p>&#x786E;&#x5B9A;&#x8981;&#x5728;Graph&#x4E2D;&#x7684;&#x54EA;&#x4E9B;&#x8282;&#x70B9;&#x653E;&#x7F6E;summary operations&#xFF08;&#x5373;&#x8981;&#x5728;tensorboard&#x4E2D;&#x89C2;&#x5BDF;&#x54EA;&#x4E9B;&#x6570;&#x636E;&#xFF09;</p>
+<ol>
+<li><code>tf.summary.scalar</code> - &#x8BB0;&#x5F55;&#x6807;&#x91CF;</li>
+<li><code>tf.summary.histogram</code> - &#x8BB0;&#x5F55;&#x6570;&#x636E;&#x7684;&#x76F4;&#x65B9;&#x56FE;</li>
+<li><code>tf.summary.image</code> - &#x8BB0;&#x5F55;&#x56FE;&#x7247;</li>
+<li><code>tf.summary.audio</code> - &#x8BB0;&#x5F55;&#x97F3;&#x9891;</li>
+<li><code>tf.summary.graph</code> - &#x8BB0;&#x5F55;&#x8BA1;&#x7B97;&#x56FE;&#x7ED3;&#x6784;</li>
+<li><code>tf.summary.distribution</code> - &#x8BB0;&#x5F55;&#x6570;&#x636E;&#x5206;&#x5E03;</li>
+<li><code>tf.summary.embeddings</code> - &#x8BB0;&#x5F55;&#x5D4C;&#x5165;&#x5411;&#x91CF;</li>
+<li><code>tf.summary.text</code> - &#x8BB0;&#x5F55;&#x6587;&#x672C;</li>
+</ol>
+</li>
+<li>&#x4F7F;&#x7528;<code>tf.summary.merge_all</code>&#x5C06;&#x6240;&#x6709;summary operations&#x5408;&#x5E76;&#x4E3A;&#x4E00;&#x4E2A;operation</li>
+<li>&#x8FD0;&#x884C;3&#x4E2D;&#x5408;&#x5E76;&#x4E4B;&#x540E;&#x7684;operation:<code>summary = sess.run(all_summary)</code></li>
+<li>&#x58F0;&#x660E;&#x4E00;&#x4E2A;<code>FileWriter</code>&#x5BF9;&#x8C61;&#xFF1A;<code>writer = tf.summary.FileWriter(&quot;./train&quot;, graph)</code> #&#x5982;&#x679C;&#x6709;graph&#x53C2;&#x6570;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;tensorboard&#x4E2D;&#x67E5;&#x770B;graph&#x7684;&#x7ED3;&#x6784;&#x3002;</li>
+<li>&#x4F7F;&#x7528;<code>tf.summary.FileWriter</code>&#x5C06;&#x6570;&#x636E;&#x5199;&#x5165;&#x672C;&#x5730;&#x78C1;&#x76D8;: <code>writer.add_summary(summary, steps)</code></li>
+<li>&#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#x540E;&#xFF0C;&#x4F7F;&#x7528;<code>tensorboard --logdir=logdir</code>&#x542F;&#x52A8;tensorboard,&#x7136;&#x540E;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x67E5;&#x770B;&#x3002;</li>
+</ol>
+<h2 id="&#x53C2;&#x8003;&#x4EE3;&#x7801;">&#x53C2;&#x8003;&#x4EE3;&#x7801;</h2>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf
+
+<span class="hljs-keyword">from</span> tensorflow.examples.tutorials.mnist <span class="hljs-keyword">import</span> input_data
+
+max_steps = <span class="hljs-number">1000</span>  <span class="hljs-comment"># &#x6700;&#x5927;&#x8FED;&#x4EE3;&#x6B21;&#x6570;</span>
+learning_rate = <span class="hljs-number">0.001</span>   <span class="hljs-comment"># &#x5B66;&#x4E60;&#x7387;</span>
+dropout = <span class="hljs-number">0.9</span>   <span class="hljs-comment"># dropout&#x65F6;&#x968F;&#x673A;&#x4FDD;&#x7559;&#x795E;&#x7ECF;&#x5143;&#x7684;&#x6BD4;&#x4F8B;</span>
+
+data_dir = <span class="hljs-string">&apos;./&apos;</span>   <span class="hljs-comment"># &#x6837;&#x672C;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x7684;&#x8DEF;&#x5F84;</span>
+log_dir = <span class="hljs-string">&apos;./&apos;</span>    <span class="hljs-comment"># &#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x4FDD;&#x5B58;&#x7684;&#x8DEF;&#x5F84;</span>
+
+mnist = input_data.read_data_sets(data_dir, one_hot=<span class="hljs-keyword">True</span>)
+
+sess = tf.InteractiveSession()
+
+<span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;input&apos;</span>):
+    x = tf.placeholder(tf.float32, [<span class="hljs-keyword">None</span>, <span class="hljs-number">784</span>], name=<span class="hljs-string">&apos;x-input&apos;</span>)
+    y_ = tf.placeholder(tf.float32, [<span class="hljs-keyword">None</span>, <span class="hljs-number">10</span>], name=<span class="hljs-string">&apos;y-input&apos;</span>)
+
+<span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;input_reshape&apos;</span>):
+    image_shaped_input = tf.reshape(x, [<span class="hljs-number">-1</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">1</span>])
+    tf.summary.image(<span class="hljs-string">&apos;input&apos;</span>, image_shaped_input, <span class="hljs-number">10</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">weight_variable</span><span class="hljs-params">(shape)</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Create a weight variable with appropriate initialization.&quot;&quot;&quot;</span>
+    initial = tf.truncated_normal(shape, stddev=<span class="hljs-number">0.1</span>)
+    <span class="hljs-keyword">return</span> tf.Variable(initial)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bias_variable</span><span class="hljs-params">(shape)</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Create a bias variable with appropriate initialization.&quot;&quot;&quot;</span>
+    initial = tf.constant(<span class="hljs-number">0.1</span>, shape=shape)
+    <span class="hljs-keyword">return</span> tf.Variable(initial)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">variable_summaries</span><span class="hljs-params">(var)</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Attach a lot of summaries to a Tensor (for TensorBoard visualization).&quot;&quot;&quot;</span>
+    <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;summaries&apos;</span>):
+      <span class="hljs-comment"># &#x8BA1;&#x7B97;&#x53C2;&#x6570;&#x7684;&#x5747;&#x503C;&#xFF0C;&#x5E76;&#x4F7F;&#x7528;tf.summary.scaler&#x8BB0;&#x5F55;</span>
+      mean = tf.reduce_mean(var)
+      tf.summary.scalar(<span class="hljs-string">&apos;mean&apos;</span>, mean)
+
+      <span class="hljs-comment"># &#x8BA1;&#x7B97;&#x53C2;&#x6570;&#x7684;&#x6807;&#x51C6;&#x5DEE;</span>
+      <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;stddev&apos;</span>):
+        stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+      <span class="hljs-comment"># &#x4F7F;&#x7528;tf.summary.scaler&#x8BB0;&#x5F55;&#x8BB0;&#x5F55;&#x4E0B;&#x6807;&#x51C6;&#x5DEE;&#xFF0C;&#x6700;&#x5927;&#x503C;&#xFF0C;&#x6700;&#x5C0F;&#x503C;</span>
+      tf.summary.scalar(<span class="hljs-string">&apos;stddev&apos;</span>, stddev)
+      tf.summary.scalar(<span class="hljs-string">&apos;max&apos;</span>, tf.reduce_max(var))
+      tf.summary.scalar(<span class="hljs-string">&apos;min&apos;</span>, tf.reduce_min(var))
+      <span class="hljs-comment"># &#x7528;&#x76F4;&#x65B9;&#x56FE;&#x8BB0;&#x5F55;&#x53C2;&#x6570;&#x7684;&#x5206;&#x5E03;</span>
+      tf.summary.histogram(<span class="hljs-string">&apos;histogram&apos;</span>, var)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">nn_layer</span><span class="hljs-params">(input_tensor, input_dim, output_dim, layer_name, act=tf.nn.relu)</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Reusable code for making a simple neural net layer.
+    It does a matrix multiply, bias add, and then uses relu to nonlinearize.
+    It also sets up name scoping so that the resultant graph is easy to read,
+    and adds a number of summary ops.
+    &quot;&quot;&quot;</span>
+    <span class="hljs-comment"># &#x8BBE;&#x7F6E;&#x547D;&#x540D;&#x7A7A;&#x95F4;</span>
+    <span class="hljs-keyword">with</span> tf.name_scope(layer_name):
+      <span class="hljs-comment"># &#x8C03;&#x7528;&#x4E4B;&#x524D;&#x7684;&#x65B9;&#x6CD5;&#x521D;&#x59CB;&#x5316;&#x6743;&#x91CD;w&#xFF0C;&#x5E76;&#x4E14;&#x8C03;&#x7528;&#x53C2;&#x6570;&#x4FE1;&#x606F;&#x7684;&#x8BB0;&#x5F55;&#x65B9;&#x6CD5;&#xFF0C;&#x8BB0;&#x5F55;w&#x7684;&#x4FE1;&#x606F;</span>
+      <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;weights&apos;</span>):
+        weights = weight_variable([input_dim, output_dim])
+        variable_summaries(weights)
+      <span class="hljs-comment"># &#x8C03;&#x7528;&#x4E4B;&#x524D;&#x7684;&#x65B9;&#x6CD5;&#x521D;&#x59CB;&#x5316;&#x6743;&#x91CD;b&#xFF0C;&#x5E76;&#x4E14;&#x8C03;&#x7528;&#x53C2;&#x6570;&#x4FE1;&#x606F;&#x7684;&#x8BB0;&#x5F55;&#x65B9;&#x6CD5;&#xFF0C;&#x8BB0;&#x5F55;b&#x7684;&#x4FE1;&#x606F;</span>
+      <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;biases&apos;</span>):
+        biases = bias_variable([output_dim])
+        variable_summaries(biases)
+      <span class="hljs-comment"># &#x6267;&#x884C;wx+b&#x7684;&#x7EBF;&#x6027;&#x8BA1;&#x7B97;&#xFF0C;&#x5E76;&#x4E14;&#x7528;&#x76F4;&#x65B9;&#x56FE;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;</span>
+      <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;linear_compute&apos;</span>):
+        preactivate = tf.matmul(input_tensor, weights) + biases
+        tf.summary.histogram(<span class="hljs-string">&apos;linear&apos;</span>, preactivate)
+      <span class="hljs-comment"># &#x5C06;&#x7EBF;&#x6027;&#x8F93;&#x51FA;&#x7ECF;&#x8FC7;&#x6FC0;&#x52B1;&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x5C06;&#x8F93;&#x51FA;&#x4E5F;&#x7528;&#x76F4;&#x65B9;&#x56FE;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;</span>
+      activations = act(preactivate, name=<span class="hljs-string">&apos;activation&apos;</span>)
+      tf.summary.histogram(<span class="hljs-string">&apos;activations&apos;</span>, activations)
+
+      <span class="hljs-comment"># &#x8FD4;&#x56DE;&#x6FC0;&#x52B1;&#x5C42;&#x7684;&#x6700;&#x7EC8;&#x8F93;&#x51FA;</span>
+      <span class="hljs-keyword">return</span> activations
+
+
+hidden1 = nn_layer(x, <span class="hljs-number">784</span>, <span class="hljs-number">500</span>, <span class="hljs-string">&apos;layer1&apos;</span>)
+
+<span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;dropout&apos;</span>):
+    keep_prob = tf.placeholder(tf.float32)
+    tf.summary.scalar(<span class="hljs-string">&apos;dropout_keep_probability&apos;</span>, keep_prob)
+    dropped = tf.nn.dropout(hidden1, keep_prob)
+
+y = nn_layer(dropped, <span class="hljs-number">500</span>, <span class="hljs-number">10</span>, <span class="hljs-string">&apos;layer2&apos;</span>, act=tf.identity)
+
+<span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;loss&apos;</span>):
+    <span class="hljs-comment"># &#x8BA1;&#x7B97;&#x4EA4;&#x53C9;&#x71B5;&#x635F;&#x5931;&#xFF08;&#x6BCF;&#x4E2A;&#x6837;&#x672C;&#x90FD;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x635F;&#x5931;&#xFF09;</span>
+    diff = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y)
+    <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;total&apos;</span>):
+      <span class="hljs-comment"># &#x8BA1;&#x7B97;&#x6240;&#x6709;&#x6837;&#x672C;&#x4EA4;&#x53C9;&#x71B5;&#x635F;&#x5931;&#x7684;&#x5747;&#x503C;</span>
+      cross_entropy = tf.reduce_mean(diff)
+
+tf.summary.scalar(<span class="hljs-string">&apos;loss&apos;</span>, cross_entropy)
+
+<span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;train&apos;</span>):
+    train_step = tf.train.AdamOptimizer(learning_rate).minimize(
+        cross_entropy)
+
+<span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;accuracy&apos;</span>):
+    <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;correct_prediction&apos;</span>):
+      <span class="hljs-comment"># &#x5206;&#x522B;&#x5C06;&#x9884;&#x6D4B;&#x548C;&#x771F;&#x5B9E;&#x7684;&#x6807;&#x7B7E;&#x4E2D;&#x53D6;&#x51FA;&#x6700;&#x5927;&#x503C;&#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x5F31;&#x76F8;&#x540C;&#x5219;&#x8FD4;&#x56DE;1(true),&#x4E0D;&#x540C;&#x5219;&#x8FD4;&#x56DE;0(false)</span>
+      correct_prediction = tf.equal(tf.argmax(y, <span class="hljs-number">1</span>), tf.argmax(y_, <span class="hljs-number">1</span>))
+    <span class="hljs-keyword">with</span> tf.name_scope(<span class="hljs-string">&apos;accuracy&apos;</span>):
+      <span class="hljs-comment"># &#x6C42;&#x5747;&#x503C;&#x5373;&#x4E3A;&#x51C6;&#x786E;&#x7387;</span>
+      accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+tf.summary.scalar(<span class="hljs-string">&apos;accuracy&apos;</span>, accuracy)
+
+<span class="hljs-comment"># summaries&#x5408;&#x5E76;</span>
+merged = tf.summary.merge_all()
+<span class="hljs-comment"># &#x5199;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x78C1;&#x76D8;&#x8DEF;&#x5F84;&#x4E2D;</span>
+train_writer = tf.summary.FileWriter(log_dir + <span class="hljs-string">&apos;/train&apos;</span>, sess.graph)
+test_writer = tf.summary.FileWriter(log_dir + <span class="hljs-string">&apos;/test&apos;</span>)
+
+<span class="hljs-comment"># &#x8FD0;&#x884C;&#x521D;&#x59CB;&#x5316;&#x6240;&#x6709;&#x53D8;&#x91CF;</span>
+tf.global_variables_initializer().run()
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">feed_dict</span><span class="hljs-params">(train)</span>:</span>
+    <span class="hljs-string">&quot;&quot;&quot;Make a TensorFlow feed_dict: maps data onto Tensor placeholders.&quot;&quot;&quot;</span>
+    <span class="hljs-keyword">if</span> train:
+      xs, ys = mnist.train.next_batch(<span class="hljs-number">100</span>)
+      k = dropout
+    <span class="hljs-keyword">else</span>:
+      xs, ys = mnist.test.images, mnist.test.labels
+      k = <span class="hljs-number">1.0</span>
+    <span class="hljs-keyword">return</span> {x: xs, y_: ys, keep_prob: k}
+
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(max_steps):
+    <span class="hljs-keyword">if</span> i % <span class="hljs-number">10</span> == <span class="hljs-number">0</span>:  <span class="hljs-comment"># &#x8BB0;&#x5F55;&#x6D4B;&#x8BD5;&#x96C6;&#x7684;summary&#x4E0E;accuracy</span>
+      summary, acc = sess.run([merged, accuracy], feed_dict=feed_dict(<span class="hljs-keyword">False</span>))
+      test_writer.add_summary(summary, i)
+      print(<span class="hljs-string">&apos;Accuracy at step %s: %s&apos;</span> % (i, acc))
+    <span class="hljs-keyword">else</span>:  <span class="hljs-comment"># &#x8BB0;&#x5F55;&#x8BAD;&#x7EC3;&#x96C6;&#x7684;summary</span>
+      <span class="hljs-keyword">if</span> i % <span class="hljs-number">100</span> == <span class="hljs-number">99</span>:  <span class="hljs-comment"># Record execution stats</span>
+        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+        run_metadata = tf.RunMetadata()
+        summary, _ = sess.run([merged, train_step],
+                              feed_dict=feed_dict(<span class="hljs-keyword">True</span>),
+                              options=run_options,
+                              run_metadata=run_metadata)
+        train_writer.add_run_metadata(run_metadata, <span class="hljs-string">&apos;step%03d&apos;</span> % i)
+        train_writer.add_summary(summary, i)
+        print(<span class="hljs-string">&apos;Adding run metadata for&apos;</span>, i)
+      <span class="hljs-keyword">else</span>:  <span class="hljs-comment"># Record a summary</span>
+        summary, _ = sess.run([merged, train_step], feed_dict=feed_dict(<span class="hljs-keyword">True</span>))
+        train_writer.add_summary(summary, i)
+
+
+train_writer.close()
+test_writer.close()
+</code></pre>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; Yuanye.Ma 2020-2021 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;
+2023-04-02 10:05:52
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="2019-06-04-C++%20Primer Plus笔记.md" class="navigation navigation-prev " aria-label="Previous page: 2019-06-04-C++ Primer Plus笔记">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="2019-07-29-stl入门.html" class="navigation navigation-next " aria-label="Next page: 2019-07-29-stl入门">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"2019-07-20-tensorboardX的简单用法","level":"1.2.6.6","depth":3,"next":{"title":"2019-07-29-stl入门","level":"1.2.6.7","depth":3,"path":"_posts/others/2019-07-29-stl入门.md","ref":"_posts/others/2019-07-29-stl入门.md","articles":[]},"previous":{"title":"2019-06-04-C++ Primer Plus笔记","level":"1.2.6.5","depth":3,"path":"_posts/others/2019-06-04-C++%20Primer Plus笔记.md","ref":"_posts/others/2019-06-04-C++%20Primer Plus笔记.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","-search","-lunr","search-pro","pageview-count","page-toc-button","back-to-top-button","tbfed-pagefooter"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy Yuanye.Ma 2020-2021","modify_label":"文件修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"page-toc-button":{"maxTocDepth":2,"minTocSize":2},"search-pro":{},"pageview-count":{},"back-to-top-button":{},"highlight":{},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Yuanye Ma","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Yuanye Ma`s blog","gitbook":"*","description":"Blog for Yuanye.Ma"},"file":{"path":"_posts/others/2019-07-20-tensorboardX的简单用法.md","mtime":"2023-04-02T10:05:52.105Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-04-02T10:06:51.106Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

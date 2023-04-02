@@ -1,0 +1,37 @@
+{
+  "title": "Yuanye Ma`s blog",
+  "author":"Yuanye Ma",
+  "description":"Blog for Yuanye.Ma",
+  "plugins": [
+	"-sharing",
+	"-search",
+	"-lunr",
+	"search-pro",
+	"pageview-count",
+	"anchor-navigation-ex",
+    	"tbfed-pagefooter"
+  ],
+  "pluginsConfig": {
+      "tbfed-pagefooter": {
+          "copyright":"Copyright &copy yuanye.ma 2020-2021",
+          "modify_label": "文件修订时间：",
+          "modify_format": "YYYY-MM-DD HH:mm:ss"
+      },
+      "anchor-navigation-ex": {
+	    "showLevel": true,
+	    "associatedWithSummary": true,
+    	    "printLog": false,
+    	    "multipleH1": true,
+    	    "mode": "float",
+    	    "showGoTop":true,
+    	    "float": {
+        	"floatIcon": "fa fa-navicon",
+	        "showLevelIcon": false,
+        	"level1Icon": "fa fa-hand-o-right",
+	        "level2Icon": "fa fa-hand-o-right",
+        	"level3Icon": "fa fa-hand-o-right"
+    	    }
+     }
+
+  }
+}

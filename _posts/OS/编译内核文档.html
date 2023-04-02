@@ -1,0 +1,1294 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>编译内核文档 · Yuanye Ma`s blog</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Yuanye Ma">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="x86平台通用中断.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Posts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Dev Env
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" data-path="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                <a href="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                    
+                    2019-05-15-在ubuntu上安装vnc服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" data-path="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                <a href="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                    
+                    2019-07-24-配置jupyter-notebook服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" data-path="../devEnv/2019-07-27-BreakWall.html">
+            
+                <a href="../devEnv/2019-07-27-BreakWall.html">
+            
+                    
+                    2019 07 27 Break Wall
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.4" data-path="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                <a href="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                    
+                    2019-11-05-记一次NVIDIA-Driver-cuda升级
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5" data-path="../devEnv/2020-01-04-ubuntu%20部署NIS服务.md">
+            
+                <span>
+            
+                    
+                    2020-01-04-ubuntu 部署NIS服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.6" data-path="../devEnv/2020-02-05-BreakWall-2%20V2ray.md">
+            
+                <span>
+            
+                    
+                    2020 02 05 Break Wall 2 V 2 Ray
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.7" data-path="../devEnv/2020-03-08-omv.html">
+            
+                <a href="../devEnv/2020-03-08-omv.html">
+            
+                    
+                    2020 03 08 Omv
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.8" data-path="../devEnv/2020-03-29-noVnc.html">
+            
+                <a href="../devEnv/2020-03-29-noVnc.html">
+            
+                    
+                    2020 03 29 No Vnc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.9" data-path="../devEnv/BreakWall-3-Trojan.html">
+            
+                <a href="../devEnv/BreakWall-3-Trojan.html">
+            
+                    
+                    Break Wall 3 Trojan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.10" data-path="../devEnv/gitbook.html">
+            
+                <a href="../devEnv/gitbook.html">
+            
+                    
+                    Gitbook
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Diary
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../diary/2017-01-14-回顾2016年.html">
+            
+                <a href="../diary/2017-01-14-回顾2016年.html">
+            
+                    
+                    2017-01-14-回顾2016年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.2" data-path="../diary/2019-01-04-2017考研年.html">
+            
+                <a href="../diary/2019-01-04-2017考研年.html">
+            
+                    
+                    2019-01-04-2017考研年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.3" data-path="../diary/2019-01-09-我的2018.html">
+            
+                <a href="../diary/2019-01-09-我的2018.html">
+            
+                    
+                    2019-01-09-我的2018
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.4" data-path="../diary/2019-01-25-写在大连回家路上.html">
+            
+                <a href="../diary/2019-01-25-写在大连回家路上.html">
+            
+                    
+                    2019-01-25-写在大连回家路上
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Hackintosh
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                <a href="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                    
+                    2019-04-15-Hackintosh（黑苹果）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                <a href="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                    
+                    2019-05-09-制作dmg格式的苹果镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                <a href="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                    
+                    2019-05-13-在黑苹果上部署开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                <a href="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                    
+                    2019-05-13-尝试吃黑苹果
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    LDD
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="../LDD/2020-10-05-Linux%20I2C子系统代码跟读.md">
+            
+                <span>
+            
+                    
+                    2020-10-05-Linux I2C子系统代码跟读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="../LDD/2020-10-06-Linux设备驱动模型.html">
+            
+                <a href="../LDD/2020-10-06-Linux设备驱动模型.html">
+            
+                    
+                    2020-10-06-Linux设备驱动模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.3" data-path="../LDD/2020-10-06-platform总线驱动.html">
+            
+                <a href="../LDD/2020-10-06-platform总线驱动.html">
+            
+                    
+                    2020-10-06-platform总线驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.4" data-path="../LDD/2020-10-08-vim%20ctags cscope.md">
+            
+                <span>
+            
+                    
+                    2020 10 08 Vim Ctags Cscope
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.5" data-path="../LDD/2020-10-09-loop设备的使用.html">
+            
+                <a href="../LDD/2020-10-09-loop设备的使用.html">
+            
+                    
+                    2020-10-09-loop设备的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.6" data-path="../LDD/2020-10-10-设备驱动基础.html">
+            
+                <a href="../LDD/2020-10-10-设备驱动基础.html">
+            
+                    
+                    2020-10-10-设备驱动基础
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.7" data-path="../LDD/2020-10-11-linux驱动之LED驱动.html">
+            
+                <a href="../LDD/2020-10-11-linux驱动之LED驱动.html">
+            
+                    
+                    2020-10-11-linux驱动之LED驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.8" data-path="../LDD/2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                <a href="../LDD/2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                    
+                    2020-10-27-linux驱动之中断（按键驱动）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.9" data-path="../LDD/input子系统.html">
+            
+                <a href="../LDD/input子系统.html">
+            
+                    
+                    input子系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.10" data-path="../LDD/Kobject和sysfs.html">
+            
+                <a href="../LDD/Kobject和sysfs.html">
+            
+                    
+                    Kobject和sysfs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.11" data-path="../LDD/关于设备树.html">
+            
+                <a href="../LDD/关于设备树.html">
+            
+                    
+                    关于设备树
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" data-path="2019-07-05-X86汇编.html">
+            
+                <a href="2019-07-05-X86汇编.html">
+            
+                    
+                    2019-07-05-X86汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.2" data-path="2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                <a href="2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                    
+                    2020-01-15-x86汇编从实模式到保护模式实验
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.3" data-path="GDT%20LDT IDT TSS.md">
+            
+                <span>
+            
+                    
+                    GDT LDT IDT TSS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.4" data-path="GNU%20C 嵌入汇编.md">
+            
+                <span>
+            
+                    
+                    GNU C 嵌入汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.5" data-path="kzalloc%20& kmalloc.md">
+            
+                <span>
+            
+                    
+                    Kzalloc Kmalloc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.6" data-path="Linux%20Kernel Makefiles.md">
+            
+                <span>
+            
+                    
+                    Linux Kernel Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.7" data-path="linux%20kernel slab系统.md">
+            
+                <span>
+            
+                    
+                    linux kernel slab系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.8" data-path="Linux%20内核临时页表初始化.md">
+            
+                <span>
+            
+                    
+                    Linux 内核临时页表初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.9" data-path="Linux%20内核存储管理.md">
+            
+                <span>
+            
+                    
+                    Linux 内核存储管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.10" data-path="submit-patch.html">
+            
+                <a href="submit-patch.html">
+            
+                    
+                    Submit Patch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.11" data-path="x86平台linux系统调用.html">
+            
+                <a href="x86平台linux系统调用.html">
+            
+                    
+                    x86平台linux系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.12" data-path="x86平台通用中断.html">
+            
+                <a href="x86平台通用中断.html">
+            
+                    
+                    x86平台通用中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.5.13" data-path="编译内核文档.html">
+            
+                <a href="编译内核文档.html">
+            
+                    
+                    编译内核文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Others
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" data-path="../others/2019-01-04-Git-tag常用命令.html">
+            
+                <a href="../others/2019-01-04-Git-tag常用命令.html">
+            
+                    
+                    2019-01-04-Git-tag常用命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" data-path="../others/2019-01-04-Makefile中的一些神奇用法.html">
+            
+                <a href="../others/2019-01-04-Makefile中的一些神奇用法.html">
+            
+                    
+                    2019-01-04-Makefile中的一些神奇用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" data-path="../others/2019-01-04-Shell中的source.html">
+            
+                <a href="../others/2019-01-04-Shell中的source.html">
+            
+                    
+                    2019-01-04-Shell中的source
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="../others/2019-01-04-Shell编程中变量引用方法.html">
+            
+                <a href="../others/2019-01-04-Shell编程中变量引用方法.html">
+            
+                    
+                    2019-01-04-Shell编程中变量引用方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.5" data-path="../others/2019-06-04-C++%20Primer Plus笔记.md">
+            
+                <span>
+            
+                    
+                    2019-06-04-C++ Primer Plus笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.6" data-path="../others/2019-07-20-tensorboardX的简单用法.html">
+            
+                <a href="../others/2019-07-20-tensorboardX的简单用法.html">
+            
+                    
+                    2019-07-20-tensorboardX的简单用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.7" data-path="../others/2019-07-29-stl入门.html">
+            
+                <a href="../others/2019-07-29-stl入门.html">
+            
+                    
+                    2019-07-29-stl入门
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.8" data-path="../others/2019-08-06-C++继承.html">
+            
+                <a href="../others/2019-08-06-C++继承.html">
+            
+                    
+                    2019-08-06-C++继承
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.9" data-path="../others/uboot.html">
+            
+                <a href="../others/uboot.html">
+            
+                    
+                    Uboot
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.10" data-path="../others/基于Ubuntu进行STM32程序开发.html">
+            
+                <a href="../others/基于Ubuntu进行STM32程序开发.html">
+            
+                    
+                    基于Ubuntu进行STM32程序开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.11" data-path="../others/跟我一起写Makefile笔记.html">
+            
+                <a href="../others/跟我一起写Makefile笔记.html">
+            
+                    
+                    跟我一起写Makefile笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    笔试题
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="../笔试题/2019-08-14-2019笔试题.html">
+            
+                <a href="../笔试题/2019-08-14-2019笔试题.html">
+            
+                    
+                    2019-08-14-2019笔试题
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.2" data-path="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                <a href="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                    
+                    2019-08-24-开发岗笔试基础题总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.3" data-path="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                <a href="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                    
+                    2019-08-29-背包问题答题模板
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Draft
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../draft/30天自制操作系统实验记录.html">
+            
+                <a href="../../draft/30天自制操作系统实验记录.html">
+            
+                    
+                    30天自制操作系统实验记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../draft/关于系统调用.html">
+            
+                <a href="../../draft/关于系统调用.html">
+            
+                    
+                    关于系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >编译内核文档</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <pre><code class="lang-shell">$ make htmldocs
+Documentation/Makefile:39: The &apos;sphinx-build&apos; command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the &apos;sphinx-build&apos; executable.
+
+Detected OS: Ubuntu 20.04.1 LTS.
+Warning: better to also install &quot;convert&quot;.
+Warning: better to also install &quot;dot&quot;.
+Warning: better to also install &quot;dvipng&quot;.
+ERROR: please install &quot;ensurepip&quot;, otherwise, build won&apos;t work.
+Warning: better to also install &quot;latexmk&quot;.
+Warning: better to also install &quot;rsvg-convert&quot;.
+Warning: better to also install &quot;xelatex&quot;.
+You should run:
+
+    sudo apt-get install imagemagick graphviz dvipng python3-venv latexmk librsvg2-bin texlive-xetex
+Warning: It is recommended at least Sphinx version 1.7.9.
+         If you want pdf, you need at least 2.4.4.
+Note: It is recommended at least Sphinx version 2.4.4 if you need PDF support.
+    /usr/bin/python3 -m venv sphinx_2.4.4
+    . sphinx_2.4.4/bin/activate
+    pip install -r ./Documentation/sphinx/requirements.txt
+
+If you want to exit the virtualenv, you can use:
+    deactivate
+
+Can&apos;t build as 2 mandatory dependencies are missing at ./scripts/sphinx-pre-install line 855.
+Documentation/Makefile:39: The &apos;sphinx-build&apos; command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the &apos;sphinx-build&apos; executable.
+
+Detected OS: Ubuntu 20.04.1 LTS.
+Warning: better to also install &quot;convert&quot;.
+Warning: better to also install &quot;dot&quot;.
+Warning: better to also install &quot;dvipng&quot;.
+ERROR: please install &quot;ensurepip&quot;, otherwise, build won&apos;t work.
+Warning: better to also install &quot;latexmk&quot;.
+Warning: better to also install &quot;rsvg-convert&quot;.
+Warning: better to also install &quot;xelatex&quot;.
+You should run:
+
+    sudo apt-get install imagemagick graphviz dvipng python3-venv latexmk librsvg2-bin texlive-xetex
+Warning: It is recommended at least Sphinx version 1.7.9.
+         If you want pdf, you need at least 2.4.4.
+Note: It is recommended at least Sphinx version 2.4.4 if you need PDF support.
+    /usr/bin/python3 -m venv sphinx_2.4.4
+    . sphinx_2.4.4/bin/activate
+    pip install -r ./Documentation/sphinx/requirements.txt
+
+If you want to exit the virtualenv, you can use:
+    deactivate
+
+Can&apos;t build as 2 mandatory dependencies are missing at ./scripts/sphinx-pre-install line 855.
+make[1]: *** [Documentation/Makefile:41&#xFF1A;htmldocs] &#x9519;&#x8BEF; 2
+make: *** [Makefile:1669&#xFF1A;htmldocs] &#x9519;&#x8BEF; 2
+
+
+# &#x5B89;&#x88C5;&#x4F9D;&#x8D56;
+$ sudo apt-get install imagemagick graphviz dvipng python3-venv latexmk librsvg2-bin texlive-xetex
+
+# make htmldocs
+Documentation/Makefile:39: The &apos;sphinx-build&apos; command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the &apos;sphinx-build&apos; executable.
+
+Detected OS: Ubuntu 20.04.1 LTS.
+Warning: It is recommended at least Sphinx version 1.7.9.
+         If you want pdf, you need at least 2.4.4.
+Note: It is recommended at least Sphinx version 2.4.4 if you need PDF support.
+    /usr/bin/python3 -m venv sphinx_2.4.4
+    . sphinx_2.4.4/bin/activate
+    pip install -r ./Documentation/sphinx/requirements.txt
+
+If you want to exit the virtualenv, you can use:
+    deactivate
+
+All optional dependencies are met.
+Can&apos;t build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 853.
+
+
+$ sudo apt install python3-pip
+$ /usr/bin/python3 -m venv sphinx_2.4.4
+$ . sphinx_2.4.4/bin/activate
+$ pip3 install -r ./Documentation/sphinx/requirements.txt   -i https://pypi.douban.com/simple 
+$ make htmldocs
+#&#x62A5;&#x9519;
+</code></pre>
+<pre><code class="lang-makefile">
+
+<span class="hljs-section">htmldocs:                      </span>
+        @$(srctree)/scripts/sphinx-pre-install --version-check
+        @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var))) 
+
+<span class="hljs-comment"># commands; the &apos;cmd&apos; from scripts/Kbuild.include is not *loopable*</span>
+loop_cmd = <span class="hljs-variable">$(echo-cmd)</span> <span class="hljs-variable">$(cmd_$(1)</span>) || exit;
+
+<span class="hljs-comment"># cmd_$(1) =&gt; cmd_sphinx</span>
+
+<span class="hljs-comment"># scripts/Kbuild.include</span>
+<span class="hljs-comment"># echo command.</span>
+<span class="hljs-comment"># Short version is used, if $(quiet) equals `quiet_&apos;, otherwise full one.                                                                                                           </span>
+echo-cmd = $(if $($(quiet)cmd_$(1)),\
+        echo &apos;  $(call escsq,$($(quiet)cmd_$(1)))$(echo-why)&apos;;)
+
+
+
+<span class="hljs-comment"># $2 sphinx builder e.g. &quot;html&quot;</span>
+<span class="hljs-comment"># $3 name of the build subfolder / e.g. &quot;userspace-api/media&quot;, used as:</span>
+<span class="hljs-comment">#    * dest folder relative to $(BUILDDIR) and</span>
+<span class="hljs-comment">#    * cache folder relative to $(BUILDDIR)/.doctrees</span>
+<span class="hljs-comment"># $4 dest subfolder e.g. &quot;man&quot; for man pages at userspace-api/media/man</span>
+<span class="hljs-comment"># $5 reST source folder relative to $(srctree)/$(src),</span>
+<span class="hljs-comment">#    e.g. &quot;userspace-api/media&quot; for the linux-tv book-set at ./Documentation/userspace-api/media</span>
+
+quiet_cmd_sphinx = SPHINX  $@ --&gt; file://<span class="hljs-variable">$(abspath $(BUILDDIR)</span>/$3/$4)
+<span class="hljs-comment"># SPHINX  htmldocs --&gt; file:///home/myye/linux/Documentation/output</span>
+<span class="hljs-comment"># BUILDDIR      = $(obj)/output</span>
+
+      cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media $2 &amp;&amp; \                               
+        PYTHONDONTWRITEBYTECODE=1 \
+        BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+        $(PYTHON) $(srctree)/scripts/jobserver-exec \
+        $(SHELL) $(srctree)/Documentation/sphinx/parallel-wrapper.sh \
+        $(SPHINXBUILD) \
+        -b $2 \
+        -c $(abspath $(srctree)/$(src)) \
+        -d $(abspath $(BUILDDIR)/.doctrees/$3) \
+        -D version=$(KERNELVERSION) -D release=$(KERNELRELEASE) \
+        $(ALLSPHINXOPTS) \
+        $(abspath $(srctree)/$(src)/$5) \
+        $(abspath $(BUILDDIR)/$3/$4)
+</code></pre>
+<p><a href="https://blog.csdn.net/yanlaifan/article/details/71402771" target="_blank">https://blog.csdn.net/yanlaifan/article/details/71402771</a> makefile foreach&#x51FD;&#x6570;</p>
+<p><a href="https://blog.csdn.net/ly890700/article/details/52800734" target="_blank">https://blog.csdn.net/ly890700/article/details/52800734</a> makefile call&#x51FD;&#x6570; </p>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; Yuanye.Ma 2020-2021 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;
+2023-04-02 10:05:52
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="x86平台通用中断.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: x86平台通用中断">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"编译内核文档","level":"1.2.5.13","depth":3,"next":{"title":"Others","level":"1.2.6","depth":2,"ref":"","articles":[{"title":"2019-01-04-Git-tag常用命令","level":"1.2.6.1","depth":3,"path":"_posts/others/2019-01-04-Git-tag常用命令.md","ref":"_posts/others/2019-01-04-Git-tag常用命令.md","articles":[]},{"title":"2019-01-04-Makefile中的一些神奇用法","level":"1.2.6.2","depth":3,"path":"_posts/others/2019-01-04-Makefile中的一些神奇用法.md","ref":"_posts/others/2019-01-04-Makefile中的一些神奇用法.md","articles":[]},{"title":"2019-01-04-Shell中的source","level":"1.2.6.3","depth":3,"path":"_posts/others/2019-01-04-Shell中的source.md","ref":"_posts/others/2019-01-04-Shell中的source.md","articles":[]},{"title":"2019-01-04-Shell编程中变量引用方法","level":"1.2.6.4","depth":3,"path":"_posts/others/2019-01-04-Shell编程中变量引用方法.md","ref":"_posts/others/2019-01-04-Shell编程中变量引用方法.md","articles":[]},{"title":"2019-06-04-C++ Primer Plus笔记","level":"1.2.6.5","depth":3,"path":"_posts/others/2019-06-04-C++%20Primer Plus笔记.md","ref":"_posts/others/2019-06-04-C++%20Primer Plus笔记.md","articles":[]},{"title":"2019-07-20-tensorboardX的简单用法","level":"1.2.6.6","depth":3,"path":"_posts/others/2019-07-20-tensorboardX的简单用法.md","ref":"_posts/others/2019-07-20-tensorboardX的简单用法.md","articles":[]},{"title":"2019-07-29-stl入门","level":"1.2.6.7","depth":3,"path":"_posts/others/2019-07-29-stl入门.md","ref":"_posts/others/2019-07-29-stl入门.md","articles":[]},{"title":"2019-08-06-C++继承","level":"1.2.6.8","depth":3,"path":"_posts/others/2019-08-06-C++继承.md","ref":"_posts/others/2019-08-06-C++继承.md","articles":[]},{"title":"Uboot","level":"1.2.6.9","depth":3,"path":"_posts/others/uboot.md","ref":"_posts/others/uboot.md","articles":[]},{"title":"基于Ubuntu进行STM32程序开发","level":"1.2.6.10","depth":3,"path":"_posts/others/基于Ubuntu进行STM32程序开发.md","ref":"_posts/others/基于Ubuntu进行STM32程序开发.md","articles":[]},{"title":"跟我一起写Makefile笔记","level":"1.2.6.11","depth":3,"path":"_posts/others/跟我一起写Makefile笔记.md","ref":"_posts/others/跟我一起写Makefile笔记.md","articles":[]}]},"previous":{"title":"x86平台通用中断","level":"1.2.5.12","depth":3,"path":"_posts/OS/x86平台通用中断.md","ref":"_posts/OS/x86平台通用中断.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","-search","-lunr","search-pro","pageview-count","page-toc-button","back-to-top-button","tbfed-pagefooter"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy Yuanye.Ma 2020-2021","modify_label":"文件修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"page-toc-button":{"maxTocDepth":2,"minTocSize":2},"search-pro":{},"pageview-count":{},"back-to-top-button":{},"highlight":{},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Yuanye Ma","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Yuanye Ma`s blog","gitbook":"*","description":"Blog for Yuanye.Ma"},"file":{"path":"_posts/OS/编译内核文档.md","mtime":"2023-04-02T10:05:52.105Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-04-02T10:06:51.106Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

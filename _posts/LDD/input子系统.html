@@ -1,0 +1,1506 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>input子系统 · Yuanye Ma`s blog</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Yuanye Ma">
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-page-toc-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Kobject和sysfs.html" />
+    
+    
+    <link rel="prev" href="2020-10-27-linux驱动之中断（按键驱动）.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Posts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Dev Env
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" data-path="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                <a href="../devEnv/2019-05-15-在ubuntu上安装vnc服务.html">
+            
+                    
+                    2019-05-15-在ubuntu上安装vnc服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" data-path="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                <a href="../devEnv/2019-07-24-配置jupyter-notebook服务.html">
+            
+                    
+                    2019-07-24-配置jupyter-notebook服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" data-path="../devEnv/2019-07-27-BreakWall.html">
+            
+                <a href="../devEnv/2019-07-27-BreakWall.html">
+            
+                    
+                    2019 07 27 Break Wall
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.4" data-path="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                <a href="../devEnv/2019-11-05-记一次NVIDIA-Driver-cuda升级.html">
+            
+                    
+                    2019-11-05-记一次NVIDIA-Driver-cuda升级
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5" data-path="../devEnv/2020-01-04-ubuntu%20部署NIS服务.md">
+            
+                <span>
+            
+                    
+                    2020-01-04-ubuntu 部署NIS服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.6" data-path="../devEnv/2020-02-05-BreakWall-2%20V2ray.md">
+            
+                <span>
+            
+                    
+                    2020 02 05 Break Wall 2 V 2 Ray
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.7" data-path="../devEnv/2020-03-08-omv.html">
+            
+                <a href="../devEnv/2020-03-08-omv.html">
+            
+                    
+                    2020 03 08 Omv
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.8" data-path="../devEnv/2020-03-29-noVnc.html">
+            
+                <a href="../devEnv/2020-03-29-noVnc.html">
+            
+                    
+                    2020 03 29 No Vnc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.9" data-path="../devEnv/BreakWall-3-Trojan.html">
+            
+                <a href="../devEnv/BreakWall-3-Trojan.html">
+            
+                    
+                    Break Wall 3 Trojan
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.10" data-path="../devEnv/gitbook.html">
+            
+                <a href="../devEnv/gitbook.html">
+            
+                    
+                    Gitbook
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Diary
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../diary/2017-01-14-回顾2016年.html">
+            
+                <a href="../diary/2017-01-14-回顾2016年.html">
+            
+                    
+                    2017-01-14-回顾2016年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.2" data-path="../diary/2019-01-04-2017考研年.html">
+            
+                <a href="../diary/2019-01-04-2017考研年.html">
+            
+                    
+                    2019-01-04-2017考研年
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.3" data-path="../diary/2019-01-09-我的2018.html">
+            
+                <a href="../diary/2019-01-09-我的2018.html">
+            
+                    
+                    2019-01-09-我的2018
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.4" data-path="../diary/2019-01-25-写在大连回家路上.html">
+            
+                <a href="../diary/2019-01-25-写在大连回家路上.html">
+            
+                    
+                    2019-01-25-写在大连回家路上
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Hackintosh
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                <a href="../Hackintosh/2019-04-15-Hackintosh（黑苹果）.html">
+            
+                    
+                    2019-04-15-Hackintosh（黑苹果）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                <a href="../Hackintosh/2019-05-09-制作dmg格式的苹果镜像.html">
+            
+                    
+                    2019-05-09-制作dmg格式的苹果镜像
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                <a href="../Hackintosh/2019-05-13-在黑苹果上部署开发环境.html">
+            
+                    
+                    2019-05-13-在黑苹果上部署开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                <a href="../Hackintosh/2019-05-13-尝试吃黑苹果.html">
+            
+                    
+                    2019-05-13-尝试吃黑苹果
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    LDD
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="2020-10-05-Linux%20I2C子系统代码跟读.md">
+            
+                <span>
+            
+                    
+                    2020-10-05-Linux I2C子系统代码跟读
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="2020-10-06-Linux设备驱动模型.html">
+            
+                <a href="2020-10-06-Linux设备驱动模型.html">
+            
+                    
+                    2020-10-06-Linux设备驱动模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.3" data-path="2020-10-06-platform总线驱动.html">
+            
+                <a href="2020-10-06-platform总线驱动.html">
+            
+                    
+                    2020-10-06-platform总线驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.4" data-path="2020-10-08-vim%20ctags cscope.md">
+            
+                <span>
+            
+                    
+                    2020 10 08 Vim Ctags Cscope
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.5" data-path="2020-10-09-loop设备的使用.html">
+            
+                <a href="2020-10-09-loop设备的使用.html">
+            
+                    
+                    2020-10-09-loop设备的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.6" data-path="2020-10-10-设备驱动基础.html">
+            
+                <a href="2020-10-10-设备驱动基础.html">
+            
+                    
+                    2020-10-10-设备驱动基础
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.7" data-path="2020-10-11-linux驱动之LED驱动.html">
+            
+                <a href="2020-10-11-linux驱动之LED驱动.html">
+            
+                    
+                    2020-10-11-linux驱动之LED驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.8" data-path="2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                <a href="2020-10-27-linux驱动之中断（按键驱动）.html">
+            
+                    
+                    2020-10-27-linux驱动之中断（按键驱动）
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.4.9" data-path="input子系统.html">
+            
+                <a href="input子系统.html">
+            
+                    
+                    input子系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.10" data-path="Kobject和sysfs.html">
+            
+                <a href="Kobject和sysfs.html">
+            
+                    
+                    Kobject和sysfs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.11" data-path="关于设备树.html">
+            
+                <a href="关于设备树.html">
+            
+                    
+                    关于设备树
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" data-path="../OS/2019-07-05-X86汇编.html">
+            
+                <a href="../OS/2019-07-05-X86汇编.html">
+            
+                    
+                    2019-07-05-X86汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.2" data-path="../OS/2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                <a href="../OS/2020-01-15-x86汇编从实模式到保护模式实验.html">
+            
+                    
+                    2020-01-15-x86汇编从实模式到保护模式实验
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.3" data-path="../OS/GDT%20LDT IDT TSS.md">
+            
+                <span>
+            
+                    
+                    GDT LDT IDT TSS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.4" data-path="../OS/GNU%20C 嵌入汇编.md">
+            
+                <span>
+            
+                    
+                    GNU C 嵌入汇编
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.5" data-path="../OS/kzalloc%20& kmalloc.md">
+            
+                <span>
+            
+                    
+                    Kzalloc Kmalloc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.6" data-path="../OS/Linux%20Kernel Makefiles.md">
+            
+                <span>
+            
+                    
+                    Linux Kernel Makefiles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.7" data-path="../OS/linux%20kernel slab系统.md">
+            
+                <span>
+            
+                    
+                    linux kernel slab系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.8" data-path="../OS/Linux%20内核临时页表初始化.md">
+            
+                <span>
+            
+                    
+                    Linux 内核临时页表初始化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.9" data-path="../OS/Linux%20内核存储管理.md">
+            
+                <span>
+            
+                    
+                    Linux 内核存储管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.10" data-path="../OS/submit-patch.html">
+            
+                <a href="../OS/submit-patch.html">
+            
+                    
+                    Submit Patch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.11" data-path="../OS/x86平台linux系统调用.html">
+            
+                <a href="../OS/x86平台linux系统调用.html">
+            
+                    
+                    x86平台linux系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.12" data-path="../OS/x86平台通用中断.html">
+            
+                <a href="../OS/x86平台通用中断.html">
+            
+                    
+                    x86平台通用中断
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.13" data-path="../OS/编译内核文档.html">
+            
+                <a href="../OS/编译内核文档.html">
+            
+                    
+                    编译内核文档
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Others
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" data-path="../others/2019-01-04-Git-tag常用命令.html">
+            
+                <a href="../others/2019-01-04-Git-tag常用命令.html">
+            
+                    
+                    2019-01-04-Git-tag常用命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" data-path="../others/2019-01-04-Makefile中的一些神奇用法.html">
+            
+                <a href="../others/2019-01-04-Makefile中的一些神奇用法.html">
+            
+                    
+                    2019-01-04-Makefile中的一些神奇用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" data-path="../others/2019-01-04-Shell中的source.html">
+            
+                <a href="../others/2019-01-04-Shell中的source.html">
+            
+                    
+                    2019-01-04-Shell中的source
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="../others/2019-01-04-Shell编程中变量引用方法.html">
+            
+                <a href="../others/2019-01-04-Shell编程中变量引用方法.html">
+            
+                    
+                    2019-01-04-Shell编程中变量引用方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.5" data-path="../others/2019-06-04-C++%20Primer Plus笔记.md">
+            
+                <span>
+            
+                    
+                    2019-06-04-C++ Primer Plus笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.6" data-path="../others/2019-07-20-tensorboardX的简单用法.html">
+            
+                <a href="../others/2019-07-20-tensorboardX的简单用法.html">
+            
+                    
+                    2019-07-20-tensorboardX的简单用法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.7" data-path="../others/2019-07-29-stl入门.html">
+            
+                <a href="../others/2019-07-29-stl入门.html">
+            
+                    
+                    2019-07-29-stl入门
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.8" data-path="../others/2019-08-06-C++继承.html">
+            
+                <a href="../others/2019-08-06-C++继承.html">
+            
+                    
+                    2019-08-06-C++继承
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.9" data-path="../others/uboot.html">
+            
+                <a href="../others/uboot.html">
+            
+                    
+                    Uboot
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.10" data-path="../others/基于Ubuntu进行STM32程序开发.html">
+            
+                <a href="../others/基于Ubuntu进行STM32程序开发.html">
+            
+                    
+                    基于Ubuntu进行STM32程序开发
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.11" data-path="../others/跟我一起写Makefile笔记.html">
+            
+                <a href="../others/跟我一起写Makefile笔记.html">
+            
+                    
+                    跟我一起写Makefile笔记
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    笔试题
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="../笔试题/2019-08-14-2019笔试题.html">
+            
+                <a href="../笔试题/2019-08-14-2019笔试题.html">
+            
+                    
+                    2019-08-14-2019笔试题
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.2" data-path="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                <a href="../笔试题/2019-08-24-开发岗笔试基础题总结.html">
+            
+                    
+                    2019-08-24-开发岗笔试基础题总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.3" data-path="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                <a href="../笔试题/2019-08-29-背包问题答题模板.html">
+            
+                    
+                    2019-08-29-背包问题答题模板
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Draft
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../draft/30天自制操作系统实验记录.html">
+            
+                <a href="../../draft/30天自制操作系统实验记录.html">
+            
+                    
+                    30天自制操作系统实验记录
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../draft/关于系统调用.html">
+            
+                <a href="../../draft/关于系统调用.html">
+            
+                    
+                    关于系统调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >input子系统</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>[toc]</p>
+<h1 id="input&#x5B50;&#x7CFB;&#x7EDF;&#x7279;&#x6027;&#x3001;&#x7528;&#x9014;">input&#x5B50;&#x7CFB;&#x7EDF;&#x7279;&#x6027;&#x3001;&#x7528;&#x9014;</h1>
+<p>1&#xFF0C; input&#x5B50;&#x7CFB;&#x7EDF;&#x662F;&#x7528;&#x6765;&#x89E3;&#x51B3;<strong>&#x8F93;&#x5165;&#x95EE;&#x9898;</strong>&#x7684;&#xFF0C;&#x6240;&#x8C13;&#x8F93;&#x5165;&#xFF0C;&#x5373;&#x9A71;&#x52A8;&#x4E3A;&#x5E94;&#x7528;&#x5C42;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x3002;</p>
+<p>2&#xFF0C; &#x4F7F;&#x7528;&#x5B57;&#x7B26;&#x8BBE;&#x5907;&#x7684;read&#x6216;&#x8005;ioctl&#x4E5F;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x8F93;&#x5165;&#x64CD;&#x4F5C;&#xFF0C;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x7684;&#x5F0A;&#x7AEF;&#x5728;&#x4E8E;&#xFF1A;&#x9A71;&#x52A8;&#x7A0B;&#x5E8F;&#x5458;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x6570;&#x636E;&#x683C;&#x5F0F;&#xFF0C;&#x5BFC;&#x81F4;&#x6570;&#x636E;&#x683C;&#x5F0F;&#x4E0D;&#x7EDF;&#x4E00;&#xFF0C;&#x6BD4;&#x5982;&#x540C;&#x6837;&#x662F;&#x6309;&#x952E;&#x8F93;&#x5165;&#xFF0C;&#x4E0D;&#x540C;&#x4EBA;&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x5F0F;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x6709;&#x4EBA;&#x5B9A;&#x4E49;key=&#x2018;1&#x2019;&#xFF0C;&#x6709;&#x7684;&#x4EBA;&#x5B9A;&#x4E49;key=&apos;key1&apos;&#x3002;&#x5BFC;&#x81F4;&#x5E94;&#x7528;&#x5C42;&#x7A0B;&#x5E8F;&#x8C03;&#x7528;&#x9A71;&#x52A8;&#x65F6;&#x4F20;&#x53C2;&#x4E0D;&#x4E00;&#x81F4;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x5B57;&#x7B26;&#x8BBE;&#x5907;&#x9A71;&#x52A8;&#x6846;&#x67B6;&#x63D0;&#x4F9B;&#x6570;&#x636E;&#x7684;&#x53CC;&#x5411;&#x4EA4;&#x6D41;&#xFF0C;input&#x5B50;&#x7CFB;&#x7EDF;&#x53EA;&#x5904;&#x7406;&#x8F93;&#x5165;&#x6570;&#x636E;&#x3002;</p>
+<p>3&#xFF0C; input&#x5B50;&#x7CFB;&#x7EDF;&#x7684;&#x597D;&#x5904;&#xFF1A; &#x4E3A;&#x8F93;&#x5165;&#x6570;&#x636E;&#x63D0;&#x4F9B;&#x7EDF;&#x4E00;&#x89C4;&#x8303;&#xFF0C;&#x9A71;&#x52A8;&#x7A0B;&#x5E8F;<strong>&#x9075;&#x5FAA;&#x586B;&#x5145;</strong>&#x8BE5;&#x6807;&#x51C6;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;<strong>&#x9075;&#x5FAA;&#x8C03;&#x7528;</strong>&#x8BE5;&#x6807;&#x51C6;&#x3002;</p>
+<p>4&#xFF0C; &#x5728;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x67E5;&#x770B;input&#x8BBE;&#x5907;</p>
+<pre><code class="lang-shell">myye@myye-vm:~$ ls /dev/input/event*
+/dev/input/event0  /dev/input/event1  /dev/input/event2  /dev/input/event3  /dev/input/event4
+myye@myye-vm:~$ sudo cat /dev/input/event0 # &#x67E5;&#x770B;&#x952E;&#x76D8;&#x7684;&#x4E8B;&#x4EF6;&#xFF0C;&#x6309;&#x4E0B;&#x952E;&#x76D8;&#x6309;&#x952E;&#xFF0C;&#x7EC8;&#x7AEF;&#x4F1A;&#x6253;&#x5370;&#x76F8;&#x5E94;&#x7684;&#x4FE1;&#x606F;
+</code></pre>
+<h1 id="input&#x5B50;&#x7CFB;&#x7EDF;&#x7684;&#x6846;&#x67B6;&#x7ED3;&#x6784;">input&#x5B50;&#x7CFB;&#x7EDF;&#x7684;&#x6846;&#x67B6;&#x7ED3;&#x6784;</h1>
+<p><img src="../../images/LDD/input&#x5B50;&#x7CFB;&#x7EDF;.png" alt="image-20210401161158636"></p>
+<p>&#x5BF9;&#x4E8E;&#x9A71;&#x52A8;&#x5F00;&#x53D1;&#x6765;&#x8BF4;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5B9E;&#x73B0; <strong>&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x5C42;</strong>&#x548C;<strong>&#x8BBE;&#x5907;&#x9A71;&#x52A8;&#x5C42;</strong>&#xFF0C; &#x5176;&#x4E2D;&#x8BBE;&#x5907;&#x9A71;&#x52A8;&#x5C42;&#x662F;&#x5173;&#x952E;&#xFF0C;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x5C42;&#x5185;&#x6838;&#x4E5F;&#x6709;&#x901A;&#x7528;&#x4E8B;&#x4EF6;&#x5904;&#x7406;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x53EF;&#x4EE5;&#x66F4;&#x5177;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x3002;</p>
+<h1 id="&#x76F8;&#x5173;&#x5934;&#x6587;&#x4EF6;">&#x76F8;&#x5173;&#x5934;&#x6587;&#x4EF6;</h1>
+<pre><code class="lang-c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/input.h&gt;</span></span>
+</code></pre>
+<h1 id="&#x6838;&#x5FC3;&#x6570;&#x636E;&#x7ED3;&#x6784;">&#x6838;&#x5FC3;&#x6570;&#x636E;&#x7ED3;&#x6784;</h1>
+<ol>
+<li>&#x8981;&#x9075;&#x5FAA;&#x7684;&#x89C4;&#x8303;&#x7ED3;&#x6784; <code>struct input_event</code> </li>
+<li>&#x9A71;&#x52A8;&#x6838;&#x5FC3;&#x6570;&#x636E;&#x7ED3;&#x6784; <code>struct input_dev</code> , <code>struct input_id</code></li>
+</ol>
+<h2 id="inputevent">input_event</h2>
+<pre><code class="lang-c"><span class="hljs-comment">/* include/linux/input.h */</span>
+<span class="hljs-comment">/*
+ * The event structure itself
+ */</span>
+<span class="hljs-keyword">struct</span> input_event {
+        <span class="hljs-keyword">struct</span> timeval time;  <span class="hljs-comment">/* &#x4E8B;&#x4EF6;&#x4EA7;&#x751F;&#x7684;&#x65F6;&#x95F4;&#x6233; */</span>
+        __u16 type; <span class="hljs-comment">/* &#x4E8B;&#x4EF6;&#x7C7B;&#x578B; */</span>
+        __u16 code; <span class="hljs-comment">/* &#x952E;&#x7801;&#xFF0C; &#x548C;type&#x6709;&#x5173; */</span>
+        __s32 value; <span class="hljs-comment">/* &#x952E;&#x503C;&#xFF0C; &#x548C;code&#x6709;&#x5173; */</span>
+};
+</code></pre>
+<p>&#x6B64;&#x7ED3;&#x6784;&#x7528;&#x4E8E;&#x8BBE;&#x5907;&#x9A71;&#x52A8;&#x4E0A;&#x62A5;&#x4E8B;&#x4EF6;</p>
+<h3 id="type">type</h3>
+<pre><code class="lang-c"><span class="hljs-comment">/*
+ * Event types
+ */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_SYN                  0x00 <span class="hljs-comment">/* &#x540C;&#x6B65;&#x4E8B;&#x4EF6; */</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_KEY                  0x01 <span class="hljs-comment">/* &#x6309;&#x952E;&#x4E8B;&#x4EF6; */</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_REL                  0x02 <span class="hljs-comment">/* &#x76F8;&#x5BF9;&#x4E8B;&#x4EF6; */</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_ABS                  0x03 <span class="hljs-comment">/* &#x7EDD;&#x5BF9;&#x4E8B;&#x4EF6; */</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_MSC                  0x04</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_SW                   0x05</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_LED                  0x11</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_SND                  0x12</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_REP                  0x14</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_FF                   0x15</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_PWR                  0x16</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_FF_STATUS            0x17</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_MAX                  0x1f</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> EV_CNT                  (EV_MAX+1)</span>
+</code></pre>
+<p>&#x6BCF;&#x79CD;&#x8F93;&#x5165;&#x8BBE;&#x5907;&#xFF0C;&#x6700;&#x540E;&#x90FD;&#x5FC5;&#x987B;&#x6709;&#x4E00;&#x4E2A;<strong>&#x540C;&#x6B65;&#x4E8B;&#x4EF6;</strong>&#xFF0C;<strong>&#x6309;&#x952E;&#x4E8B;&#x4EF6;</strong>&#x6307;&#x7684;&#x662F;&#x7C7B;&#x4F3C;&#x6309;&#x94AE;&#x6216;&#x8005;&#x952E;&#x76D8;&#x7C7B;&#x7684;&#x952E;&#x503C;&#x4E8B;&#x4EF6;&#xFF1B;<strong>&#x7EDD;&#x5BF9;&#x4E8B;&#x4EF6;</strong>&#x6307;&#x7684;&#x662F;&#x4EA7;&#x751F;&#x7684;&#x6570;&#x636E;&#x6709;&#x6700;&#x5927;&#x503C;&#x548C;&#x6700;&#x5C0F;&#x503C;&#xFF0C;&#x6BD4;&#x5982;&#x91CD;&#x529B;&#x4F20;&#x611F;&#x5668;&#xFF0C;&#x9640;&#x87BA;&#x4EEA;&#x4E4B;&#x7C7B;&#x7684;&#xFF1B;<strong>&#x76F8;&#x5BF9;&#x4E8B;&#x4EF6;</strong>&#x6307;&#x7684;&#x662F;&#x4EA7;&#x751F;&#x7684;&#x6570;&#x636E;&#x662F;&#x76F8;&#x5BF9;&#x6570;&#x503C;&#xFF0C;&#x6BD4;&#x5982;&#x9F20;&#x6807;&#x4EA7;&#x751F;&#x7684;&#x6570;&#x636E;&#xFF1A;&#x4E0B;&#x4E00;&#x4E2A;&#x5750;&#x6807;&#x662F;&#x76F8;&#x5BF9;&#x4E8E;&#x4E4B;&#x524D;&#x7684;&#x5750;&#x6807;&#x7684;&#x3002;</p>
+<h3 id="code">code</h3>
+<p>&#x952E;&#x7801;&#xFF0C;&#x6570;&#x503C;&#x4E0E;&#x4E8B;&#x4EF6;&#x7C7B;&#x578B;&#x6709;&#x5173;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x6309;&#x952E;&#x4E8B;&#x4EF6;&#xFF0C;&#x952E;&#x7801;&#x5C31;&#x8868;&#x793A;&#x662F;&#x54EA;&#x4E00;&#x4E2A;&#x6309;&#x952E;&#xFF1B;&#x5982;&#x679C;&#x662F;&#x7EDD;&#x5BF9;&#x4E8B;&#x4EF6;&#xFF0C;&#x952E;&#x7801;&#x5C31;&#x8868;&#x793A;&#x54EA;&#x4E2A;&#x5750;&#x6807;&#x8F74;&#xFF08;ABS_X, ABS_Y&#xFF09;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* key&#x7C7B;&#x578B;code&#x4E3E;&#x4F8B; */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_RESERVED            0</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_ESC                 1</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_1                   2</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_2                   3</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_3                   4</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_4                   5</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_5                   6</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_6                   7</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_7                   8</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_8                   9</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_9                   10</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_0                   11</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_MINUS               12</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_EQUAL               13</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> KEY_BACKSPACE           14</span>
+
+<span class="hljs-comment">/* &#x76F8;&#x5BF9;&#x4E8B;&#x4EF6;&#x7C7B;&#x578B;code&#x4E3E;&#x4F8B; */</span>
+<span class="hljs-comment">/*
+ * Relative axes
+ */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_X                   0x00</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_Y                   0x01</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_Z                   0x02</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_RX                  0x03</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_RY                  0x04</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_RZ                  0x05</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_HWHEEL              0x06</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> REL_DIAL                0x07</span>
+<span class="hljs-comment">/* &#x7EDD;&#x5BF9;&#x4E8B;&#x4EF6;&#x7C7B;&#x578B;code&#x4E3E;&#x4F8B; */</span>
+<span class="hljs-comment">/*
+ * Absolute axes
+ */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_X                   0x00</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_Y                   0x01</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_Z                   0x02</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_RX                  0x03</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_RY                  0x04</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_RZ                  0x05</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_THROTTLE            0x06</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ABS_RUDDER              0x07</span>
+<span class="hljs-comment">/* &#x7C7B;&#x4F3C;&#x7684; &#x8FD8;&#x6709; Misc events  LEDs etc.*/</span>
+</code></pre>
+<h3 id="value">value</h3>
+<p>&#x952E;&#x503C;&#xFF0C;&#x4E0E;&#x4E8B;&#x4EF6;&#x7C7B;&#x578B;&#x4EE5;&#x53CA;&#x952E;&#x7801;&#x6709;&#x5173;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x6309;&#x952E;&#x4E8B;&#x4EF6;&#xFF0C;&#x952E;&#x7801;&#x786E;&#x5B9A;&#x54EA;&#x4E2A;&#x6309;&#x952E;&#xFF0C;&#x952E;&#x503C;&#x786E;&#x5B9A;&#x662F;<strong>&#x6309;&#x4E0B;</strong>&#x8FD8;&#x662F;<strong>&#x62AC;&#x8D77;</strong>&#xFF1B;&#x5982;&#x679C;&#x662F;&#x7EDD;&#x5BF9;&#x4E8B;&#x4EF6;&#xFF0C;&#x952E;&#x7801;&#x786E;&#x5B9A;&#x662F;&#x54EA;&#x4E2A;&#x5750;&#x6807;&#x8F74;&#xFF0C;&#x952E;&#x503C;&#x786E;&#x5B9A;&#x503C;&#x662F;&#x591A;&#x5C11;&#x3002;</p>
+<h2 id="inputdev">input_dev</h2>
+<p>&#x5728;Linux&#x5185;&#x6838;&#x4E2D;&#xFF0C;input&#x8BBE;&#x5907;&#x7528;<code>input_dev</code>&#x7ED3;&#x6784;&#x4F53;&#x63CF;&#x8FF0;&#xFF0C;&#x5B9A;&#x4E49;&#x5728;<code>input.h</code>&#x4E2D;&#x3002;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* include/linux/input.h */</span> 
+<span class="hljs-keyword">struct</span> input_dev {
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name;
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *phys;
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *uniq;
+        <span class="hljs-keyword">struct</span> input_id id;
+
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> evbit[BITS_TO_LONGS(EV_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> keybit[BITS_TO_LONGS(KEY_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> relbit[BITS_TO_LONGS(REL_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> absbit[BITS_TO_LONGS(ABS_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> mscbit[BITS_TO_LONGS(MSC_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> ledbit[BITS_TO_LONGS(LED_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> sndbit[BITS_TO_LONGS(SND_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> ffbit[BITS_TO_LONGS(FF_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> swbit[BITS_TO_LONGS(SW_CNT)];
+
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> keycodemax;
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> keycodesize;
+        <span class="hljs-keyword">void</span> *keycode;
+        <span class="hljs-keyword">int</span> (*setkeycode)(<span class="hljs-keyword">struct</span> input_dev *dev, <span class="hljs-keyword">int</span> scancode, <span class="hljs-keyword">int</span> keycode);
+        <span class="hljs-keyword">int</span> (*getkeycode)(<span class="hljs-keyword">struct</span> input_dev *dev, <span class="hljs-keyword">int</span> scancode, <span class="hljs-keyword">int</span> *keycode);
+
+        <span class="hljs-keyword">struct</span> ff_device *ff;
+
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> repeat_key;
+        <span class="hljs-keyword">struct</span> timer_list timer;
+
+        <span class="hljs-keyword">int</span> sync;
+
+        <span class="hljs-keyword">int</span> <span class="hljs-built_in">abs</span>[ABS_MAX + <span class="hljs-number">1</span>];
+        <span class="hljs-keyword">int</span> rep[REP_MAX + <span class="hljs-number">1</span>];
+
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> key[BITS_TO_LONGS(KEY_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> led[BITS_TO_LONGS(LED_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> snd[BITS_TO_LONGS(SND_CNT)];
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> sw[BITS_TO_LONGS(SW_CNT)];
+
+        <span class="hljs-keyword">int</span> absmax[ABS_MAX + <span class="hljs-number">1</span>];
+        <span class="hljs-keyword">int</span> absmin[ABS_MAX + <span class="hljs-number">1</span>];
+        <span class="hljs-keyword">int</span> absfuzz[ABS_MAX + <span class="hljs-number">1</span>];
+        <span class="hljs-keyword">int</span> absflat[ABS_MAX + <span class="hljs-number">1</span>];
+
+        <span class="hljs-keyword">int</span> (*open)(<span class="hljs-keyword">struct</span> input_dev *dev);
+        <span class="hljs-keyword">void</span> (*close)(<span class="hljs-keyword">struct</span> input_dev *dev);
+        <span class="hljs-keyword">int</span> (*flush)(<span class="hljs-keyword">struct</span> input_dev *dev, <span class="hljs-keyword">struct</span> file *file);
+        <span class="hljs-keyword">int</span> (*event)(<span class="hljs-keyword">struct</span> input_dev *dev, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> type, <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> code, <span class="hljs-keyword">int</span> value);
+
+        <span class="hljs-keyword">struct</span> input_handle *grab;
+
+        <span class="hljs-keyword">spinlock_t</span> event_lock;
+        <span class="hljs-keyword">struct</span> mutex mutex;
+
+        <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> users;
+        <span class="hljs-keyword">int</span> going_away;
+
+        <span class="hljs-keyword">struct</span> device dev;
+
+        <span class="hljs-keyword">struct</span> list_head        h_list;
+        <span class="hljs-keyword">struct</span> list_head        node;
+};
+</code></pre>
+<blockquote>
+<p>&#x6CE8;&#x610F;&#xFF1A; &#x4E00;&#x822C;&#x4E0D;&#x76F4;&#x63A5;&#x586B;&#x5145;&#x8BE5;&#x7ED3;&#x6784;&#xFF0C;&#x4E00;&#x4E2A;&#x4F4D;&#x8868;&#x793A;&#x4E00;&#x79CD;&#x529F;&#x80FD;&#xFF0C;&#x901A;&#x5E38;&#x91C7;&#x7528;set_bit()&#x51FD;&#x6570;&#x95F4;&#x63A5;&#x586B;&#x5145;&#x3002;</p>
+</blockquote>
+<p>&#x4F8B;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* 1. &#x52A8;&#x6001;&#x5206;&#x914D;&#x6838;&#x5FC3;&#x6570;&#x636E;&#x7ED3;&#x6784;*/</span>
+<span class="hljs-keyword">struct</span> input_dev * My_input_dev = input_allocate_device();
+
+<span class="hljs-comment">/* 2. &#x586B;&#x5145;&#x4E8B;&#x4EF6; */</span>
+<span class="hljs-comment">// &#x6309;&#x952E;&#x4E8B;&#x4EF6;</span>
+set_bit(EV_KEY, My_input_dev-&gt;evbit);
+<span class="hljs-comment">// &#x5B57;&#x6BCD;Q&#x952E;</span>
+set_bit(KEY_Q, My_input_dev-&gt;keybit);
+
+<span class="hljs-comment">/* 3. &#x5411;&#x5185;&#x6838;&#x6CE8;&#x518C;&#x4E00;&#x4E2A;input_dev */</span>
+input_register_device(My_input_dev);
+
+<span class="hljs-comment">/* 4. &#x5728;MODULE_EXIT&#x4E2D;&#x91CA;&#x653E;&#x6838;&#x5FC3;&#x6570;&#x636E;&#x7ED3;&#x6784; */</span>
+input_unregister_device(My_input_dev);
+input_free_device(My_input_dev);
+
+<span class="hljs-comment">/* 5. &#x5728;&#x4E2D;&#x65AD;&#x670D;&#x52A1;&#x51FD;&#x6570;&#x4E2D; &#x4E0A;&#x62A5;&#x4E8B;&#x4EF6; */</span>
+input_report_key(My_input_dev, code, value); 
+<span class="hljs-comment">/*
+    &#x6B64;&#x5916;&#x8FD8;&#x6709;&#x7C7B;&#x4F3C;&#x7684; input_report_rel() , input_report_abs()&#x7B49;&#x51FD;&#x6570;&#x3002;
+*/</span>
+input_sync(My_input_dev);
+
+<span class="hljs-comment">/* 6. &#x5728;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x63A5;&#x6536;&#x4E8B;&#x4EF6; */</span>
+fd = open(<span class="hljs-string">&quot;/dev/input/event1&quot;</span>, O_RDWR);
+read(fd, &amp;My_event, siezeof(My_event));
+<span class="hljs-keyword">switch</span>(My_event.type) {
+<span class="hljs-keyword">case</span> EV_KEY:
+    <span class="hljs-keyword">switch</span>(My_event.code) {
+    <span class="hljs-keyword">case</span> KEY_Q:
+        ...
+    }
+}
+</code></pre>
+<h1 id="&#x7F16;&#x7A0B;&#x5B9E;&#x4F8B;">&#x7F16;&#x7A0B;&#x5B9E;&#x4F8B;</h1>
+<p> &#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x6309;&#x952E;&#x9A71;&#x52A8;&#x5B9E;&#x4F8B;&#x4EE3;&#x7801;</p>
+<pre><code class="lang-c"><span class="hljs-comment">/* simple_input_btn.c */</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/module.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/init.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/input.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/interrupt.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/gpio.h&gt;</span></span>
+
+<span class="hljs-keyword">struct</span> input_dev *btn_input;
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> irqno ;
+
+<span class="hljs-keyword">irqreturn_t</span> button_interrupt(<span class="hljs-keyword">int</span> irq, <span class="hljs-keyword">void</span> *dev_id)
+{
+        printk(<span class="hljs-string">&quot;--------%s-----------\n&quot;</span>, __FUNCTION__);
+
+        <span class="hljs-comment">// &#x83B7;&#x53D6;&#x6570;&#x636E;</span>
+        <span class="hljs-keyword">int</span> value = gpio_get_value(S5PV210_GPH0(<span class="hljs-number">1</span>));
+
+        <span class="hljs-keyword">if</span>(value)
+        {
+            <span class="hljs-comment">//&#x62AC;&#x8D77;</span>
+            <span class="hljs-comment">//&#x5C06;&#x6570;&#x636E;&#x4E0A;&#x62A5;&#x7ED9;&#x7528;&#x6237;</span>
+            <span class="hljs-comment">//&#x53C2;&#x6570;1---&#x54EA;&#x4E2A;&#x8BBE;&#x5907;&#x4E0A;&#x62A5;&#x7684;</span>
+            <span class="hljs-comment">//&#x53C2;&#x6570;2---&#x4E0A;&#x62A5;&#x90A3;&#x79CD;&#x6570;&#x636E;&#x7C7B;&#x578B;</span>
+            <span class="hljs-comment">//&#x53C2;&#x6570;3---&#x4E0A;&#x62A5;&#x7801;&#x503C;</span>
+            <span class="hljs-comment">//&#x53C2;&#x6570;4--&#x6309;&#x952E;&#x7684;&#x72B6;&#x6001;/&#x503C;</span>
+            <span class="hljs-comment">//input_report_key(btn_input, KEY_DOWN, 0);</span>
+            input_event(btn_input, EV_KEY, KEY_DOWN,  <span class="hljs-number">0</span>);
+            <span class="hljs-comment">//&#x6700;&#x540E;&#x8981;&#x6709;&#x4E00;&#x4E2A;&#x7ED3;&#x675F;/&#x540C;&#x6B65;</span>
+            input_sync(btn_input);
+        }<span class="hljs-keyword">else</span>{
+            <span class="hljs-comment">//&#x6309;&#x4E0B;</span>
+            input_event(btn_input, EV_KEY, KEY_DOWN,  <span class="hljs-number">1</span>);
+            input_sync(btn_input);
+        }
+        <span class="hljs-keyword">return</span> IRQ_HANDLED;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __<span class="hljs-function">init <span class="hljs-title">simple_btn_input_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+        <span class="hljs-keyword">int</span> ret;
+
+        <span class="hljs-comment">/*
+            a, &#x5206;&#x914D;&#x4E00;&#x4E2A;input device&#x5BF9;&#x8C61;
+            b, &#x521D;&#x59CB;&#x5316;input device&#x5BF9;&#x8C61;
+            c, &#x6CE8;&#x518C;input device&#x5BF9;&#x8C61;
+            d, &#x786C;&#x4EF6;&#x521D;&#x59CB;&#x5316;                
+        */</span>
+
+        <span class="hljs-comment">//a, &#x5206;&#x914D;&#x4E00;&#x4E2A;input device&#x5BF9;&#x8C61;</span>
+        btn_input = input_allocate_device();
+        <span class="hljs-keyword">if</span>(btn_input == <span class="hljs-literal">NULL</span>)
+        {
+            printk(<span class="hljs-string">&quot;input_allocate_device error\n&quot;</span>);
+            <span class="hljs-keyword">return</span> -ENOMEM;
+        }
+
+        <span class="hljs-comment">//b, &#x521D;&#x59CB;&#x5316;input device&#x5BF9;&#x8C61;</span>
+        <span class="hljs-comment">//&#x8BE5;&#x8BBE;&#x5907;&#x80FD;&#x591F;&#x4EA7;&#x751F;&#x54EA;&#x79CD;&#x6570;&#x636E;&#x7C7B;&#x578B;---EV_KEY&#x8868;&#x793A;&#x4EA7;&#x751F;&#x6309;&#x952E;&#x6570;&#x636E;</span>
+        <span class="hljs-comment">//btn_input-&gt;evbit[0] |= BIT_MASK(EV_KEY);</span>
+        set_bit(EV_KEY, btn_input-&gt;evbit);
+        <span class="hljs-comment">//&#x80FD;&#x591F;&#x4EA7;&#x751F;&#x54EA;&#x4E2A;&#x6309;&#x952E;---&#x6BD4;&#x5982;&#x80FD;&#x591F;&#x4EA7;&#x751F;&#x4E0B;&#x952E; KEY_DOWN, KEY_ESC</span>
+        <span class="hljs-comment">// btn_input-&gt;keybit[108/32] |= 1&lt;&lt;(108%32);</span>
+        <span class="hljs-comment">// btn_input-&gt;keybit[BIT_WORD(KEY_DOWN)] |= BIT_MASK(KEY_DOWN);</span>
+        set_bit(KEY_DOWN, btn_input-&gt;keybit);
+
+       <span class="hljs-comment">//c, &#x6CE8;&#x518C;input device&#x5BF9;&#x8C61;</span>
+       ret = input_register_device(btn_input);
+       <span class="hljs-keyword">if</span>(ret != <span class="hljs-number">0</span>)
+       {
+               printk(<span class="hljs-string">&quot;input_register_device error\n&quot;</span>);    
+            <span class="hljs-keyword">goto</span> err_free_input;
+       }
+
+        <span class="hljs-comment">//d, &#x786C;&#x4EF6;&#x521D;&#x59CB;&#x5316;--&#x7533;&#x8BF7;&#x4E2D;&#x65AD;</span>
+        irqno = IRQ_EINT(<span class="hljs-number">1</span>);
+        ret = request_irq(irqno, button_interrupt, IRQF_TRIGGER_FALLING|IRQF_TRIGGER_RISING,
+                        <span class="hljs-string">&quot;key_input_eint1&quot;</span>, <span class="hljs-literal">NULL</span>);
+        <span class="hljs-keyword">if</span>(ret != <span class="hljs-number">0</span>)
+        {
+            printk(<span class="hljs-string">&quot;request_irq error\n&quot;</span>);
+            <span class="hljs-keyword">goto</span> err_unregister;
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+err_unregister:
+    input_unregister_device(btn_input);
+err_free_input:
+    input_free_device(btn_input);
+    <span class="hljs-keyword">return</span> ret;
+}
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> __<span class="hljs-function"><span class="hljs-built_in">exit</span> <span class="hljs-title">simple_btn_input_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span>
+</span>{
+       free_irq(irqno, <span class="hljs-literal">NULL</span>);
+       input_unregister_device(btn_input);
+       input_free_device(btn_input);
+}
+
+module_init(simple_btn_input_init);
+module_exit(simple_btn_input_exit);
+MODULE_LICENSE(<span class="hljs-string">&quot;GPL&quot;</span>);
+</code></pre>
+<p>&#x5BF9;&#x5E94;&#x7684;&#x5E94;&#x7528;&#x6D4B;&#x8BD5;&#x7A0B;&#x5E8F;</p>
+<pre><code class="lang-c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/input.h&gt;</span></span>
+
+<span class="hljs-keyword">struct</span> input_event key_event;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> ** argv)</span> 
+</span>{
+    <span class="hljs-keyword">int</span> fd = open(argv[<span class="hljs-number">1</span>], O_RDWR);
+    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>) {
+        read(fd, &amp;key_event, siezeof(<span class="hljs-keyword">struct</span> input_event));
+        <span class="hljs-keyword">switch</span>(key_event.type) {
+            <span class="hljs-keyword">case</span> EV_KEY:
+                <span class="hljs-keyword">switch</span>(key_event.code) {
+                    <span class="hljs-keyword">case</span> KEY_DOWN:
+                    <span class="hljs-keyword">if</span> (key_event.value) 
+                        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;key DOWN press\n&quot;</span>);
+                    <span class="hljs-keyword">else</span> 
+                        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;key DOWN release\n&quot;</span>);
+                    <span class="hljs-keyword">break</span>;
+                }
+            <span class="hljs-keyword">break</span>;
+        }    
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; Yuanye.Ma 2020-2021 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x6587;&#x4EF6;&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;&#xFF1A;
+2023-04-02 10:05:52
+</span></footer>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="2020-10-27-linux驱动之中断（按键驱动）.html" class="navigation navigation-prev " aria-label="Previous page: 2020-10-27-linux驱动之中断（按键驱动）">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="Kobject和sysfs.html" class="navigation navigation-next " aria-label="Next page: Kobject和sysfs">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"input子系统","level":"1.2.4.9","depth":3,"next":{"title":"Kobject和sysfs","level":"1.2.4.10","depth":3,"path":"_posts/LDD/Kobject和sysfs.md","ref":"_posts/LDD/Kobject和sysfs.md","articles":[]},"previous":{"title":"2020-10-27-linux驱动之中断（按键驱动）","level":"1.2.4.8","depth":3,"path":"_posts/LDD/2020-10-27-linux驱动之中断（按键驱动）.md","ref":"_posts/LDD/2020-10-27-linux驱动之中断（按键驱动）.md","articles":[]},"dir":"ltr"},"config":{"plugins":["-sharing","-search","-lunr","search-pro","pageview-count","page-toc-button","back-to-top-button","tbfed-pagefooter"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy Yuanye.Ma 2020-2021","modify_label":"文件修订时间：","modify_format":"YYYY-MM-DD HH:mm:ss"},"page-toc-button":{"maxTocDepth":2,"minTocSize":2},"search-pro":{},"pageview-count":{},"back-to-top-button":{},"highlight":{},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Yuanye Ma","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Yuanye Ma`s blog","gitbook":"*","description":"Blog for Yuanye.Ma"},"file":{"path":"_posts/LDD/input子系统.md","mtime":"2023-04-02T10:05:52.101Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2023-04-02T10:06:51.106Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-page-toc-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
