@@ -15,7 +15,7 @@ jobs:
           ref: master
 
       - name : install node.js
-          run: |
+          run :|
             npm install gitbook-cli -g
             npm gitbook -v
 
