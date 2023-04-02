@@ -1,0 +1,12 @@
+name: publish-gitbook
+on: [push]
+
+jobs:
+  build:
+    runs-on : ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v1
+      -name : install node.js
+        run npm install gitbook-cli -g
+        run npm gitbook -v
