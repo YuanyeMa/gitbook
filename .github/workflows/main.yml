@@ -1,13 +1,21 @@
 name: publish-gitbook
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
     runs-on : ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v1
+      - name : checkout
+        uses: actions/checkout@v1
+        with:
+          ref: master
+
       - name : install node.js
-         run npm install gitbook-cli -g
-      - name : show gitbook version
-         run npm gitbook -v
+          run: |
+            npm install gitbook-cli -g
+            npm gitbook -v
+
