@@ -7,6 +7,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v1
-      -name : install node.js
-        run npm install gitbook-cli -g
-        run npm gitbook -v
+      - name : install node.js
+         run npm install gitbook-cli -g
+         run npm gitbook -v
