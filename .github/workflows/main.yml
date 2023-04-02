@@ -15,6 +15,7 @@ jobs:
       USER_NAME   : Mark
       USER_EMAIL  : yuanye.ma@qq.com
       BOOK_DIR    : ./
+      GITHUB_REPOSITORY : blog_publish
 
     steps:
     - name: Checkout 🛎️
